@@ -3,15 +3,14 @@
 #include <stdlib.h>
 
 int main() {
-  // Flush after every printf
-  setbuf(stdout, NULL);
-
+  char input[100];
   while (1){
     // Uncomment this block to pass the first stage
     printf("$ ");
+      // Flush after every printf
+    setbuf(stdout, NULL);
 
     // Wait for user input
-    char input[100];
     fgets(input, 100, stdin);
     input[strlen(input) - 1] = '\0';
     if (strcmp(input, "exit 0") == 0)
