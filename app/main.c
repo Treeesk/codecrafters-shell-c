@@ -12,6 +12,9 @@ int main() {
     // Wait for user input
     char input[100];
     fgets(input, 100, stdin);
+    if (strcmp(input, "exit 0") == 0)
+      break;
+      
     input[strlen(input) - 1] = '\0';
     printf("%s: command not found\n", input);
   }
