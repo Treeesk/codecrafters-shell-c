@@ -5,7 +5,7 @@ int main() {
   setbuf(stdout, NULL);
 
   // Uncomment this block to pass the first stage
-  // printf("$ ");
+  printf("$ ");
 
   // Wait for user input
   char input[100];
