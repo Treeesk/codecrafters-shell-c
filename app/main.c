@@ -1,6 +1,26 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <unistd.h>
+
+char *check_path(char *f){
+  char path_check = getenv("PATH");
+  if (path_check == NULL)
+    return NULL;
+  
+  char *dir = strtok(path_check, ":");
+  static char full_path[1024];
+
+  while (dir != NULL){
+    snprintf(full_path, sizeo(full_path), "%s%s", dir, f);
+    if (access(full_path, X_OK) == 0){
+      return full_path;
+    }
+    dir = strtok(NULL, ":");
+  }
+
+  return NULL;
+}
 
 int main() {
   char input[100];
@@ -22,6 +42,8 @@ int main() {
         printf("exit is a shell builtin\n");
       else if (strcmp(input, "type echo") == 0)
         printf("echo is a shell builtin\n");
+      else if (check_path(&input[5]))
+        printf("%s is %s", &input[5], check_path(&input[5]));
       else 
         printf("%s: not found\n", &input[5]);
     }
