@@ -4,16 +4,17 @@
 #include <unistd.h>
 
 char *check_path(char *f){
-  char path_check = getenv("PATH");
+  char *path_check = getenv("PATH");
   if (path_check == NULL)
     return NULL;
   
-  char *dir = strtok(path_check, ":");
+  char *path_copy = strdup(path_check);
+  char *dir = strtok(path_copy, ":");
   static char full_path[1024];
 
   while (dir != NULL){
-    snprintf(full_path, sizeo(full_path), "%s%s", dir, f);
-    if (access(full_path, X_OK) == 0){
+    snprintf(full_path, sizeof(full_path), "%s%s", dir, f);
+    if (access(path_copy, X_OK) == 0){
       return full_path;
     }
     dir = strtok(NULL, ":");
