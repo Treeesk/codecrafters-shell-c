@@ -6,9 +6,9 @@ int main() {
   char input[100];
   char check_for_com[10];
   while (1){
-    int i = 0;
     // Uncomment this block to pass the first stage
     printf("$ ");
+    int i = 0;
     // Flush after every printf
     setbuf(stdout, NULL);
 
