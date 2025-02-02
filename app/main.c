@@ -5,7 +5,6 @@
 int main() {
   char input[100];
   while (1){
-    int i = 0;
     printf("$ ");
     // Flush after every printf
     setbuf(stdout, NULL);
