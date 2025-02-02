@@ -4,11 +4,11 @@
 
 int main() {
   char input[100];
-  printf("$ ");
   while (1){
-    
-    // Flush after every printf
     setbuf(stdout, NULL);
+    printf("$ ");
+    // Flush after every printf
+    
 
     // Wait for user input
     fgets(input, 100, stdin);
