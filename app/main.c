@@ -14,7 +14,7 @@ char *check_path(char *f){
 
   while (dir != NULL){
     snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
-    if (access(path_copy, X_OK) == 0){
+    if (access(full_path, X_OK) == 0){
       free(path_copy);
       return full_path;
     }
