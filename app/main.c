@@ -5,7 +5,7 @@
 int main() {
   char input[100];
   while (1){
-    printf("$ ");
+    printf("");
     // Flush after every printf
     setbuf(stdout, NULL);
 
