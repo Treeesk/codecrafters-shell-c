@@ -2,6 +2,22 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h> 
+#include <sys/wait.h>
+
+void fork_func(char *full_path, char *argv){
+  pid_t pid = fork();
+  if (pid == 0) {
+    execv(full_path, argv);
+    perror("execv"); // если ошибка в Execv
+    exit(1);
+  } else if (pid < 0)
+    perror("fork");
+  else {
+    int status;
+    waitpid(pid, &status, 0);
+  }
+}
 
 char *check_path(char *f){
   char *path_check = getenv("PATH");
@@ -46,8 +62,21 @@ int main() {
         printf("echo is a shell builtin\n");
       else if (check_path(&input[5]))
         printf("%s is %s\n", &input[5], check_path(&input[5]));
-      else 
-        printf("%s: not found\n", &input[5]);
+      else {
+        char *argv[10];
+        int argc = 0;
+        char *names = strtok(input, " ");
+        while (names != NULL && argc < 10){
+          argv[argc++] = names;
+          names = strtok(NULL, " ");
+        }
+        argv[argc] == NULL;
+        char *pth = check_path(argv[0]);
+        if (pth != NULL)
+          fork_func(); 
+        else 
+          printf("%s: not found\n", &input[5]);
+      }
     }
     else
       printf("%s: command not found\n", input);
