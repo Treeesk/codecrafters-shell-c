@@ -60,6 +60,8 @@ int main() {
         printf("exit is a shell builtin\n");
       else if (strcmp(input, "type echo") == 0)
         printf("echo is a shell builtin\n");
+      else if (strcmp(input, "type owd") == 0)
+        printf("pwd is a shell builtin\n");
       else if (check_path(&input[5]))
         printf("%s is %s\n", &input[5], check_path(&input[5]));
       else {
