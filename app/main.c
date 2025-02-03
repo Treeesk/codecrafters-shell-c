@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <sys/types.h> 
 #include <sys/wait.h>
-#include <windows.h>
 
 void fork_func(char *full_path, char **argv){
   pid_t pid = fork();
@@ -68,13 +67,14 @@ int main() {
       }
     }
     else if(strcmp(input, "pwd") == 0){
-      char buffer[MAX_PATH];
-      DWORD result = GetFullPathName(".", MAX_PATH, buffer, NULL);
-      if (result){
-        printf("%s\n", buffer);
+      char *pat;
+      pat = realpath(".", NULL);
+      if (pat){
+        printf("%s\n", pat);
       }
-      else 
-        printf("%s\n", GetLastError);
+      else{
+        printf("Error");
+      }
     }
     else{
       char *argv[10];
