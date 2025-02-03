@@ -81,8 +81,10 @@ int main() {
     }
     else if (strncmp(input, "cd ", 3) == 0){
       int result;
-      if (input[3] == '~')
-        result = chdir("HOME");
+      if (input[3] == '~'){
+        char *dir = getenv("HOME");
+        result = chdir(dir);
+      }
       else
         result = chdir(&input[3]);
       if (result == -1)
