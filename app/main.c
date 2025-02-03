@@ -69,8 +69,7 @@ int main() {
       }
     }
     else if(strcmp(input, "pwd") == 0){
-      char *pat;
-      pat = realpath(".", NULL);
+      char *pat = realpath(".", NULL);
       if (pat){
         printf("%s\n", pat);
       }
