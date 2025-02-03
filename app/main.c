@@ -82,7 +82,7 @@ int main() {
     else if (strncmp(input, "cd ", 3) == 0){
       int result = chdir(&input[3]);
       if (result == -1)
-        printf("cd: %s: No such file or directory", &input[3]);
+        printf("cd: %s: No such file or directory\n", &input[3]);
     }
     else{
       char *argv[10];
