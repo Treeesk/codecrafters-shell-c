@@ -63,23 +63,24 @@ int main() {
       else if (check_path(&input[5]))
         printf("%s is %s\n", &input[5], check_path(&input[5]));
       else {
-        char *argv[10];
-        int argc = 0;
-        char *names = strtok(input, " ");
-        while (names != NULL && argc < 10){
-          argv[argc++] = names;
-          names = strtok(NULL, " ");
-        }
-        argv[argc] == NULL;
-        char *pth = check_path(argv[0]);
-        if (pth != NULL)
-          fork_func(pth, argv); 
-        else 
           printf("%s: not found\n", &input[5]);
       }
     }
-    else
-      printf("%s: command not found\n", input);
+    else{
+      char *argv[10];
+      int argc = 0;
+      char *names = strtok(input, " ");
+      while (names != NULL && argc < 10){
+        argv[argc++] = names;
+        names = strtok(NULL, " ");
+      }
+      argv[argc] == NULL;
+      char *pth = check_path(argv[0]);
+      if (pth != NULL)
+        fork_func(pth, argv); 
+      else 
+        printf("%s: command not found\n", argv[0]);
+    }
   }
   return 0;
 }
