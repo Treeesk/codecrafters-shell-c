@@ -5,7 +5,7 @@
 #include <sys/types.h> 
 #include <sys/wait.h>
 
-void fork_func(char *full_path, char *argv){
+void fork_func(char *full_path, char **argv){
   pid_t pid = fork();
   if (pid == 0) {
     execv(full_path, argv);
@@ -73,7 +73,7 @@ int main() {
         argv[argc] == NULL;
         char *pth = check_path(argv[0]);
         if (pth != NULL)
-          fork_func(); 
+          fork_func(pth, argv); 
         else 
           printf("%s: not found\n", &input[5]);
       }
