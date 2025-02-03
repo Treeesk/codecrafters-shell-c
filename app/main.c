@@ -80,7 +80,11 @@ int main() {
       }
     }
     else if (strncmp(input, "cd ", 3) == 0){
-      int result = chdir(&input[3]);
+      int result;
+      if (input[3] == '~')
+        result = chdir(HOME);
+      else
+        result = chdir(&input[3]);
       if (result == -1)
         printf("cd: %s: No such file or directory\n", &input[3]);
     }
