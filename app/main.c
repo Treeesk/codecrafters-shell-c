@@ -62,6 +62,8 @@ int main() {
         printf("echo is a shell builtin\n");
       else if (strcmp(input, "type pwd") == 0)
         printf("pwd is a shell builtin\n");
+      else if (strcmp(input, "type cd") == 0)
+        printf("cd is a shell builtin\n");
       else if (check_path(&input[5]))
         printf("%s is %s\n", &input[5], check_path(&input[5]));
       else {
@@ -76,6 +78,11 @@ int main() {
       else{
         printf("Error");
       }
+    }
+    else if (strncmp(input, "cd ", 3) == 0){
+      int result = chdir(&input[3]);
+      if (result == -1)
+        printf("cd: %s: No such file or directory", &input[3]);
     }
     else{
       char *argv[10];
