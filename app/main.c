@@ -19,6 +19,7 @@ void print_without_spaces(const char *inp){
     inp++;
   }
   printf('\n');
+  return;
 }
 
 void fork_func(char *full_path, char **argv){
