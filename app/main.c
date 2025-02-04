@@ -122,7 +122,7 @@ int main() {
       char *names = strtok(input, "\' \'");
       while (names != NULL && argc < 10){
         argv[argc++] = names;
-        names = strtok(NULL, " ");
+        names = strtok(NULL, "\' \'");
       }
       argv[argc] = NULL;
       char *pth = check_path(argv[0]);
