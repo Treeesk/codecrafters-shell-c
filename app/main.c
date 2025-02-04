@@ -73,7 +73,7 @@ int main() {
         printf("%s\n", &input[6]);
       }
       else 
-        printf("%s\n", &input[5]);
+        print_without_spaces(&input[5]);
     }
     else if (strncmp(input, "type ", 5) == 0){
       if (strcmp(input, "type type") == 0)
