@@ -33,7 +33,7 @@ void parse_input(char *inp, char *argv, int argc){
     argv[argc++] = token;
     token = strtok(NULL, ' ');
   }
-  argv[argc] == NULL;
+  argv[argc] = NULL;
 }
 
 void fork_func(char *full_path, char **argv){
