@@ -68,10 +68,11 @@ int main() {
       exit(0);
     else if (strncmp(input, "echo ", 5) == 0){
       if (input[5] == '\''){
-        while (*input){
-          if (*input != '\'')
-            printf("%c", *input);
-          input++;
+        int i = 6;
+        while (input[i]){
+          if (input[i] != '\'')
+            printf("%c", input[i]);
+          i++;
         }
       }
       else
