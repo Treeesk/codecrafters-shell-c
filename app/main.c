@@ -21,8 +21,8 @@ void print_without_spaces(const char *inp){
 }
 
 void parse_input(char *inp, char *argv, int argc){
-  char *token = strtok(inp, ' ');
-  while (token){
+  char *token = strtok(inp, " ");
+  while (token && argc < 10){
     if (token[0] == '\'' || token[0] == '\"'){
       size_t len = strlen(token);
       if (token[len - 1] == '\'' || token[len - 1] == '\"'){
@@ -31,7 +31,7 @@ void parse_input(char *inp, char *argv, int argc){
       }
     }
     argv[argc++] = token;
-    token = strtok(NULL, ' ');
+    token = strtok(NULL, " ");
   }
   argv[argc] = NULL;
 }
