@@ -18,7 +18,7 @@ void print_without_spaces(const char *inp){
     }
     inp++;
   }
-  printf('\n');
+  // printf('\n');
   return;
 }
 
