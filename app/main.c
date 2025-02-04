@@ -18,7 +18,7 @@ void print_without_spaces(const char *inp){
     }
     inp++;
   }
-  // printf('\n');
+//  printf('\n');
   return;
 }
 
@@ -73,8 +73,10 @@ int main() {
         input[strlen(input) - 1] = '\0';
         printf("%s\n", &input[6]);
       }
-      else 
+      else {
         print_without_spaces(&input[5]);
+        printf("\n");
+      }
     }
     else if (strncmp(input, "type ", 5) == 0){
       if (strcmp(input, "type type") == 0)
