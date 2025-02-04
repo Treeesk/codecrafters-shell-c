@@ -184,7 +184,7 @@ int main() {
     else{
       char *argv[10];
       int argc = 0;
-      if (input[4] != '\'' || input[4] != '\"'){
+      if (input[4] != '\'' && input[4] != '\"'){
         char *names = strtok(input, "");
         while (names != NULL && argc < 10){
           argv[argc++] = names;
