@@ -24,7 +24,7 @@ void parse_input(char *inp, char *argv, int argc){
   char *token = strtok(inp, ' ');
   while (token){
     if (token[0] == '\'' || token[0] == '\"'){
-      int len = strlen(token);
+      size_t len = strlen(token);
       if (token[len - 1] == '\'' || token[len - 1] == '\"'){
         token[len - 1] = '\0';
         token++;
