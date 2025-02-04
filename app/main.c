@@ -62,7 +62,7 @@ void parse_input(const char *inp, char **argv, int *argc) {
         end = (char *)start;
 
         // Find the end of the token
-        while (*end && (in_quotes || *end != ' ')) {
+        while (*end && in_quotes) {
             if (*end == '\'' || *end == '\"') {
                 in_quotes = !in_quotes; // Toggle quoting
             }
