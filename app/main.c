@@ -51,8 +51,14 @@ int main() {
     input[strlen(input) - 1] = '\0';
     if (strcmp(input, "exit 0") == 0)
       exit(0);
-    else if (strncmp(input, "echo ", 5) == 0) 
-      printf("%s\n", &input[5]);
+    else if (strncmp(input, "echo ", 5) == 0){
+      if (input[5] == '\''){
+        input[strlen(input) - 1] = '\0';
+        printf("%s\n", &input[6]);
+      }
+      else 
+        printf("%s\n", &input[5]);
+    }
     else if (strncmp(input, "type ", 5) == 0){
       if (strcmp(input, "type type") == 0)
         printf("type is a shell builtin\n");
