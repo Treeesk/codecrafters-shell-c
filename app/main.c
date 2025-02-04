@@ -38,7 +38,7 @@ void print_without_spaces(const char *inp){
 // }
 
 void parse_input(const char *inp, char **argv, int *argc) {
-    const char *start = inp;
+    char *start = &inp[4];
     char *end;
     bool in_quotes = false;
 
