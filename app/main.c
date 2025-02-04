@@ -20,20 +20,68 @@ void print_without_spaces(const char *inp){
   }
 }
 
-void parse_input(char *inp, char *argv, int argc){
-  char *token = strtok(inp, " ");
-  while (token && argc < 10){
-    if (token[0] == '\'' || token[0] == '\"'){
-      size_t len = strlen(token);
-      if (token[len - 1] == '\'' || token[len - 1] == '\"'){
-        token[len - 1] = '\0';
-        token++;
-      }
+// void parse_input(const char *inp, char *argv, int argc){
+//   char *token = strtok(inp, " ");
+//   while (token && argc < 10){
+//     if (token[0] == '\'' || token[0] == '\"'){
+//       size_t len = strlen(token);
+//       if (token[len - 1] == '\'' || token[len - 1] == '\"'){
+//         token[len - 1] = '\0';
+//         token++;
+//       }
+//     }
+//     argv[argc++] = token;
+//     token = strtok(NULL, " ");
+//   }
+//   argv[argc] = NULL;
+// }
+
+void parse_input(const char *inp, char **argv, int *argc) {
+    const char *start = inp;
+    char *end;
+    bool in_quotes = false;
+
+    while (*start && *argc < 10) {
+        // Skip leading spaces
+        while (*start == ' ') {
+            start++;
+        }
+
+        // Check if we're at the end
+        if (*start == '\0') {
+            break;
+        }
+
+        // Check for quotes
+        if (*start == '\'' || *start == '\"') {
+            in_quotes = !in_quotes;
+            start++;
+        }
+
+        end = (char *)start;
+
+        // Find the end of the token
+        while (*end && (in_quotes || *end != ' ')) {
+            if (*end == '\'' || *end == '\"') {
+                in_quotes = !in_quotes; // Toggle quoting
+            }
+            end++;
+        }
+
+        // Allocate memory for the token and copy it
+        size_t length = end - start;
+        if (length > 0) {
+            argv[*argc] = (char *)malloc(length + 1); // Allocate memory for the token
+            strncpy(argv[*argc], start, length);
+            argv[*argc][length] = '\0'; // Null-terminate the string
+            (*argc)++;
+        }
+
+        start = end; // Move to the next token
     }
-    argv[argc++] = token;
-    token = strtok(NULL, " ");
-  }
-  argv[argc] = NULL;
+
+    // Null-terminate the argv array
+    argv[*argc] = NULL;
 }
 
 void fork_func(char *full_path, char **argv){
@@ -135,13 +183,16 @@ int main() {
     else{
       char *argv[10];
       int argc = 0;
-      // char *names = strtok(input, "");
-      // while (names != NULL && argc < 10){
-      //   argv[argc++] = names;
-      //   names = strtok(NULL, "");
-      // }
-      // argv[argc] = NULL;
-      parse_input(input, argv, &argc);
+      if (input[4] != '\'' || input[4] != '\"'){
+        char *names = strtok(input, "");
+        while (names != NULL && argc < 10){
+          argv[argc++] = names;
+          names = strtok(NULL, "");
+        }
+        argv[argc] = NULL;
+      }
+      else 
+        parse_input(input, argv, &argc);
       char *pth = check_path(argv[0]);
       if (pth != NULL)
         fork_func(pth, argv); 
