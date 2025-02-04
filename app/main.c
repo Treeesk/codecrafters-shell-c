@@ -18,8 +18,6 @@ void print_without_spaces(const char *inp){
     }
     inp++;
   }
-//  printf('\n');
-  return;
 }
 
 void fork_func(char *full_path, char **argv){
@@ -70,13 +68,15 @@ int main() {
       exit(0);
     else if (strncmp(input, "echo ", 5) == 0){
       if (input[5] == '\''){
-        input[strlen(input) - 1] = '\0';
-        printf("%s\n", &input[6]);
+        while (*input){
+          if (*input != '\'')
+            printf("%c", *input);
+          input++;
+        }
       }
-      else {
+      else
         print_without_spaces(&input[5]);
-        printf("\n");
-      }
+      printf("\n");
     }
     else if (strncmp(input, "type ", 5) == 0){
       if (strcmp(input, "type type") == 0)
