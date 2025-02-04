@@ -24,7 +24,7 @@ void fork_func(char *full_path, char **argv){
   pid_t pid = fork();
   if (pid == 0) {
     execv(full_path, argv);
-    //perror("execv"); // если ошибка в Execv
+    perror("execv"); // если ошибка в Execv
     exit(1);
   } else if (pid < 0)
     perror("fork");
@@ -124,7 +124,7 @@ int main() {
         argv[argc++] = names;
         names = strtok(NULL, " ");
       }
-      argv[argc] == NULL;
+      argv[argc] = NULL;
       char *pth = check_path(argv[0]);
       if (pth != NULL)
         fork_func(pth, argv); 
