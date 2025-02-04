@@ -5,6 +5,21 @@
 #include <sys/types.h> 
 #include <sys/wait.h>
 
+void print_without_spaces(const char *inp){
+  int stat = 0;
+  while (*inp){
+    if (*inp == ' ' && stat == 0){
+      printf("%c", *inp++);
+      stat = 1;
+    }
+    else if (*inp != ' '){
+      printf("%c", *inp++);
+      stat = 0;
+    }
+  }
+  printf('\n');
+}
+
 void fork_func(char *full_path, char **argv){
   pid_t pid = fork();
   if (pid == 0) {
