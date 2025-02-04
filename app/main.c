@@ -74,7 +74,7 @@ void parse_input(const char *inp, char **argv, int *argc) {
         if (length > 0) {
             argv[*argc] = (char *)malloc(length + 1); // Allocate memory for the token
             strncpy(argv[*argc], start, length);
-            argv[*argc][length] = '\0'; // Null-terminate the string
+            argv[*argc][length - 1] = '\0'; // Null-terminate the string
             (*argc)++;
         }
 
