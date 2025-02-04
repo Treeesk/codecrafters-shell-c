@@ -20,6 +20,22 @@ void print_without_spaces(const char *inp){
   }
 }
 
+void parse_input(char *inp, char *argv, int argc){
+  char *token = strtok(inp, ' ');
+  while (token){
+    if (token[0] == '\'' || token[0] == '\"'){
+      int len = strlen(token);
+      if (token[len - 1] == '\'' || token[len - 1] == '\"'){
+        token[len - 1] = '\0';
+        token++;
+      }
+    }
+    argv[argc++] = token;
+    token = strtok(NULL, ' ');
+  }
+  argv[argc] == NULL;
+}
+
 void fork_func(char *full_path, char **argv){
   pid_t pid = fork();
   if (pid == 0) {
@@ -119,12 +135,13 @@ int main() {
     else{
       char *argv[10];
       int argc = 0;
-      char *names = strtok(input, "");
-      while (names != NULL && argc < 10){
-        argv[argc++] = names;
-        names = strtok(NULL, "");
-      }
-      argv[argc] = NULL;
+      // char *names = strtok(input, "");
+      // while (names != NULL && argc < 10){
+      //   argv[argc++] = names;
+      //   names = strtok(NULL, "");
+      // }
+      // argv[argc] = NULL;
+      parse_input(input, argv, &argc);
       char *pth = check_path(argv[0]);
       if (pth != NULL)
         fork_func(pth, argv); 
