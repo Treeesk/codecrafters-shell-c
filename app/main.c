@@ -37,52 +37,86 @@ void print_without_spaces(const char *inp){
 //   argv[argc] = NULL;
 // }
 
-void parse_input(const char *inp, char **argv, int *argc) {
-    char *start = &inp[4];
-    char *end;
-    bool in_quotes = false;
+// void parse_input(const char *inp, char **argv, int *argc) {
+//     char *start = &inp[4];
+//     char *end;
+//     bool in_quotes = false;
 
-    while (*start && *argc < 10) {
-        // Skip leading spaces
-        while (*start == ' ') {
-            start++;
-        }
+//     while (*start && *argc < 10) {
+//         // Skip leading spaces
+//         while (*start == ' ') {
+//             start++;
+//         }
 
-        // Check if we're at the end
-        if (*start == '\0') {
-            break;
-        }
+//         // Check if we're at the end
+//         if (*start == '\0') {
+//             break;
+//         }
 
-        // Check for quotes
-        if (*start == '\'' || *start == '\"') {
-            in_quotes = !in_quotes;
-            start++;
-        }
+//         // Check for quotes
+//         if (*start == '\'' || *start == '\"') {
+//             in_quotes = !in_quotes;
+//             start++;
+//         }
 
-        end = (char *)start;
+//         end = (char *)start;
 
-        // Find the end of the token
-        while (*end && in_quotes) {
-            if (*end == '\'' || *end == '\"') {
-                in_quotes = !in_quotes; // Toggle quoting
-            }
-            end++;
-        }
+//         // Find the end of the token
+//         while (*end && in_quotes) {
+//             if (*end == '\'' || *end == '\"') {
+//                 in_quotes = !in_quotes; // Toggle quoting
+//             }
+//             end++;
+//         }
 
-        // Allocate memory for the token and copy it
-        size_t length = end - start;
-        if (length > 0) {
-            argv[*argc] = (char *)malloc(length + 1); // Allocate memory for the token
-            strncpy(argv[*argc], start, length);
-            argv[*argc][length - 1] = '\0'; // Null-terminate the string
-            (*argc)++;
-        }
+//         // Allocate memory for the token and copy it
+//         size_t length = end - start;
+//         if (length > 0) {
+//             argv[*argc] = (char *)malloc(length + 1); // Allocate memory for the token
+//             strncpy(argv[*argc], start, length);
+//             argv[*argc][length - 1] = '\0'; // Null-terminate the string
+//             (*argc)++;
+//         }
 
-        start = end; // Move to the next token
+//         start = end; // Move to the next token
+//     }
+
+//     // Null-terminate the argv array
+//     argv[*argc] = NULL;
+// }
+
+char **shell_parse_args(shell_t *shell, char *args, size_t *sizep) {
+  const char *sep = " \t\r\n\0";
+  const int sep_len = strlen(sep);
+  size_t i = 0;
+  char *p = args, *pe = args;
+  char **output = NULL;
+  while (*pe != '\0') {
+    if (*pe == '\'') {
+      p = pe + 1;
+      while (*++pe != '\'' &&
+             *pe != '\0') { /*printf("parsing quote: %c\n", *pe);*/
+      }
+      *pe = ' ';
     }
-
-    // Null-terminate the argv array
-    argv[*argc] = NULL;
+    if (isspace(*pe)) {
+      *pe = 0;
+      output = realloc(output, (i + 1) * sizeof(char *));
+      output[i++] = p;
+      if (*pe == '\n')
+        break;
+      p = pe;
+      while (isspace(*++p))
+        ;
+      pe = p;
+      continue;
+    }
+    pe++;
+  }
+  // printf("size of args: %ld\n", i);
+  if (sizep != NULL)
+    *sizep = i;
+  return output;
 }
 
 void fork_func(char *full_path, char **argv){
@@ -193,7 +227,7 @@ int main() {
         argv[argc] = NULL;
       }
       else 
-        parse_input(input, argv, &argc);
+        shell_parse_args(input, argv, &argc);
       char *pth = check_path(argv[0]);
       if (pth != NULL)
         fork_func(pth, argv); 
