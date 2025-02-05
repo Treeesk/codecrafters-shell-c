@@ -100,7 +100,7 @@ int main() {
       if (input[5] == '\'' || input[5] == '\"'){
         int i = 6;
         while (input[i]){
-          if (input[i] != '\'' || input[i] != '\"')
+          if (input[i] != '\'' && input[i] != '\"')
             printf("%c", input[i]);
           i++;
         }
