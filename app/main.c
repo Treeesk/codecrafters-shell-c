@@ -21,6 +21,7 @@ void print_without_spaces(const char *inp){
 }
 
 void parse_input(char *inp, char **argv, int *argc) {
+  //когда start = null находимся в состоянии поиска нового аргумента
     char *start = inp;
     short int in_quotes = 0;
     for (int i = 0; inp[i]; i++) {
@@ -32,13 +33,13 @@ void parse_input(char *inp, char **argv, int *argc) {
             inp[i] = '\0';
             argv[(*argc)++] = start;
             start = NULL;
-        } else if (inp[i] == ' ' && !in_quotes) {
+        } else if (inp[i] == ' ' && !in_quotes) { // чтобы закончить запись команды, которая в начале например стоит
             if (start != NULL) {
                 inp[i] = '\0';
                 argv[(*argc)++] = start;
                 start = NULL;
             }
-        } else if (start == NULL) {
+        } else if (start == NULL) { // чтобы записать имя команды например, в начале 
             start = &inp[i];
         }
     }
@@ -158,7 +159,7 @@ int main() {
       }
       else 
         parse_input(input, argv, &argc);
-      char *pth = check_path(argv[0]);
+      char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
       if (pth != NULL)
         fork_func(pth, argv); 
       else 
