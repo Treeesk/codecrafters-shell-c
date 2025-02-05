@@ -148,7 +148,7 @@ int main() {
       }
       else 
         parse_input(input, argv, &argc);
-      char *pth = check_path(argv[0]);
+      char *pth = check_path(argv);
       if (pth != NULL)
         fork_func(pth, argv); 
       else 
