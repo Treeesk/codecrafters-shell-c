@@ -103,12 +103,12 @@ int main() {
         while (input[i]){
           if (input[i] == '\'' || input[i] == '\"'){
             i++;
-            while (input[i] && (input[i] != '\'' || input[i] != '\"'))
+            while (input[i] && (input[i] != '\'' && input[i] != '\"'))
               printf("%c", input[i++]);
             cnt_space = 0;
           }
           else {
-            if (input[i] != ' ' && input[i] != '\"' && input[i] != '\''){
+            if (input[i] != ' '){
               printf("%c", input[i]);
               cnt_space = 0;
             }
