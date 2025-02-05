@@ -28,7 +28,7 @@ void parse_input(char *inp, char **argv, int *argc) {
         if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0) {
             in_quotes = 1;
             start = &inp[i + 1];
-        } else if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 1) {
+        } else if (((*(start - 1) == inp[i] && inp[i]== '\'') || (*(start - 1) == inp[i] && inp[i] == '\"')) && in_quotes == 1) {
             in_quotes = 0;
             inp[i] = '\0';
             argv[(*argc)++] = start;
