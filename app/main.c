@@ -21,32 +21,26 @@ void print_without_spaces(const char *inp){
 }
 
 void parse_input(char *inp, char **argv, int *argc){
-  char *start = inp, *end = inp;
-  short int in_quotes = 0;
-  for (int i = 0; inp[i]; i++){
-    if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0){
-      in_quotes = 1;
-      start = &inp[i + 1];
-    }
-    else if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 1){
-      in_quotes = 0;
-      inp[i] = '\0';
-      argv[(*argc)++] = start;
-      start = NULL;
-    }
-  }
-  // while (token && argc < 10){
-  //   if (token[0] == '\'' || token[0] == '\"'){
-  //     size_t len = strlen(token);
-  //     if (token[len - 1] == '\'' || token[len - 1] == '\"'){
-  //       token[len - 1] = '\0';
-  //       token++;
-  //     }
+  // char *start = inp, *end = inp;
+  // short int in_quotes = 0;
+  // for (int i = 0; inp[i]; i++){
+  //   if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0){
+  //     in_quotes = 1;
+  //     start = &inp[i + 1];
   //   }
-  //   argv[argc++] = token;
-  //   token = strtok(NULL, " ");
-  // }
-  argv[*argc] = NULL;
+  //   else if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 1){
+  //     in_quotes = 0;
+  //     inp[i] = '\0';
+  //     argv[(*argc)++] = start;
+  //     start = NULL;
+  //   }
+  }
+    char *token = strtok(inp, " ");
+    while (token != NULL && *argc < 10) {
+        argv[(*argc)++] = token;
+        token = strtok(NULL, " ");
+    }
+    argv[*argc] = NULL;
 }
 
 
