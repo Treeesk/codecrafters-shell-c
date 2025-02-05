@@ -108,7 +108,7 @@ int main() {
             cnt_space = 0;
           }
           else {
-            if (input[i] != ' '){
+            if (input[i] != ' ' && input[i] != '\"' && input[i] != '\''){
               printf("%c", input[i]);
               cnt_space = 0;
             }
