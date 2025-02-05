@@ -20,37 +20,23 @@ void print_without_spaces(const char *inp){
   }
 }
 
-void parse_input(char *inp, char **argv, int *argc) {
-    char *start = inp;
-    short int in_quotes = 0;
-    
-    while (*start) {
-        if ((*start == '\'' || *start == '\"') && in_quotes == 0) {
-            in_quotes = 1;
-            start++;
-        } else if ((*start == '\'' || *start == '\"') && in_quotes == 1) {
-            in_quotes = 0;
-            *start = '\0'; // Завершить текущий токен
-            argv[(*argc)++] = start + 1; // Сохранить токен
-        } else if (!in_quotes && *start == ' ') {
-            *start = '\0'; // Завершить токен
-            argv[(*argc)++] = start + 1; // Сохранить токен
-        }
-        start++;
+void parse_input(char *inp, char **argv, int *argc){
+  char *start = inp;
+  short int in_quotes = 0;
+  for (int i = 0; inp[i]; i++){
+    if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0){
+      in_quotes = 1;
+      start = &inp[i + 1];
     }
-    argv[*argc] = NULL; // Завершить массив аргументов
+    else if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 1){
+      in_quotes = 0;
+      inp[i] = '\0';
+      argv[(*argc)++] = start;
+      start = NULL;
+    }
+  }
+  argv[*argc] = NULL;
 }
-  // while (token && argc < 10){
-  //   if (token[0] == '\'' || token[0] == '\"'){
-  //     size_t len = strlen(token);
-  //     if (token[len - 1] == '\'' || token[len - 1] == '\"'){
-  //       token[len - 1] = '\0';
-  //       token++;
-  //     }
-  //   }
-  //   argv[argc++] = token;
-  //   token = strtok(NULL, " ");
-  // }
 
 
 void fork_func(char *full_path, char **argv){
