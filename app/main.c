@@ -97,10 +97,10 @@ int main() {
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "echo ", 5) == 0){
-      if (input[5] == '\''){
+      if (input[5] == '\'' || input[5] == '\"'){
         int i = 6;
         while (input[i]){
-          if (input[i] != '\'')
+          if (input[i] != '\'' || input[i] != '\"')
             printf("%c", input[i]);
           i++;
         }
