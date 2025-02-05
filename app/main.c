@@ -55,8 +55,8 @@ void fork_func(char *full_path, char **argv){
 
 char *check_path(char *f){
   char *path_check = getenv("PATH");
-  if (path_check == NULL)
-    return NULL;
+  // if (path_check == NULL)
+  //   return NULL;
   
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
@@ -149,7 +149,7 @@ int main() {
       else 
         parse_input(input, argv, &argc);
       char *pth = check_path(argv[0]);
-      if (pth == NULL)
+      if (pth != NULL)
         fork_func(pth, argv); 
       else 
         printf("%s: command not found\n", argv[0]);
