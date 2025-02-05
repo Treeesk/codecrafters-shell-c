@@ -31,7 +31,7 @@ void parse_input(char *inp, char **argv, int *argc){
     else if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 1){
       in_quotes = 0;
       inp[i] = '\0';
-      argv[argc++] = start;
+      argv[(*argc)++] = start;
       start = NULL;
     }
   }
@@ -46,7 +46,7 @@ void parse_input(char *inp, char **argv, int *argc){
   //   argv[argc++] = token;
   //   token = strtok(NULL, " ");
   // }
-  argv[argc] = NULL;
+  argv[*argc] = NULL;
 }
 
 
