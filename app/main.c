@@ -34,7 +34,6 @@ void parse_input(char *inp, char **argv, int *argc){
   //     argv[(*argc)++] = start;
   //     start = NULL;
   //   }
-  }
     char *token = strtok(inp, " ");
     while (token != NULL && *argc < 10) {
         argv[(*argc)++] = token;
