@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include <sys/types.h> 
 #include <sys/wait.h>
-#include <stdbool.h>
 
 void print_without_spaces(const char *inp){
   int stat = 0;
@@ -21,20 +20,32 @@ void print_without_spaces(const char *inp){
   }
 }
 
-void parse_input(const char *inp, char *argv, int *argc){
-  char *token = strtok(inp, " ");
+void parse_input(char *inp, char **argv, int *argc){
   char *start = inp, *end = inp;
-  while (token && argc < 10){
-    if (token[0] == '\'' || token[0] == '\"'){
-      size_t len = strlen(token);
-      if (token[len - 1] == '\'' || token[len - 1] == '\"'){
-        token[len - 1] = '\0';
-        token++;
-      }
+  short int in_quotes = 0;
+  for (int i = 0; inp[i]; i++){
+    if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0){
+      in_quotes = 1;
+      start = &inp[i + 1];
     }
-    argv[argc++] = token;
-    token = strtok(NULL, " ");
+    else if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 1){
+      in_quotes = 0;
+      inp[i] = '\0';
+      argv[argc++] = start;
+      start = NULL;
+    }
   }
+  // while (token && argc < 10){
+  //   if (token[0] == '\'' || token[0] == '\"'){
+  //     size_t len = strlen(token);
+  //     if (token[len - 1] == '\'' || token[len - 1] == '\"'){
+  //       token[len - 1] = '\0';
+  //       token++;
+  //     }
+  //   }
+  //   argv[argc++] = token;
+  //   token = strtok(NULL, " ");
+  // }
   argv[argc] = NULL;
 }
 
@@ -139,10 +150,10 @@ int main() {
       char *argv[10];
       int argc = 0;
       if (input[4] != '\'' && input[4] != '\"'){
-        char *names = strtok(input, "");
+        char *names = strtok(input, " ");
         while (names != NULL && argc < 10){
           argv[argc++] = names;
-          names = strtok(NULL, "");
+          names = strtok(NULL, " ");
         }
         argv[argc] = NULL;
       }
