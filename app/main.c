@@ -101,13 +101,8 @@ int main() {
         int i = 6;
         short int cnt_space = 0;
         while (input[i]){
-          // if (input[i] != '\'' && input[i] != '\"' && in_quotes == 1)
-          //   printf("%c", input[i]);
-          // else if (input[i] == '\'' || input[i] == '\"'){
-          //   in_quotes = 1;
-          // }
-          // i++;
           if (input[i] == '\'' || input[i] == '\"'){
+            i++;
             while (input[i] && (input[i] != '\'' || input[i] != '\"'))
               printf("%c", input[i++]);
             cnt_space = 0;
