@@ -58,13 +58,14 @@ char *check_path(char *f){
   if (path_check == NULL)
     return NULL;
   
-  char *path_copy = strdup(path_check);
-  char *dir = strtok(path_copy, ":");
+  // char *path_copy = strdup(path_check);
+  char *dir = strtok(path_check, ":");
   static char full_path[1024];
 
   while (dir != NULL){
     snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
     if (access(full_path, F_OK) == 0){
+      free(path_copy);
       return full_path;
     }
     dir = strtok(NULL, ":");
