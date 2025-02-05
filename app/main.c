@@ -24,15 +24,18 @@ void parse_input(char *inp, char **argv, int *argc) {
   //когда start = null находимся в состоянии поиска нового аргумента
     char *start = inp;
     short int in_quotes = 0;
+    char type_quotes = 0;
     for (int i = 0; inp[i]; i++) {
         if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0) {
             in_quotes = 1;
             start = &inp[i + 1];
-        } else if (((*(start - 1) == inp[i] && inp[i]== '\'') || (*(start - 1) == inp[i] && inp[i] == '\"')) && in_quotes == 1) {
+            type_quotes = inp[i];
+        } else if (type_quotes == inp[i] && in_quotes == 1) {
             in_quotes = 0;
             inp[i] = '\0';
             argv[(*argc)++] = start;
             start = NULL;
+            type_quotes = 0;
         } else if (inp[i] == ' ' && !in_quotes) { // чтобы закончить запись команды, которая в начале например стоит
             if (start != NULL) {
                 inp[i] = '\0';
