@@ -65,7 +65,6 @@ char *check_path(char *f){
   while (dir != NULL){
     snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
     if (access(full_path, F_OK) == 0){
-      free(path_copy);
       return full_path;
     }
     dir = strtok(NULL, ":");
