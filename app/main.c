@@ -148,8 +148,8 @@ int main() {
       }
       else 
         parse_input(input, argv, &argc);
-      char *pth = check_path(argv);
-      if (pth != NULL)
+      char *pth = check_path(argv[0]);
+      if (pth == NULL)
         fork_func(pth, argv); 
       else 
         printf("%s: command not found\n", argv[0]);
