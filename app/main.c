@@ -20,22 +20,32 @@ void print_without_spaces(const char *inp){
   }
 }
 
-void parse_input(char *inp, char **argv, int *argc){
-  char *start = inp;
-  short int in_quotes = 0;
-  for (int i = 0; inp[i]; i++){
-    if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0){
-      in_quotes = 1;
-      start = &inp[i + 1];
+void parse_input(char *inp, char **argv, int *argc) {
+    char *start = inp;
+    short int in_quotes = 0;
+    for (int i = 0; inp[i]; i++) {
+        if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0) {
+            in_quotes = 1;
+            start = &inp[i + 1];
+        } else if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 1) {
+            in_quotes = 0;
+            inp[i] = '\0';
+            argv[(*argc)++] = start;
+            start = NULL;
+        } else if (inp[i] == ' ' && !in_quotes) {
+            if (start != NULL) {
+                inp[i] = '\0';
+                argv[(*argc)++] = start;
+                start = NULL;
+            }
+        } else if (start == NULL) {
+            start = &inp[i];
+        }
     }
-    else if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 1){
-      in_quotes = 0;
-      inp[i] = '\0';
-      argv[(*argc)++] = start;
-      start = NULL;
+    if (start != NULL) {
+        argv[(*argc)++] = start;
     }
-  }
-  argv[*argc] = NULL;
+    argv[*argc] = NULL;
 }
 
 
@@ -58,17 +68,19 @@ char *check_path(char *f){
   if (path_check == NULL)
     return NULL;
   
-  // char *path_copy = strdup(path_check);
-  char *dir = strtok(path_check, ":");
+  char *path_copy = strdup(path_check);
+  char *dir = strtok(path_copy, ":");
   static char full_path[1024];
 
   while (dir != NULL){
     snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
     if (access(full_path, F_OK) == 0){
+      free(path_copy);
       return full_path;
     }
     dir = strtok(NULL, ":");
   }
+  free(path_copy);
   return NULL;
 }
 
