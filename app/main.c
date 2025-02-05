@@ -98,7 +98,7 @@ int main() {
       exit(0);
     else if (strncmp(input, "echo ", 5) == 0){
       if (input[5] == '\'' || input[5] == '\"'){
-        int i = 6;
+        int i = 5;
         short int cnt_space = 0;
         while (input[i]){
           if (input[i] == '\'' || input[i] == '\"'){
