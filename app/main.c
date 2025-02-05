@@ -99,10 +99,30 @@ int main() {
     else if (strncmp(input, "echo ", 5) == 0){
       if (input[5] == '\'' || input[5] == '\"'){
         int i = 6;
+        short int cnt_space = 0;
         while (input[i]){
-          if (input[i] != '\'' && input[i] != '\"')
-            printf("%c", input[i]);
+          // if (input[i] != '\'' && input[i] != '\"' && in_quotes == 1)
+          //   printf("%c", input[i]);
+          // else if (input[i] == '\'' || input[i] == '\"'){
+          //   in_quotes = 1;
+          // }
+          // i++;
+          if (input[i] == '\'' || input[i] == '\"'){
+            while (input[i] && (input[i] != '\'' || input[i] != '\"'))
+              printf("%c", input[i++]);
+            cnt_space = 0;
+          }
+          else {
+            if (input[i] != ' '){
+              printf("%c", input[i]);
+              cnt_space = 0;
+            }
+            else if (cnt_space == 0){
+              printf("%c", input[i]);
+              cnt_space = 1;
+            }
           i++;
+          }
         }
       }
       else
