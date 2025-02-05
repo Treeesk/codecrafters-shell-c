@@ -116,7 +116,6 @@ int main() {
               printf("%c", input[i]);
               cnt_space = 1;
             }
-          i++;
           }
           i++;
         }
