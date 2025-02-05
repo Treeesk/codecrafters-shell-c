@@ -101,11 +101,17 @@ int main() {
         int i = 5;
         short int cnt_space = 0;
         while (input[i]){
-          if (input[i] == '\'' || input[i] == '\"'){
+          if (input[i] == '\''){
             i++;
-            while (input[i] && (input[i] != '\'' && input[i] != '\"'))
+            while (input[i] && input[i] != '\'')
               printf("%c", input[i++]);
             cnt_space = 0;
+          }
+          else if (input[i] == '\"'){
+            i++;
+            while (input[i] && input[i] != '\"')
+              printf("%c", input[i++]);
+            cnt_space = 0;  
           }
           else {
             if (input[i] != ' '){
