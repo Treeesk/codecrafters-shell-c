@@ -21,103 +21,23 @@ void print_without_spaces(const char *inp){
   }
 }
 
-// void parse_input(const char *inp, char *argv, int argc){
-//   char *token = strtok(inp, " ");
-//   while (token && argc < 10){
-//     if (token[0] == '\'' || token[0] == '\"'){
-//       size_t len = strlen(token);
-//       if (token[len - 1] == '\'' || token[len - 1] == '\"'){
-//         token[len - 1] = '\0';
-//         token++;
-//       }
-//     }
-//     argv[argc++] = token;
-//     token = strtok(NULL, " ");
-//   }
-//   argv[argc] = NULL;
-// }
-
-// void parse_input(const char *inp, char **argv, int *argc) {
-//     char *start = &inp[4];
-//     char *end;
-//     bool in_quotes = false;
-
-//     while (*start && *argc < 10) {
-//         // Skip leading spaces
-//         while (*start == ' ') {
-//             start++;
-//         }
-
-//         // Check if we're at the end
-//         if (*start == '\0') {
-//             break;
-//         }
-
-//         // Check for quotes
-//         if (*start == '\'' || *start == '\"') {
-//             in_quotes = !in_quotes;
-//             start++;
-//         }
-
-//         end = (char *)start;
-
-//         // Find the end of the token
-//         while (*end && in_quotes) {
-//             if (*end == '\'' || *end == '\"') {
-//                 in_quotes = !in_quotes; // Toggle quoting
-//             }
-//             end++;
-//         }
-
-//         // Allocate memory for the token and copy it
-//         size_t length = end - start;
-//         if (length > 0) {
-//             argv[*argc] = (char *)malloc(length + 1); // Allocate memory for the token
-//             strncpy(argv[*argc], start, length);
-//             argv[*argc][length - 1] = '\0'; // Null-terminate the string
-//             (*argc)++;
-//         }
-
-//         start = end; // Move to the next token
-//     }
-
-//     // Null-terminate the argv array
-//     argv[*argc] = NULL;
-// }
-
-char **shell_parse_args(shell_t *shell, char *args, size_t *sizep) {
-  const char *sep = " \t\r\n\0";
-  const int sep_len = strlen(sep);
-  size_t i = 0;
-  char *p = args, *pe = args;
-  char **output = NULL;
-  while (*pe != '\0') {
-    if (*pe == '\'') {
-      p = pe + 1;
-      while (*++pe != '\'' &&
-             *pe != '\0') { /*printf("parsing quote: %c\n", *pe);*/
+void parse_input(const char *inp, char *argv, int *argc){
+  char *token = strtok(inp, " ");
+  char *start = inp, *end = inp;
+  while (token && argc < 10){
+    if (token[0] == '\'' || token[0] == '\"'){
+      size_t len = strlen(token);
+      if (token[len - 1] == '\'' || token[len - 1] == '\"'){
+        token[len - 1] = '\0';
+        token++;
       }
-      *pe = ' ';
     }
-    if (isspace(*pe)) {
-      *pe = 0;
-      output = realloc(output, (i + 1) * sizeof(char *));
-      output[i++] = p;
-      if (*pe == '\n')
-        break;
-      p = pe;
-      while (isspace(*++p))
-        ;
-      pe = p;
-      continue;
-    }
-    pe++;
+    argv[argc++] = token;
+    token = strtok(NULL, " ");
   }
-  // printf("size of args: %ld\n", i);
-  if (sizep != NULL)
-    *sizep = i;
-  return output;
+  argv[argc] = NULL;
 }
+
 
 void fork_func(char *full_path, char **argv){
   pid_t pid = fork();
@@ -218,17 +138,17 @@ int main() {
     else{
       char *argv[10];
       int argc = 0;
-      // if (input[4] != '\'' && input[4] != '\"'){
-      //   char *names = strtok(input, "");
-      //   while (names != NULL && argc < 10){
-      //     argv[argc++] = names;
-      //     names = strtok(NULL, "");
-      //   }
-      //   argv[argc] = NULL;
-      // }
-      // else 
-      //   shell_parse_args(input, argv, &argc);
-      char *pth = check_path(shell_parse_args(input, argv, &argc));
+      if (input[4] != '\'' && input[4] != '\"'){
+        char *names = strtok(input, "");
+        while (names != NULL && argc < 10){
+          argv[argc++] = names;
+          names = strtok(NULL, "");
+        }
+        argv[argc] = NULL;
+      }
+      else 
+        parse_input(input, argv, &argc);
+      char *pth = check_path(argv[0]);
       if (pth != NULL)
         fork_func(pth, argv); 
       else 
