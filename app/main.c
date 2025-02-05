@@ -55,8 +55,8 @@ void fork_func(char *full_path, char **argv){
 
 char *check_path(char *f){
   char *path_check = getenv("PATH");
-  // if (path_check == NULL)
-  //   return NULL;
+  if (path_check == NULL)
+    return NULL;
   
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
@@ -64,7 +64,7 @@ char *check_path(char *f){
 
   while (dir != NULL){
     snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
-    if (access(full_path, X_OK) == 0){
+    if (access(full_path, F_OK) == 0){
       free(path_copy);
       return full_path;
     }
