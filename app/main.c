@@ -121,8 +121,6 @@ int main() {
             cnt_space = 0;
             type_quotes = 0;
           }
-          else if (input[i] == '\\' && (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"' || input[i + 1] == ' '))
-            i++;
           else {
             if (input[i] == '\\' && (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"' || input[i + 1] == ' ')){
               cnt_space = 0;
