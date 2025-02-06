@@ -118,11 +118,13 @@ int main() {
             type_quotes = 0;
           }
           else {
+            if (input[i] == '\\' && input[i + 1] == ' ')
+              i++;
             if (input[i] != ' ' && input[i] != '\\'){
               printf("%c", input[i]);
               cnt_space = 0;
             }
-            else if (cnt_space == 0 && input[i] != '\\'){
+            else if (cnt_space == 0 && input[i] == ' '){
               printf("%c", input[i]);
               cnt_space = 1;
             }
