@@ -109,16 +109,27 @@ int main() {
             i++;
             type_quotes = input[i];
             while (input[i] && input[i] != type_quotes){
-              if (input[i] == '\\'){
-                if (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"'){
-                  i++;
-              } 
+              if (input[i] == '\\')
+                if (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"')
+                  i++ 
               printf("%c", input[i++]);
             }
             cnt_space = 0;
             type_quotes = 0;
           }
-          // if (input[i] == '\''){
+          else {
+            if (input[i] != ' '){
+              printf("%c", input[i]);
+              cnt_space = 0;
+            }
+            else if (cnt_space == 0){
+              printf("%c", input[i]);
+              cnt_space = 1;
+            }
+          }
+          i++;
+      }
+                // if (input[i] == '\''){
           //   i++;
           //   while (input[i] && input[i] != '\''){
           //     printf("%c", input[i++]);
@@ -131,19 +142,6 @@ int main() {
           //     printf("%c", input[i++]);
           //   cnt_space = 0;  
           // }
-          else {
-            if (input[i] != ' '){
-              printf("%c", input[i]);
-              cnt_space = 0;
-            }
-            else if (cnt_space == 0){
-              printf("%c", input[i]);
-              cnt_space = 1;
-            }
-          }
-          i++;
-        }
-      }
       else
         print_without_spaces(&input[5]);
       printf("\n");
