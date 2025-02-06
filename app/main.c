@@ -111,7 +111,7 @@ int main() {
             while (input[i] && input[i] != type_quotes){
               if (input[i] == '\\')
                 if (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"')
-                  i++ 
+                  i++;
               printf("%c", input[i++]);
             }
             cnt_space = 0;
@@ -128,6 +128,7 @@ int main() {
             }
           }
           i++;
+        }
       }
                 // if (input[i] == '\''){
           //   i++;
