@@ -104,7 +104,7 @@ int main() {
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "echo ", 5) == 0){
-      if (input[5] == '\'' || input[5] == '\"'){
+ //     if (input[5] == '\'' || input[5] == '\"'){
         int i = 5;
         short int cnt_space = 0;
         char type_quotes = 0;
@@ -121,6 +121,8 @@ int main() {
             cnt_space = 0;
             type_quotes = 0;
           }
+          else if (input[i] == '\\' && (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"' || input[i + 1] == ' '))
+            i++;
           else {
             if (input[i] == '\\' && input[i + 1] == ' '){
               cnt_space = 0;
@@ -137,7 +139,7 @@ int main() {
           }
           i++;
         }
-      }
+ //     }
                 // if (input[i] == '\''){
           //   i++;
           //   while (input[i] && input[i] != '\''){
@@ -151,8 +153,8 @@ int main() {
           //     printf("%c", input[i++]);
           //   cnt_space = 0;  
           // }
-      else
-        print_without_spaces(&input[5]);
+      // else
+      //   print_without_spaces(&input[5]);
       printf("\n");
     }
     else if (strncmp(input, "type ", 5) == 0){
