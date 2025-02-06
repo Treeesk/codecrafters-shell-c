@@ -8,6 +8,10 @@
 void print_without_spaces(const char *inp){
   int stat = 0;
   while (*inp){
+    if (*inp == '\\' && *(inp + 1) == ' '){
+      stat = 0;
+      inp++;
+    }
     if (*inp == ' ' && stat == 0){
       printf("%c", *inp);
       stat = 1;
