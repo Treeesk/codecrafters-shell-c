@@ -110,8 +110,8 @@ int main() {
         char type_quotes = 0;
         while (input[i]){
           if (input[i] == '\'' || input[i] == '\"'){
-            i++;
             type_quotes = input[i];
+            i++;
             while (input[i] && input[i] != type_quotes){
               if (input[i] == '\\')
                 if (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"')
