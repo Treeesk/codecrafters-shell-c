@@ -5,25 +5,6 @@
 #include <sys/types.h> 
 #include <sys/wait.h>
 
-void print_without_spaces(const char *inp){
-  int stat = 0;
-  while (*inp){
-    if (*inp == '\\' && *(inp + 1) == ' '){
-      stat = 0;
-      inp++;
-    }
-    if (*inp == ' ' && stat == 0){
-      printf("%c", *inp);
-      stat = 1;
-    }
-    else if (*inp != ' '){
-      printf("%c", *inp);
-      stat = 0;
-    }
-    inp++;
-  }
-}
-
 void parse_input(char *inp, char **argv, int *argc) {
   //когда start = null находимся в состоянии поиска нового аргумента
     char *start = inp;
@@ -104,7 +85,6 @@ int main() {
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "echo ", 5) == 0){
- //     if (input[5] == '\'' || input[5] == '\"'){
         int i = 5;
         short int cnt_space = 0;
         char type_quotes = 0;
@@ -137,22 +117,6 @@ int main() {
           }
           i++;
         }
- //     }
-                // if (input[i] == '\''){
-          //   i++;
-          //   while (input[i] && input[i] != '\''){
-          //     printf("%c", input[i++]);
-          //   }
-          //   cnt_space = 0;
-          // }
-          // else if (input[i] == '\"'){
-          //   i++;
-          //   while (input[i] && input[i] != '\"')
-          //     printf("%c", input[i++]);
-          //   cnt_space = 0;  
-          // }
-      // else
-      //   print_without_spaces(&input[5]);
       printf("\n");
     }
     else if (strncmp(input, "type ", 5) == 0){
