@@ -99,7 +99,7 @@ int main() {
             i++;
             while (input[i] && input[i] != type_quotes){
               if (input[i] == '\\')
-                if (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"')
+                if (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"' || input[i + 1] == '\\')
                   i++;
               printf("%c", input[i++]);
             }
