@@ -89,7 +89,12 @@ int main() {
         short int cnt_space = 0;
         char type_quotes = 0;
         while (input[i]){
-          if (input[i] == '\'' || input[i] == '\"'){
+          if (input[i] == '\''){
+            i++;
+            while (input[i] != '\'')
+              printf("%c", input[i++]);
+          }
+          else if (input[i] == '\"'){
             type_quotes = input[i];
             i++;
             while (input[i] && input[i] != type_quotes){
