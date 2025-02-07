@@ -164,15 +164,15 @@ int main() {
     else{
       char *argv[10];
       int argc = 0;
-      if (input[4] != '\'' && input[4] != '\"'){
-        char *names = strtok(input, " ");
-        while (names != NULL && argc < 10){
-          argv[argc++] = names;
-          names = strtok(NULL, " ");
-        }
-        argv[argc] = NULL;
-      }
-      else 
+      // if (input[4] != '\'' && input[4] != '\"'){
+      //   char *names = strtok(input, " ");
+      //   while (names != NULL && argc < 10){
+      //     argv[argc++] = names;
+      //     names = strtok(NULL, " ");
+      //   }
+      //   argv[argc] = NULL;
+      // }
+      // else 
         parse_input(input, argv, &argc);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
       if (pth != NULL)
