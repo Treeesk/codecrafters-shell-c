@@ -14,7 +14,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
     for (int i = 0; inp[i]; i++) {
         if (inp[i] == '1' && !in_quotes){
           if (inp[i + 1] == '>'){
-            *app = 1; // дозапись
             inp[i++] = '\0';
           }
           inp[i] = '\0';
@@ -24,7 +23,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
           break;
         } 
         else if (inp[i] == '>' && !in_quotes){
-          *app = 0; // перезапись
           inp[i] = '\0';
           *outf = &inp[i + 1];
           while (*outf[0] == ' '){
@@ -59,11 +57,11 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
 }
 
 
-void fork_func(char *full_path, char **argv, char *outf, int app){
+void fork_func(char *full_path, char **argv, char *outf){
   pid_t pid = fork();
   if (pid == 0) {
     if (outf){
-      int flags = O_WRONLY | O_CREAT | (app ? O_APPEND : O_TRUNC);
+      int flags = O_WRONLY | O_CREAT | O_TRUNC;
       int fd = open(outf, flags, 0666);
       if (fd == -1){
         perror("open");
@@ -194,12 +192,11 @@ int main() {
     else{
       char *argv[10];
       int argc = 0;
-      int append = 0;
       char *output_file = NULL;
-      parse_input(input, argv, &argc, &output_file, &append);
+      parse_input(input, argv, &argc, &output_file);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
       if (pth != NULL)
-        fork_func(pth, argv, output_file, append); 
+        fork_func(pth, argv, output_file); 
       else 
         printf("%s: command not found\n", argv[0]); 
     }
