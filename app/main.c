@@ -62,8 +62,6 @@ void fork_func(char *full_path, char **argv, char *outf, int app){
   pid_t pid = fork();
   if (pid == 0) {
     if (outf){
-      int saved_stdout;
-      saved_stdout = dup(1);
       int flags = O_WRONLY | O_CREAT | (app ? O_APPEND : O_TRUNC);
       int fd = open(outf, flags, 0666);
       if (fd == -1){
@@ -72,8 +70,6 @@ void fork_func(char *full_path, char **argv, char *outf, int app){
       }
       dup2(fd, STDOUT_FILENO);
       close(fd);
-      dup2(saved_stdout, 1);
-      close(saved_stdout);
     }
     execv(full_path, argv);
     perror("execv"); // если ошибка в Execv
