@@ -69,6 +69,7 @@ void fork_func(char *full_path, char **argv, char *outf, int app){
         exit(1);
       }
       dup2(fd, STDOUT_FILENO);
+      dup2(STDOUT_FILENO)
       close(fd);
     }
     execv(full_path, argv);
@@ -108,7 +109,7 @@ int main() {
   while (1){
     setbuf(stdout, NULL);
     printf("$ ");
-    
+    fflush(stdout);
     // Wait for user input
     fgets(input, 100, stdin);
     input[strlen(input) - 1] = '\0';
@@ -201,7 +202,7 @@ int main() {
       if (pth != NULL)
         fork_func(pth, argv, output_file, append); 
       else 
-        printf("%s: command not found\n", argv[0]);
+        printf("%s: command not found\n", argv[0]); 
     }
   }
   return 0;
