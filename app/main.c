@@ -6,7 +6,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-void parse_input(char *inp, char **argv, int *argc, char *outf, int *app) {
+void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
   //когда start = null находимся в состоянии поиска нового аргумента
     char *start = inp;
     short int in_quotes = 0;
@@ -19,7 +19,7 @@ void parse_input(char *inp, char **argv, int *argc, char *outf, int *app) {
           }
           inp[i] = '\0';
           *outf = &inp[i + 1];
-          while (*outf == ' ')
+          while (*outf[0] == ' ')
             outf++;
           break;
         } 
