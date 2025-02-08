@@ -27,7 +27,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
           *app = 0; // перезапись
           inp[i] = '\0';
           *outf = &inp[i + 1];
-          while (*outf == ' ')
+          while (*outf[0] == ' ')
             outf++;
           break;
         }
