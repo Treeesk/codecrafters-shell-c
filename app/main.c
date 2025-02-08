@@ -54,6 +54,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
     if (start != NULL) {
         argv[(*argc)++] = start;
     }
+    printf("hello");
     argv[*argc] = NULL;
 }
 
