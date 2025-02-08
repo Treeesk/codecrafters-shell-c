@@ -4,18 +4,38 @@
 #include <unistd.h>
 #include <sys/types.h> 
 #include <sys/wait.h>
+#include <fcntl.h>
 
-void parse_input(char *inp, char **argv, int *argc) {
+void parse_input(char *inp, char **argv, int *argc, char *outf, int *app) {
   //когда start = null находимся в состоянии поиска нового аргумента
     char *start = inp;
     short int in_quotes = 0;
     char type_quotes = 0;
     for (int i = 0; inp[i]; i++) {
+        if (inp[i] == '1' && !in_quotes){
+          if (inp[i + 1] == '>'){
+            *app = 1; // дозапись
+            inp[i++] = '\0';
+          }
+          inp[i] = '\0';
+          *outf = &inp[i + 1];
+          while (*outf == ' ')
+            outf++;
+          break;
+        } 
+        else if (inp[i] == '>' && !in_quotes){
+          *app = 0; // перезапись
+          inp[i] = '\0';
+          *outf = &inp[i + 1];
+          while (*outf == ' ')
+            outf++;
+          break;
+        }
         if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0) {
             in_quotes = 1;
             start = &inp[i + 1];
             type_quotes = inp[i];
-        } else if (type_quotes == inp[i] && in_quotes == 1) {
+        } else if (type_quotes ==  inp[i] && in_quotes == 1) {
             in_quotes = 0;
             inp[i] = '\0';
             argv[(*argc)++] = start;
@@ -38,9 +58,19 @@ void parse_input(char *inp, char **argv, int *argc) {
 }
 
 
-void fork_func(char *full_path, char **argv){
+void fork_func(char *full_path, char **argv, char *outf, int app){
   pid_t pid = fork();
   if (pid == 0) {
+    if (outf){
+      int flags = O_CREAT | (app ? O_APPEND : O_WRONLY);
+      int fd = open(outf, flags, 0666);
+      if (fd == -1){
+        perror("open");
+        exit(1);
+      }
+      dup2(fd, STDOUT_FILENO);
+      close(fd);
+    }
     execv(full_path, argv);
     perror("execv"); // если ошибка в Execv
     exit(1);
@@ -164,10 +194,12 @@ int main() {
     else{
       char *argv[10];
       int argc = 0;
-      parse_input(input, argv, &argc);
+      int append = 0;
+      char *output_file = NULL;
+      parse_input(input, argv, &argc, &output_file, &append);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
       if (pth != NULL)
-        fork_func(pth, argv); 
+        fork_func(pth, argv, output_file, append); 
       else 
         printf("%s: command not found\n", argv[0]);
     }
