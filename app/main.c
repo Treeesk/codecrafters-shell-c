@@ -62,7 +62,7 @@ void fork_func(char *full_path, char **argv, char *outf, int app){
   pid_t pid = fork();
   if (pid == 0) {
     if (outf){
-      int flags = O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC);
+      int flags = O_WRONLY | O_CREAT | (app ? O_APPEND : O_TRUNC);
       int fd = open(outf, flags, 0666);
       if (fd == -1){
         perror("open");
