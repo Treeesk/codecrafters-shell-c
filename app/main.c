@@ -50,13 +50,11 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
             }
         } else if (start == NULL) { // чтобы записать имя команды например, в начале 
             start = &inp[i];
-            printf("hello");
         }
     }
     if (start != NULL) {
         argv[(*argc)++] = start;
     }
-    printf("hello");
     argv[*argc] = NULL;
 }
 
@@ -65,7 +63,6 @@ void fork_func(char *full_path, char **argv, char *outf, int app){
   pid_t pid = fork();
   if (pid == 0) {
     if (outf){
-      int std_copy = dup(1);
       int flags = O_WRONLY | O_CREAT | (app ? O_APPEND : O_TRUNC);
       int fd = open(outf, flags, 0666);
       if (fd == -1){
@@ -74,8 +71,6 @@ void fork_func(char *full_path, char **argv, char *outf, int app){
       }
       dup2(fd, STDOUT_FILENO);
       close(fd);
-      dup2(std_copy, 1);
-      close(std_copy);
     }
     execv(full_path, argv);
     perror("execv"); // если ошибка в Execv
