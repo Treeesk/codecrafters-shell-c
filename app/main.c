@@ -6,7 +6,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
+void parse_input(char *inp, char **argv, int *argc, char **outf) {
   //когда start = null находимся в состоянии поиска нового аргумента
     char *start = inp;
     short int in_quotes = 0;
