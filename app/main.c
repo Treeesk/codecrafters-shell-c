@@ -61,8 +61,8 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
 void fork_func(char *full_path, char **argv, char *outf, int app){
   pid_t pid = fork();
   if (pid == 0) {
+    printf("hello");
     if (outf){
-      printf("hello");
       int flags = O_WRONLY | O_CREAT | (app ? O_APPEND : O_TRUNC);
       int fd = open(outf, flags, 0666);
       if (fd == -1){
