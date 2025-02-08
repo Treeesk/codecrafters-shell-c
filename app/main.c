@@ -11,6 +11,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
     char *start = inp;
     short int in_quotes = 0;
     char type_quotes = 0;
+    printf("hello");
     for (int i = 0; inp[i]; i++) {
         if (inp[i] == '1' && !in_quotes){
           if (inp[i + 1] == '>'){
@@ -197,7 +198,6 @@ int main() {
       char *output_file = NULL;
       parse_input(input, argv, &argc, &output_file, &append);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      printf("hello");
       if (pth != NULL)
         fork_func(pth, argv, output_file, append); 
       else 
