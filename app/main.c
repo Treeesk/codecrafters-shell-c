@@ -69,7 +69,6 @@ void fork_func(char *full_path, char **argv, char *outf, int app){
         exit(1);
       }
       dup2(fd, STDOUT_FILENO);
-      dup2(STDOUT_FILENO)
       close(fd);
     }
     execv(full_path, argv);
