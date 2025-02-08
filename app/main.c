@@ -60,7 +60,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
 
 void fork_func(char *full_path, char **argv, char *outf, int app){
   pid_t pid = fork();
-  printf("hello");
   if (pid == 0) {
     if (outf){
       int flags = O_WRONLY | O_CREAT | (app ? O_APPEND : O_TRUNC);
@@ -198,6 +197,7 @@ int main() {
       char *output_file = NULL;
       parse_input(input, argv, &argc, &output_file, &append);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
+      printf("hello");
       if (pth != NULL)
         fork_func(pth, argv, output_file, append); 
       else 
