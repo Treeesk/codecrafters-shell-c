@@ -11,7 +11,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
     char *start = inp;
     short int in_quotes = 0;
     char type_quotes = 0;
-    printf("hello");
     for (int i = 0; inp[i]; i++) {
         if (inp[i] == '1' && !in_quotes){
           if (inp[i + 1] == '>'){
@@ -22,7 +21,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
           *outf = &inp[i + 1];
           while (*outf[0] == ' ')
             outf++;
-          break;
         } 
         else if (inp[i] == '>' && !in_quotes){
           *app = 0; // перезапись
@@ -30,7 +28,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, int *app) {
           *outf = &inp[i + 1];
           while (*outf[0] == ' ')
             outf++;
-          break;
         }
         if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0) {
             in_quotes = 1;
