@@ -27,7 +27,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           *outf = &inp[i + 1];
           while (*outf[0] == ' ')
             outf++;
-          break;
         } 
         else if (inp[i] == '>' && !in_quotes){
           inp[i] = '\0 ';
@@ -35,7 +34,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           while (*outf[0] == ' '){
             outf++;
           }
-          break;
         }
         if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0) {
             in_quotes = 1;
@@ -55,7 +53,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
             }
         } else if (start == NULL) { // чтобы записать имя команды например, в начале 
             start = &inp[i];
-            printf("%c", *start);
         }  
     }
     if (start != NULL) {
