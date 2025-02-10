@@ -18,7 +18,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
         inp[i] = '\0';
         argv[*(argc++)] = start;
         start = NULL;
-        printf("hel");
       } 
       if (inp[i] == '1' && !in_quotes){
         if (inp[i + 1] == '>'){
@@ -56,6 +55,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
             }
         } else if (start == NULL) { // чтобы записать имя команды например, в начале 
             start = &inp[i];
+            printf("%c", *start);
         }  
     }
     if (start != NULL) {
