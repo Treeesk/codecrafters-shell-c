@@ -13,51 +13,49 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
   *outf = NULL; // Инициализируем outf как NULL
 
   for (int i = 0; inp[i]; i++) {
-      if (inp[i] == '1' && inp[i + 1] == '>' && !in_quotes) { // Обработка перенаправления вывода 1>
+    if (inp[i] == '\\' && (inp[i + 1] == '\\' || inp[i + 1] == '\'' || inp[i + 1] == '\"')){
+      memmove(&inp[i], &inp[i + 1], strlen(inp[i + 1]) + 1); // strlen(inp[i + 1]) + 1 inp[i + 1]-начинаем длину считать со следующего символа, +1 - для \0
+      continue;
+    }
+
+    if (inp[i] == '1' && inp[i + 1] == '>' && !in_quotes) { // Обработка перенаправления вывода 1>
           inp[i] = '\0'; // Завершаем текущий аргумент
           *outf = &inp[i + 2]; // Указываем на начало имени файла
           while (**outf == ' ') { // Пропускаем пробелы
               (*outf)++;
           }
           break; // Завершаем разбор, так как дальше идет имя файла
-      }
-      if (inp[i] == '>' && !in_quotes) { // Обработка перенаправления вывода >
+    }
+    if (inp[i] == '>' && !in_quotes) { // Обработка перенаправления вывода >
           inp[i] = '\0'; // Завершаем текущий аргумент
           *outf = &inp[i + 1]; // Указываем на начало имени файла
           while (**outf == ' ') { // Пропускаем пробелы
               (*outf)++;
           }
           break; // Завершаем разбор, так как дальше идет имя файла
-      }
+    }
 
-      if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) { // Обработка кавычек
+    if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) { // Обработка кавычек
           in_quotes = 1;
           start = &inp[i + 1]; // Начинаем новый аргумент после кавычки
           type_quotes = inp[i];
-      } 
-      else if (inp[i] == type_quotes && in_quotes) { // Завершение кавычек
+    } 
+    else if (inp[i] == type_quotes && in_quotes) { // Завершение кавычек
           in_quotes = 0;
           inp[i] = '\0'; // Завершаем текущий аргумент
           argv[(*argc)++] = start;
           start = NULL; // Сбрасываем указатель на начало аргумента
-      } 
-      else if (inp[i] == ' ' && !in_quotes) { // Обработка пробелов
+    } 
+    else if (inp[i] == ' ' && !in_quotes) { // Обработка пробелов
         if (start != NULL) {
           inp[i] = '\0'; // Завершаем текущий аргумент
           argv[(*argc)++] = start; // Добавляем аргумент в массив
           start = NULL; // Сбрасываем указатель на начало аргумента
           }
         }
-      else if (start == NULL) { // Начало нового аргумента
+    else if (start == NULL) { // Начало нового аргумента
         start = &inp[i];
-      }
-      // else if (in_quotes && inp[i] == '\\'){
-      //   if (inp[i + 1] == '\\' || inp[i + 1] == '$' || inp[i + 1] == '\'' || inp[i + 1] == '\"'){
-      //     i++;
-      //     buffer[ind_buf] = inp[i];
-      //   }
-      // }
-      // buffer[ind_buf++] = inp[i];
+    }
   }
 
   if (start != NULL) { // Последний аргумент
