@@ -203,7 +203,6 @@ int main() {
       int argc = 0;
       char *output_file = NULL;
       parse_input(input, argv, &argc, &output_file);
-      printf("%s", argv[0]);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
       if (pth != NULL)
         fork_func(pth, argv, output_file); 
