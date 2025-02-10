@@ -23,7 +23,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           }
           break; // Завершаем разбор, так как дальше идет имя файла
       }
-
       if (inp[i] == '>' && !in_quotes) { // Обработка перенаправления вывода >
           inp[i] = '\0'; // Завершаем текущий аргумент
           *outf = &inp[i + 1]; // Указываем на начало имени файла
@@ -42,7 +41,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           in_quotes = 0;
           buffer[ind_buf] = '\0';
           inp[i] = '\0'; // Завершаем текущий аргумент
-          argv[(*argc)++] = strdup(buffer); // Добавляем аргумент в массив
+          strcpy(argv[(*argc)++], buffer);
           // start = NULL; // Сбрасываем указатель на начало аргумента
           ind_buf = 0;
       } 
@@ -52,7 +51,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
               // argv[(*argc)++] = start; // Добавляем аргумент в массив
               // start = NULL; // Сбрасываем указатель на начало аргумента
               buffer[ind_buf] = '\0';
-              argv[(*argc)++] = strdup(buffer);
+              strcpy(argv[(*argc)++], buffer);
               ind_buf = 0;
             }
           }
@@ -73,7 +72,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
   // }
   if (ind_buf > 0){
     buffer[ind_buf] = '\0';
-    argv[*(argc)++] = strdup(buffer);
+    strcpy(argv[(*argc)++], buffer);
   }
 
   argv[*argc] = NULL; // Завершаем массив аргументов NULL
