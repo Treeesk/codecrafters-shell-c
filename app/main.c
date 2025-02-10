@@ -49,6 +49,10 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
       } else if (start == NULL) { // Начало нового аргумента
           start = &inp[i];
       }
+      else if (in_quotes && inp[i] == '\\'){
+        if (inp[i + 1] == '\\' || inp[i + 1] == '$' || inp[i + 1] == '\'' || inp[i + 1] == '\"')
+          i++;
+      }
   }
 
   if (start != NULL) { // Последний аргумент
