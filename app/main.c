@@ -98,7 +98,6 @@ char *check_path(char *f){
       if (access(f, F_OK) == 0) {
           return f; // Возвращаем путь, если файл существует
       }
-      return NULL; // Файл не существует
   }
   char *path_check = getenv("PATH");
   if (path_check == NULL)
