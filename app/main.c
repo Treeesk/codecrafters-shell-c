@@ -23,7 +23,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
       }
       else if (inp[i] == '1' && !in_quotes && inp[i + 1] == '>'){
         inp[i] = '\0';
-        *ouf = &inp[i + 2];
+        *outf = &inp[i + 2];
         while (**outf == ' ')
           (*outf)++;
         break;
