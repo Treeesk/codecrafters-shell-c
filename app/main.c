@@ -7,59 +7,46 @@
 #include <fcntl.h>
 
 void parse_input(char *inp, char **argv, int *argc, char **outf) {
-  //когда start = null находимся в состоянии поиска нового аргумента
-    char *start = inp;
-    short int in_quotes = 0;
-    char type_quotes = 0;
-    *outf = NULL;
-    for (int i = 0; inp[i]; i++) {
-      if (inp[i] == '-' && !in_quotes){
-        start = &inp[i];
-        i += 2;
-        inp[i] = '\0';
-        argv[*(argc++)] = start;
-        start = NULL;
-      } 
-      if (inp[i] == '1' && !in_quotes){
-        if (inp[i + 1] == '>'){
-            inp[i++] = '\0';
+  char *start = inp;
+  short int in_quotes = 0;
+  char type_quotes = 0;
+  *outf = NULL; // Инициализируем outf как NULL
+
+  for (int i = 0; inp[i]; i++) {
+      if (inp[i] == '>' && !in_quotes) { // Обработка перенаправления вывода
+          inp[i] = '\0'; // Завершаем текущий аргумент
+          *outf = &inp[i + 1]; // Указываем на начало имени файла
+          while (**outf == ' ') { // Пропускаем пробелы
+              (*outf)++;
           }
-          inp[i] = '\0';
-          *outf = &inp[i + 1];
-          while (*outf[0] == ' ')
-            (*outf)++;
-        } 
-      else if (inp[i] == '>' && !in_quotes){
-          inp[i] = '\0';
-          *outf = &inp[i + 1];
-          while (*outf[0] == ' '){
-            (*outf)++;
+          break; // Завершаем разбор, так как дальше идет имя файла
+      }
+
+      if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) { // Обработка кавычек
+          in_quotes = 1;
+          start = &inp[i + 1]; // Начинаем новый аргумент после кавычки
+          type_quotes = inp[i];
+      } else if (inp[i] == type_quotes && in_quotes) { // Завершение кавычек
+          in_quotes = 0;
+          inp[i] = '\0'; // Завершаем текущий аргумент
+          argv[(*argc)++] = start; // Добавляем аргумент в массив
+          start = NULL; // Сбрасываем указатель на начало аргумента
+      } else if (inp[i] == ' ' && !in_quotes) { // Обработка пробелов
+          if (start != NULL) {
+              inp[i] = '\0'; // Завершаем текущий аргумент
+              argv[(*argc)++] = start; // Добавляем аргумент в массив
+              start = NULL; // Сбрасываем указатель на начало аргумента
           }
-        }
-        if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0) {
-            in_quotes = 1;
-            start = &inp[i + 1];
-            type_quotes = inp[i];
-        } else if (type_quotes ==  inp[i] && in_quotes == 1) {
-            in_quotes = 0;
-            inp[i] = '\0';
-            argv[(*argc)++] = start;
-            start = NULL;
-            type_quotes = 0;
-        } else if (inp[i] == ' ' && !in_quotes) { // чтобы закончить запись команды, которая в начале например стоит
-            if (start != NULL) {
-                inp[i] = '\0';
-                argv[(*argc)++] = start;
-                start = NULL;
-            }
-        } else if (start == NULL) { // чтобы записать имя команды например, в начале 
-            start = &inp[i];
-        }  
-    }
-    if (start != NULL) {
-        argv[(*argc)++] = start;
-    }
-    argv[*argc] = NULL;
+      } else if (start == NULL) { // Начало нового аргумента
+          start = &inp[i];
+      }
+  }
+
+  if (start != NULL) { // Последний аргумент
+      argv[(*argc)++] = start;
+  }
+
+  argv[*argc] = NULL; // Завершаем массив аргументов NULL
 }
 
 
