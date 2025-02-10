@@ -10,8 +10,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
   char *start = inp;
   short int in_quotes = 0;
   char type_quotes = 0;
-  char buffer[100];
-  int ind_buf = 0;
   *outf = NULL; // Инициализируем outf как NULL
 
   for (int i = 0; inp[i]; i++) {
@@ -34,47 +32,37 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
 
       if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) { // Обработка кавычек
           in_quotes = 1;
-//          start = &inp[i + 1]; // Начинаем новый аргумент после кавычки
+          start = &inp[i + 1]; // Начинаем новый аргумент после кавычки
           type_quotes = inp[i];
       } 
       else if (inp[i] == type_quotes && in_quotes) { // Завершение кавычек
           in_quotes = 0;
-          buffer[ind_buf] = '\0';
           inp[i] = '\0'; // Завершаем текущий аргумент
-          strcpy(argv[(*argc)++], buffer);
-          // start = NULL; // Сбрасываем указатель на начало аргумента
-          ind_buf = 0;
+          argv[(*argc)++] = start;
+          start = NULL; // Сбрасываем указатель на начало аргумента
       } 
       else if (inp[i] == ' ' && !in_quotes) { // Обработка пробелов
-          if (ind_buf > 0) {
-              // inp[i] = '\0'; // Завершаем текущий аргумент
-              // argv[(*argc)++] = start; // Добавляем аргумент в массив
-              // start = NULL; // Сбрасываем указатель на начало аргумента
-              buffer[ind_buf] = '\0';
-              strcpy(argv[(*argc)++], buffer);
-              ind_buf = 0;
-            }
+        if (start != NULL) {
+          inp[i] = '\0'; // Завершаем текущий аргумент
+          argv[(*argc)++] = start; // Добавляем аргумент в массив
+          start = NULL; // Сбрасываем указатель на начало аргумента
           }
-      // } else if (start == NULL) { // Начало нового аргумента
-      //     start = &inp[i];
-      // }
-      else if (in_quotes && inp[i] == '\\'){
-        if (inp[i + 1] == '\\' || inp[i + 1] == '$' || inp[i + 1] == '\'' || inp[i + 1] == '\"'){
-          i++;
-          buffer[ind_buf] = inp[i];
         }
+      else if (start == NULL) { // Начало нового аргумента
+        start = &inp[i];
       }
-      buffer[ind_buf++] = inp[i];
+      // else if (in_quotes && inp[i] == '\\'){
+      //   if (inp[i + 1] == '\\' || inp[i + 1] == '$' || inp[i + 1] == '\'' || inp[i + 1] == '\"'){
+      //     i++;
+      //     buffer[ind_buf] = inp[i];
+      //   }
+      // }
+      // buffer[ind_buf++] = inp[i];
   }
 
-  // if (start != NULL) { // Последний аргумент
-  //     argv[(*argc)++] = start;
-  // }
-  if (ind_buf > 0){
-    buffer[ind_buf] = '\0';
-    strcpy(argv[(*argc)++], buffer);
+  if (start != NULL) { // Последний аргумент
+      argv[(*argc)++] = start;
   }
-
   argv[*argc] = NULL; // Завершаем массив аргументов NULL
 }
 
