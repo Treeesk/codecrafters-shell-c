@@ -27,13 +27,13 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           inp[i] = '\0';
           *outf = &inp[i + 1];
           while (*outf[0] == ' ')
-            outf++;
+            (*outf)++;
         } 
       else if (inp[i] == '>' && !in_quotes){
           inp[i] = '\0';
           *outf = &inp[i + 1];
           while (*outf[0] == ' '){
-            outf++;
+            (*outf)++;
           }
         }
         if ((inp[i] == '\'' || inp[i] == '\"') && in_quotes == 0) {
