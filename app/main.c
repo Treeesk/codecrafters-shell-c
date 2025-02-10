@@ -13,7 +13,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
   *outf = NULL; // Инициализируем outf как NULL
 
   for (int i = 0; inp[i]; i++) {
-    if (inp[i] == '\\' && (inp[i + 1] == '\\' || (inp[i + 1] == '\'' || inp[i + 1] == '\"' && in_quotes))){
+    if (inp[i] == '\\' && (inp[i + 1] == '\\' || inp[i + 1] == '\'' || inp[i + 1] == '\"')){
       memmove(&inp[i], &inp[i + 1], strlen(inp[i + 1]) + 1); // strlen(inp[i + 1]) + 1 inp[i + 1]-начинаем длину считать со следующего символа, +1 - для \0
       continue;
     }
@@ -26,7 +26,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           }
           break; // Завершаем разбор, так как дальше идет имя файла
     }
-    if (inp[i] == '>' && !in_quotes) { // Обработка перенаправления вывода >
+    else if (inp[i] == '>' && !in_quotes) { // Обработка перенаправления вывода >
           inp[i] = '\0'; // Завершаем текущий аргумент
           *outf = &inp[i + 1]; // Указываем на начало имени файла
           while (**outf == ' ') { // Пропускаем пробелы
@@ -35,7 +35,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           break; // Завершаем разбор, так как дальше идет имя файла
     }
 
-    if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) { // Обработка кавычек
+    else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) { // Обработка кавычек
           in_quotes = 1;
           start = &inp[i + 1]; // Начинаем новый аргумент после кавычки
           type_quotes = inp[i];
