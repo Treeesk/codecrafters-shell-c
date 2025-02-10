@@ -54,7 +54,9 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           argv[(*argc)++] = start; // Добавляем аргумент в массив
           start = NULL; // Сбрасываем указатель на начало аргумента
           }
-        }
+        while (inp[i + 1] == ' ')
+          i++;
+      }
     else if (start == NULL) { // Начало нового аргумента
         start = &inp[i];
     }
