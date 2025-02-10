@@ -193,6 +193,7 @@ int main() {
       char *argv[10];
       int argc = 0;
       char *output_file = NULL;
+      printf("hello");
       parse_input(input, argv, &argc, &output_file);
       printf("%s",argv[1]);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
