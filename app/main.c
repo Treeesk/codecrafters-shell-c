@@ -53,6 +53,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     if (start != NULL) {
         argv[(*argc)++] = start;
     }
+    printf("hello");
     argv[*argc] = NULL;
 }
 
@@ -194,7 +195,6 @@ int main() {
       int argc = 0;
       char *output_file = NULL;
       parse_input(input, argv, &argc, &output_file);
-      printf("hello");
       printf("%s",argv[1]);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
       if (pth != NULL)
