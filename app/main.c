@@ -12,8 +12,15 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     short int in_quotes = 0;
     char type_quotes = 0;
     for (int i = 0; inp[i]; i++) {
-        if (inp[i] == '1' && !in_quotes){
-          if (inp[i + 1] == '>'){
+      if (inp[i] == '-' && !in_quotes){
+        *start = &inp[i];
+        i += 2;
+        inp[i] = '\0';
+        argv[*(argc++)] = start;
+        start = NULL;
+      } 
+      if (inp[i] == '1' && !in_quotes){
+        if (inp[i + 1] == '>'){
             inp[i++] = '\0';
           }
           inp[i] = '\0';
@@ -23,7 +30,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           break;
         } 
         else if (inp[i] == '>' && !in_quotes){
-          inp[i] = '\0';
+          inp[i] = '\0 ';
           *outf = &inp[i + 1];
           while (*outf[0] == ' '){
             outf++;
@@ -48,12 +55,11 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
             }
         } else if (start == NULL) { // чтобы записать имя команды например, в начале 
             start = &inp[i];
-        }
+        }  
     }
     if (start != NULL) {
         argv[(*argc)++] = start;
     }
-    printf("hello");
     argv[*argc] = NULL;
 }
 
