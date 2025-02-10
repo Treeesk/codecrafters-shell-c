@@ -10,24 +10,27 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
   char *start = inp;
   short int in_quotes = 0;
   char type_quotes = 0;
-  *outf = NULL;
+  *outf = NULL; // Инициализируем outf как NULL
 
   for (int i = 0; inp[i]; i++) {
-      if (inp[i] == '>' && !in_quotes) { // Обработка перенаправления вывода
-        inp[i] = '\0'; // Завершаем текущий аргумент
-        *outf = &inp[i + 1]; // Указываем на начало имени файла
-        while (**outf == ' ') { // Пропускаем пробелы
-            (*outf)++;
-        }
-        break; // Завершаем разбор, так как дальше идет имя файла
+      if (inp[i] == '1' && inp[i + 1] == '>' && !in_quotes) { // Обработка перенаправления вывода 1>
+          inp[i] = '\0'; // Завершаем текущий аргумент
+          *outf = &inp[i + 2]; // Указываем на начало имени файла
+          while (**outf == ' ') { // Пропускаем пробелы
+              (*outf)++;
+          }
+          break; // Завершаем разбор, так как дальше идет имя файла
       }
-      else if (inp[i] == '1' && !in_quotes && inp[i + 1] == '>'){
-        inp[i] = '\0';
-        *outf = &inp[i + 2];
-        while (**outf == ' ')
-          (*outf)++;
-        break;
+
+      if (inp[i] == '>' && !in_quotes) { // Обработка перенаправления вывода >
+          inp[i] = '\0'; // Завершаем текущий аргумент
+          *outf = &inp[i + 1]; // Указываем на начало имени файла
+          while (**outf == ' ') { // Пропускаем пробелы
+              (*outf)++;
+          }
+          break; // Завершаем разбор, так как дальше идет имя файла
       }
+
       if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) { // Обработка кавычек
           in_quotes = 1;
           start = &inp[i + 1]; // Начинаем новый аргумент после кавычки
@@ -47,13 +50,13 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           start = &inp[i];
       }
   }
+
   if (start != NULL) { // Последний аргумент
       argv[(*argc)++] = start;
   }
 
   argv[*argc] = NULL; // Завершаем массив аргументов NULL
 }
-
 
 void fork_func(char *full_path, char **argv, char *outf){
   pid_t pid = fork();
