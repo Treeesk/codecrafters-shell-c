@@ -13,7 +13,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     char type_quotes = 0;
     for (int i = 0; inp[i]; i++) {
       if (inp[i] == '-' && !in_quotes){
-        *start = &inp[i];
+        start = &inp[i];
         i += 2;
         inp[i] = '\0';
         argv[*(argc++)] = start;
