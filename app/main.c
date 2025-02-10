@@ -15,6 +15,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
   for (int i = 0; inp[i]; i++) {
     if (inp[i] == '\\' && (inp[i + 1] == '\\' || inp[i + 1] == '\'' || inp[i + 1] == '\"')){
       memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // strlen(inp[i + 1]) + 1 inp[i + 1]-начинаем длину считать со следующего символа, +1 - для \0
+      i--;
       continue;
     }
 
@@ -93,16 +94,10 @@ void fork_func(char *full_path, char **argv, char *outf){
 }
 
 char *check_path(char *f){
-    // Если путь содержит пробелы, проверяем его напрямую
-    if (strchr(f, ' ') != NULL) {
-      if (access(f, F_OK) == 0) {
-          return f; // Возвращаем путь, если файл существует
-      }
-  }
   char *path_check = getenv("PATH");
   if (path_check == NULL)
     return NULL;
-  
+
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
   static char full_path[1024];
