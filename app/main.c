@@ -93,6 +93,13 @@ void fork_func(char *full_path, char **argv, char *outf){
 }
 
 char *check_path(char *f){
+    // Если путь содержит пробелы, проверяем его напрямую
+    if (strchr(f, ' ') != NULL) {
+      if (access(f, F_OK) == 0) {
+          return f; // Возвращаем путь, если файл существует
+      }
+      return NULL; // Файл не существует
+  }
   char *path_check = getenv("PATH");
   if (path_check == NULL)
     return NULL;
