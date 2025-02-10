@@ -11,6 +11,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     char *start = inp;
     short int in_quotes = 0;
     char type_quotes = 0;
+    *outf = NULL;
     for (int i = 0; inp[i]; i++) {
       if (inp[i] == '-' && !in_quotes){
         start = &inp[i];
@@ -28,8 +29,8 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           while (*outf[0] == ' ')
             outf++;
         } 
-        else if (inp[i] == '>' && !in_quotes){
-          inp[i] = '\0 ';
+      else if (inp[i] == '>' && !in_quotes){
+          inp[i] = '\0';
           *outf = &inp[i + 1];
           while (*outf[0] == ' '){
             outf++;
