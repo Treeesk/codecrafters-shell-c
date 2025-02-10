@@ -10,18 +10,24 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
   char *start = inp;
   short int in_quotes = 0;
   char type_quotes = 0;
-  *outf = NULL; // Инициализируем outf как NULL
+  *outf = NULL;
 
   for (int i = 0; inp[i]; i++) {
       if (inp[i] == '>' && !in_quotes) { // Обработка перенаправления вывода
-          inp[i] = '\0'; // Завершаем текущий аргумент
-          *outf = &inp[i + 1]; // Указываем на начало имени файла
-          while (**outf == ' ') { // Пропускаем пробелы
-              (*outf)++;
-          }
-          break; // Завершаем разбор, так как дальше идет имя файла
+        inp[i] = '\0'; // Завершаем текущий аргумент
+        *outf = &inp[i + 1]; // Указываем на начало имени файла
+        while (**outf == ' ') { // Пропускаем пробелы
+            (*outf)++;
+        }
+        break; // Завершаем разбор, так как дальше идет имя файла
       }
-
+      else if (inp[i] == '1' && !in_quotes && inp[i + 1] == '>'){
+        inp[i] = '\0';
+        *ouf = &inp[i + 2];
+        while (**outf == ' ')
+          (*outf)++;
+        break;
+      }
       if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) { // Обработка кавычек
           in_quotes = 1;
           start = &inp[i + 1]; // Начинаем новый аргумент после кавычки
@@ -41,7 +47,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           start = &inp[i];
       }
   }
-
   if (start != NULL) { // Последний аргумент
       argv[(*argc)++] = start;
   }
@@ -106,44 +111,53 @@ int main() {
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "echo ", 5) == 0){
-        int i = 5;
-        short int cnt_space = 0;
-        char type_quotes = 0;
-        while (input[i]){
-          if (input[i] == '\''){
-            i++;
-            while (input[i] != '\'')
-              printf("%c", input[i++]);
-          }
-          else if (input[i] == '\"'){
-            type_quotes = input[i];
-            i++;
-            while (input[i] && input[i] != type_quotes){
-              if (input[i] == '\\')
-                if (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"' || input[i + 1] == '\\')
-                  i++;
-              printf("%c", input[i++]);
-            }
-            cnt_space = 0;
-            type_quotes = 0;
-          }
-          else {
-            if (input[i] == '\\' && (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"' || input[i + 1] == ' ')){
-              cnt_space = 0;
-              i++;
-            }
-            if (input[i] != ' ' && input[i] != '\\'){
-              printf("%c", input[i]);
-              cnt_space = 0;
-            }
-            else if (cnt_space == 0 && input[i] == ' '){
-              printf("%c", input[i]);
-              cnt_space = 1;
-            }
-          }
-          i++;
-        }
-      printf("\n");
+      //   int i = 5;
+      //   short int cnt_space = 0;
+      //   char type_quotes = 0;
+      //   while (input[i]){
+      //     if (input[i] == '\''){
+      //       i++;
+      //       while (input[i] != '\'')
+      //         printf("%c", input[i++]);
+      //     }
+      //     else if (input[i] == '\"'){
+      //       type_quotes = input[i];
+      //       i++;
+      //       while (input[i] && input[i] != type_quotes){
+      //         if (input[i] == '\\')
+      //           if (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"' || input[i + 1] == '\\')
+      //             i++;
+      //         printf("%c", input[i++]);
+      //       }
+      //       cnt_space = 0;
+      //       type_quotes = 0;
+      //     }
+      //     else {
+      //       if (input[i] == '\\' && (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"' || input[i + 1] == ' ')){
+      //         cnt_space = 0;
+      //         i++;
+      //       }
+      //       if (input[i] != ' ' && input[i] != '\\'){
+      //         printf("%c", input[i]);
+      //         cnt_space = 0;
+      //       }
+      //       else if (cnt_space == 0 && input[i] == ' '){
+      //         printf("%c", input[i]);
+      //         cnt_space = 1;
+      //       }
+      //     }
+      //     i++;
+      //   }
+      // printf("\n");
+      char *argv[10];
+      int argc = 0;
+      char *output_file = NULL;
+      parse_input(input, argv, &argc, &output_file);
+      char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
+      if (pth != NULL)
+        fork_func(pth, argv, output_file); 
+      else 
+        printf("%s: command not found\n", argv[0]);
     }
     else if (strncmp(input, "type ", 5) == 0){
       if (strcmp(input, "type type") == 0)
