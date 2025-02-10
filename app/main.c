@@ -52,7 +52,9 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
               buffer[ind_buf] = '\0';
               argv[(*argc)++] = strdup(buffer);
               ind_buf = 0;
+            }
           }
+        }
       // } else if (start == NULL) { // Начало нового аргумента
       //     start = &inp[i];
       // }
