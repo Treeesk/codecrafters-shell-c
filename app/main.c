@@ -13,7 +13,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
   *outf = NULL; // Инициализируем outf как NULL
 
   for (int i = 0; inp[i]; i++) {
-    if (inp[i] == '\\' && inp[i + 1] == '\\'){
+    if (inp[i] == '\\' && !in_quotes && (inp[i + 1] == '\\' || inp[i + 1] == '\'' || inp[i + 1] == '\"')){
       memmove(&inp[i], &inp[i + 1], strlen(inp[i + 1]) + 1); // strlen(inp[i + 1]) + 1 inp[i + 1]-начинаем длину считать со следующего символа, +1 - для \0
       continue;
     }
