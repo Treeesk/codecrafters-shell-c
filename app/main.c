@@ -132,24 +132,24 @@ int main() {
     //         cnt_space = 0;
     //         type_quotes = 0;
     //       }
-          else {
-            if (input[i] == '\\' && (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"' || input[i + 1] == ' ')){
-              cnt_space = 0;
-              i++;
-            }
-            if (input[i] != ' ' && input[i] != '\\'){
-              printf("%c", input[i]);
-              cnt_space = 0;
-            }
-            else if (cnt_space == 0 && input[i] == ' '){
-              printf("%c", input[i]);
-              cnt_space = 1;
-            }
-          }
-          i++;
-        }
-      printf("\n");
-    }
+    //       else {
+    //         if (input[i] == '\\' && (input[i + 1] == '$' || input[i + 1] == '\'' || input[i + 1] == '\"' || input[i + 1] == ' ')){
+    //           cnt_space = 0;
+    //           i++;
+    //         }
+    //         if (input[i] != ' ' && input[i] != '\\'){
+    //           printf("%c", input[i]);
+    //           cnt_space = 0;
+    //         }
+    //         else if (cnt_space == 0 && input[i] == ' '){
+    //           printf("%c", input[i]);
+    //           cnt_space = 1;
+    //         }
+    //       }
+    //       i++;
+    //     }
+    //   printf("\n");
+    // }
     else if (strncmp(input, "type ", 5) == 0){
       if (strcmp(input, "type type") == 0)
         printf("type is a shell builtin\n");
