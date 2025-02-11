@@ -18,7 +18,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
       continue;
     }
 
-    if (inp[i] == '1' && inp[i + 1] == '>' && !in_quotes) { // Обработка перенаправления вывода 1>
+    else if (inp[i] == '1' && inp[i + 1] == '>' && !in_quotes) { // Обработка перенаправления вывода 1>
           inp[i] = '\0'; // Завершаем текущий аргумент
           *outf = &inp[i + 2]; // Указываем на начало имени файла
           while (**outf == ' ') { // Пропускаем пробелы
