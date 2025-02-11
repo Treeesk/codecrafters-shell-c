@@ -36,17 +36,15 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     }
 
     else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) { // Обработка кавычек
-          in_quotes = 1;
-          start = &inp[i + 1]; // Начинаем новый аргумент после кавычки
-          type_quotes = inp[i];
+        in_quotes = 1;
+        start = &inp[i + 1]; // Начинаем новый аргумент после кавычки
+        type_quotes = inp[i];
     } 
     else if (inp[i] == type_quotes && in_quotes) { // Завершение кавычек
-      if (i > 0 && inp[i - 1] != '\\'){
-          in_quotes = 0;
-          inp[i] = '\0'; // Завершаем текущий аргумент
-          argv[(*argc)++] = start;
-          start = NULL; // Сбрасываем указатель на начало аргумента
-      }
+        in_quotes = 0;
+        inp[i] = '\0'; // Завершаем текущий аргумент
+        argv[(*argc)++] = start;
+        start = NULL; // Сбрасываем указатель на начало аргумента
     } 
     else if (inp[i] == ' ' && !in_quotes) { // Обработка пробелов
         if (start != NULL) {
