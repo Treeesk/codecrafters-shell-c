@@ -15,7 +15,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
   for (int i = 0; inp[i]; i++) {
     if (inp[i] == '\\' && ((type_quotes == '\"' && (inp[i + 1] == '\\' || inp[i + 1] == '\"')) || (type_quotes == '\'' && (inp[i + 1] == '\\' || inp[i + 1] == '\'' || inp[i + 1] == '\"')))){
       memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // strlen(inp[i + 1]) + 1 inp[i + 1]-начинаем длину считать со следующего символа, +1 - для \0
-      i++;
       continue;
     }
 
@@ -44,7 +43,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     else if (inp[i] == type_quotes && in_quotes) { // Завершение кавычек
       if (i > 0 && inp[i - 1] != '\\'){
           in_quotes = 0;
-          inp[i] = '\0'; // Завершаем текущий аргумент
+          inp[i - 1] = '\0'; // Завершаем текущий аргумент
           argv[(*argc)++] = start;
           start = NULL; // Сбрасываем указатель на начало аргумента
       }
