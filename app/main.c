@@ -170,7 +170,7 @@ int main() {
       if (pth != NULL)
         fork_func(pth, argv, output_file); 
       else {
-        printf("%s", argv[0]);
+        printf("%s\n", argv[0]);
         printf("%s: command not found\n", argv[0]); 
       }
     }
