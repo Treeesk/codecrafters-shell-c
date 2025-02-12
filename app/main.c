@@ -40,7 +40,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
         }
 
         // Обработка кавычек
-        else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes && ind_slash != i) {
+        else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) {
             in_quotes = 1;
             start = &inp[i + 1];
             type_quotes = inp[i];
