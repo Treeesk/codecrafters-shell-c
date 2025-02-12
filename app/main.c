@@ -16,7 +16,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     for (int i = 0; inp[i]; i++) {
         // Обработка экранированных символов
         if (inp[i] == '\\' && ((type_quotes == '\"' && (inp[i + 1] == '\\' || inp[i + 1] == '\"')) || (type_quotes == '\'' && (inp[i + 1] == '\\' || inp[i + 1] == '\'' || inp[i + 1] == '\"')))) {
-          ind_slash = i; 
+          ind_slash = 1; 
           memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
           continue;
         }
@@ -45,7 +45,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
             start = &inp[i + 1];
             type_quotes = inp[i];
         } 
-        else if (inp[i] == type_quotes && in_quotes && ind_slash != i) { // Завершение кавычек
+        else if (inp[i] == type_quotes && in_quotes && !ind_slash) { // Завершение кавычек
             in_quotes = 0;
             inp[i] = '\0'; // Завершаем текущий аргумент
             argv[(*argc)++] = start;
@@ -64,6 +64,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
         else if (start == NULL) {
             start = &inp[i];
         }
+        ind_slash = 0;
     }
 
     if (start != NULL) {
