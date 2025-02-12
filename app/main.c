@@ -69,7 +69,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     if (start != NULL) {
         argv[(*argc)++] = start;
     }
-    argv[*argc] = NULL; // Завершаем массив аргументов NULL
 }
 
 void fork_func(char *full_path, char **argv, char *outf){
@@ -173,7 +172,6 @@ int main() {
       if (pth != NULL)
         fork_func(pth, argv, output_file); 
       else {
-        printf("%s\n", argv[0]);
         printf("%s: command not found\n", argv[0]); 
       }
     }
