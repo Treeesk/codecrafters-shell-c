@@ -45,7 +45,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
             start = &inp[i + 1];
             type_quotes = inp[i];
         } 
-        else if (inp[i] == type_quotes && in_quotes && ind_slash) { // Завершение кавычек
+        else if (inp[i] == type_quotes && in_quotes) { // Завершение кавычек
             in_quotes = 0;
             inp[i] = '\0'; // Завершаем текущий аргумент
             argv[(*argc)++] = start;
@@ -64,7 +64,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
         else if (start == NULL) {
             start = &inp[i];
         }
-        ind_slash = 0;
     }
 
     if (start != NULL) {
