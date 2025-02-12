@@ -7,69 +7,69 @@
 #include <fcntl.h>
 
 void parse_input(char *inp, char **argv, int *argc, char **outf) {
-  char *start = inp;
-  short int in_quotes = 0;
-  char type_quotes = 0;
-  *outf = NULL; // Инициализируем outf как NULL
-  int ind_slash;
+    char *start = inp;
+    short int in_quotes = 0;
+    char type_quotes = 0;
+    *outf = NULL; // Инициализируем outf как NULL
+    int ind_slash;
 
-  for (int i = 0; inp[i]; i++) {
-      // Обработка экранированных символов
-      if (inp[i] == '\\' && ((type_quotes == '\"' && (inp[i + 1] == '\\' || inp[i + 1] == '\"')) || (type_quotes == '\'' && (inp[i + 1] == '\\' || inp[i + 1] == '\'' || inp[i + 1] == '\"')))) {
-        ind_slash = i; 
-        memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
-        continue;
-      }
+    for (int i = 0; inp[i]; i++) {
+        // Обработка экранированных символов
+        if (inp[i] == '\\' && ((type_quotes == '\"' && (inp[i + 1] == '\\' || inp[i + 1] == '\"')) || (type_quotes == '\'' && (inp[i + 1] == '\\' || inp[i + 1] == '\'' || inp[i + 1] == '\"')))) {
+          ind_slash = i; 
+          memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
+          continue;
+        }
 
-      // Обработка перенаправления вывода
-      if (inp[i] == '1' && inp[i + 1] == '>' && !in_quotes) {
-          inp[i] = '\0';
-          *outf = &inp[i + 2];
-          while (**outf == ' ') {
-              (*outf)++;
-          }
-          break;
-      }
-      else if (inp[i] == '>' && !in_quotes) {
-          inp[i] = '\0';
-          *outf = &inp[i + 1];
-          while (**outf == ' ') {
-              (*outf)++;
-          }
-          break;
-      }
+        // Обработка перенаправления вывода
+        if (inp[i] == '1' && inp[i + 1] == '>' && !in_quotes) {
+            inp[i] = '\0';
+            *outf = &inp[i + 2];
+            while (**outf == ' ') {
+                (*outf)++;
+            }
+            break;
+        }
+        else if (inp[i] == '>' && !in_quotes) {
+            inp[i] = '\0';
+            *outf = &inp[i + 1];
+            while (**outf == ' ') {
+                (*outf)++;
+            }
+            break;
+        }
 
-      // Обработка кавычек
-      else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) {
-          in_quotes = 1;
-          start = &inp[i + 1];
-          type_quotes = inp[i];
-      } 
-      else if (inp[i] == type_quotes && in_quotes) { // Завершение кавычек
-          in_quotes = 0;
-          inp[i] = '\0'; // Завершаем текущий аргумент
-          argv[(*argc)++] = start;
-          start = NULL; // Сбрасываем указатель на начало аргумента
-      } 
-      // Обработка пробелов
-      else if (inp[i] == ' ' && !in_quotes) {
-          if (start != NULL) {
-              inp[i] = '\0';
-              argv[(*argc)++] = start;
-              start = NULL;
-          }
-          while (inp[i + 1] == ' ')
-              i++;
-      }
-      else if (start == NULL) {
-          start = &inp[i];
-      }
-  }
+        // Обработка кавычек
+        else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) {
+            in_quotes = 1;
+            start = &inp[i + 1];
+            type_quotes = inp[i];
+        } 
+        else if (inp[i] == type_quotes && in_quotes && ind_slash != i - 1) { // Завершение кавычек
+            in_quotes = 0;
+            inp[i] = '\0'; // Завершаем текущий аргумент
+            argv[(*argc)++] = start;
+            start = NULL; // Сбрасываем указатель на начало аргумента
+        } 
+        // Обработка пробелов
+        else if (inp[i] == ' ' && !in_quotes) {
+            if (start != NULL) {
+                inp[i] = '\0';
+                argv[(*argc)++] = start;
+                start = NULL;
+            }
+            while (inp[i + 1] == ' ')
+                i++;
+        }
+        else if (start == NULL) {
+            start = &inp[i];
+        }
+    }
 
-  if (start != NULL) {
-      argv[(*argc)++] = start;
-  }
-  argv[*argc] = NULL; // Завершаем массив аргументов NULL
+    if (start != NULL) {
+        argv[(*argc)++] = start;
+    }
+    argv[*argc] = NULL; // Завершаем массив аргументов NULL
 }
 
 void fork_func(char *full_path, char **argv, char *outf){
