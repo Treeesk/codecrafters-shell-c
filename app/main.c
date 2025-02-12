@@ -69,6 +69,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     if (start != NULL) {
         argv[(*argc)++] = start;
     }
+    argv[*argc] = NULL;
 }
 
 void fork_func(char *full_path, char **argv, char *outf){
