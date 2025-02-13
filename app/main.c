@@ -18,7 +18,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
           continue;
         }
-        else if (inp[i] == '\\' && inp[i + 1] == ' '){
+        else if (inp[i] == '\\' && (inp[i + 1] == ' ' || inp[i + 1] == '\'' || inp[i + 1] == '\"')){
           memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
           continue;
         }
