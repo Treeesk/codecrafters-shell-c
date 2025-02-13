@@ -118,13 +118,12 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f){
         exit(1);
       }
       if (err_f){
-        dup2(2, fd);
-        close(fd);
+        dup2(fd, STDERR_FILENO);
       }
       else {
         dup2(fd, STDOUT_FILENO);
-        close(fd);
       }
+      close(fd);
     }
     execv(full_path, argv);
     perror("execv"); // если ошибка в Execv
