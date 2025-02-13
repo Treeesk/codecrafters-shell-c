@@ -39,14 +39,14 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
             type_quotes = inp[i];
         } 
         else if (inp[i] == type_quotes && in_quotes ) { // Завершение кавычек
-          if (inp[i + 1] == ' ' || inp[i + 1] == '\0'){
+          if (inp[i + 1] == ' ' || inp[i + 1] == '\0' || inp[i + 1] == '\"'){
             in_quotes = 0;
             inp[i] = '\0'; // Завершаем текущий аргумент
             argv[(*argc)++] = start;
             start = NULL; // Сбрасываем указатель на начало аргумента
           }
           else {
-            memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
+            memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1);
             continue;
           }
         } 
