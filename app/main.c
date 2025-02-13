@@ -34,11 +34,11 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
 
         else if (inp[i] == '2' && inp[i + 1] == '>' && !in_quotes){
           inp[i] = '\0';
-            *outf = &inp[i + 2];
-            while (**outf == ' ') {
-                (*outf)++;
-            }
-            break;
+          *outf = &inp[i + 2];
+          while (**outf == ' ') {
+              (*outf)++;
+          }
+          break;
         }
 
         // Обработка кавычек
