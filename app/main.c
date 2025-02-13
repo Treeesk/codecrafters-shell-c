@@ -6,17 +6,32 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_f) {
+void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_f, short int* app) {
     char *start = inp;
     short int in_quotes = 0;
     char type_quotes = 0;
     *outf = NULL; // Инициализируем outf как NULL
     *err_f = 0;
+    *app = 0;
 
     for (int i = 0; inp[i]; i++) {
 
         // Обработка перенаправления вывода
-        if (inp[i] == '1' && inp[i + 1] == '>' && !in_quotes) {
+        if ((inp[i] == '1' && inp[i + 1] == '>' && inp[i + 2] == '>') || (inp[i] == '>' && inp[i + 1] == '>') && !in_quotes){
+          inp[i] == '\0';
+          if (inp[i] == '1') {
+            *outf = &inp[i + 3];
+          }
+          else {
+            *outf = &inp[i + 2];
+          }
+          *app = 1;
+          while (**outf == ' ')
+            (*outf)++;
+          break;
+        }
+
+        else if (inp[i] == '1' && inp[i + 1] == '>' && !in_quotes) {
             inp[i] = '\0';
             *outf = &inp[i + 2];
             while (**outf == ' ') {
@@ -100,11 +115,11 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
     argv[*argc] = NULL;
 }
 
-void fork_func(char *full_path, char **argv, char *outf, short int err_f){
+void fork_func(char *full_path, char **argv, char *outf, short int err_f, short int app){
   pid_t pid = fork();
   if (pid == 0) {
     if (outf){
-      int flags = O_WRONLY | O_CREAT | O_TRUNC;
+      int flags = O_WRONLY | O_CREAT | (app? O_APPEND : O_TRUNC);
       int fd = open(outf, flags, 0666);
       if (fd == -1){
         perror("open");
@@ -202,10 +217,11 @@ int main() {
       int argc = 0;
       char *output_file = NULL;
       short int err_f = 0;
-      parse_input(input, argv, &argc, &output_file, &err_f);
+      short int appen = 0;
+      parse_input(input, argv, &argc, &output_file, &err_f, &appen);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
       if (pth != NULL)
-        fork_func(pth, argv, output_file, err_f); 
+        fork_func(pth, argv, output_file, err_f, appen); 
       else {
         printf("%s: command not found\n", argv[0]); 
       }
