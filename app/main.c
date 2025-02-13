@@ -11,23 +11,8 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     short int in_quotes = 0;
     char type_quotes = 0;
     *outf = NULL; // Инициализируем outf как NULL
-    short int check = 0;
 
     for (int i = 0; inp[i]; i++) {
-        // Обработка экранированных символов
-        if (inp[i] == '\\' && type_quotes == '\"' && (inp[i + 1] == '\\' || inp[i + 1] == '\"')) {
-          memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
-          continue;
-        }
-        else if (inp[i] == '\\' && inp[i + 1] == ' '){
-          memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1);
-          continue;
-        }
-        else if (!in_quotes && inp[i] == '\\' && (inp[i + 1] == '\'' || inp[i + 1] == '\"')){
-          memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1);
-          check = 1;
-          continue;
-        }
 
         // Обработка перенаправления вывода
         if (inp[i] == '1' && inp[i + 1] == '>' && !in_quotes) {
@@ -48,7 +33,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
         }
 
         // Обработка кавычек
-        else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes && !check) {
+        else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) {
             in_quotes = 1;
             start = &inp[i + 1];
             type_quotes = inp[i];
@@ -78,6 +63,20 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
         else if (start == NULL) {
             start = &inp[i];
         }
+                // Обработка экранированных символов
+                if (inp[i] == '\\' && type_quotes == '\"' && (inp[i + 1] == '\\' || inp[i + 1] == '\"')) {
+                  memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
+                  continue;
+                }
+                else if (inp[i] == '\\' && inp[i + 1] == ' '){
+                  memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1);
+                  continue;
+                }
+                else if (!in_quotes && inp[i] == '\\' && (inp[i + 1] == '\'' || inp[i + 1] == '\"')){
+                  memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1);
+                  continue;
+                }
+        
     }
 
     if (start != NULL) {
