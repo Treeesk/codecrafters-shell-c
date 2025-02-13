@@ -78,7 +78,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
         else if (start == NULL) {
             start = &inp[i];
         }
-        check = 0;
     }
 
     if (start != NULL) {
