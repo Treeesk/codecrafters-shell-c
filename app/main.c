@@ -11,12 +11,14 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     short int in_quotes = 0;
     char type_quotes = 0;
     *outf = NULL; // Инициализируем outf как NULL
-    int ind_slash;
 
     for (int i = 0; inp[i]; i++) {
         // Обработка экранированных символов
         if (inp[i] == '\\' && type_quotes == '\"' && (inp[i + 1] == '\\' || inp[i + 1] == '\"')) {
-          ind_slash = 1; 
+          memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
+          continue;
+        }
+        else if (inp[i] == '\\' && inp[i + 1] == ' '){
           memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
           continue;
         }
