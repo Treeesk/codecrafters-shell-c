@@ -73,6 +73,14 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
             while (inp[i + 1] == ' ')
                 i++;
         }
+        else if (inp[i] == 'l' && inp[i + 1] == 's'){
+          start = &inp[i];
+          while (inp[i++] != '-');
+          inp[++i] = '\0';
+          argv[(*argc)++] = start;
+          start = NULL;
+        } 
+
         else if (start == NULL) {
             start = &inp[i];
         }
@@ -195,7 +203,7 @@ int main() {
       char *output_file = NULL;
       parse_input(input, argv, &argc, &output_file);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      printf("%s", argv[0]);
+      printf('%s', argv[0]);
       if (pth != NULL)
         fork_func(pth, argv, output_file); 
       else {
