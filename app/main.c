@@ -11,6 +11,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     short int in_quotes = 0;
     char type_quotes = 0;
     *outf = NULL; // Инициализируем outf как NULL
+    short int check = 0;
 
     for (int i = 0; inp[i]; i++) {
         // Обработка экранированных символов
@@ -24,7 +25,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
         }
         else if (!in_quotes && inp[i] == '\\' && (inp[i + 1] == '\'' || inp[i + 1] == '\"')){
           memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1);
-          i++; 
+          check = 1;
           continue;
         }
 
@@ -47,7 +48,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
         }
 
         // Обработка кавычек
-        else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) {
+        else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes && !check) {
             in_quotes = 1;
             start = &inp[i + 1];
             type_quotes = inp[i];
@@ -77,6 +78,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
         else if (start == NULL) {
             start = &inp[i];
         }
+        check = 0;
     }
 
     if (start != NULL) {
