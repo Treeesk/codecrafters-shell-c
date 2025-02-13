@@ -6,7 +6,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
-void parse_input(char *inp, char **argv, int *argc, char **outf) {
+void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_f) {
     char *start = inp;
     short int in_quotes = 0;
     char type_quotes = 0;
@@ -38,6 +38,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           while (**outf == ' ') {
               (*outf)++;
           }
+          err_f = 1;
           break;
         }
 
@@ -105,7 +106,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
     argv[*argc] = NULL;
 }
 
-void fork_func(char *full_path, char **argv, char *outf){
+void fork_func(char *full_path, char **argv, char *outf, short int err_f){
   pid_t pid = fork();
   if (pid == 0) {
     if (outf){
@@ -115,8 +116,14 @@ void fork_func(char *full_path, char **argv, char *outf){
         perror("open");
         exit(1);
       }
-      dup2(fd, STDOUT_FILENO);
-      close(fd);
+      if (err_f){
+        dup2(2, fd);
+        close(fd);
+      }
+      else {
+        dup2(fd, STDOUT_FILENO);
+        close(fd);
+      }
     }
     execv(full_path, argv);
     perror("execv"); // если ошибка в Execv
@@ -201,11 +208,11 @@ int main() {
       char *argv[10];
       int argc = 0;
       char *output_file = NULL;
-      parse_input(input, argv, &argc, &output_file);
+      short int err_f = 0;
+      parse_input(input, argv, &argc, &output_file, &err_f);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      printf("%s", argv[0]);
       if (pth != NULL)
-        fork_func(pth, argv, output_file); 
+        fork_func(pth, argv, output_file, err_f); 
       else {
         printf("%s: command not found\n", argv[0]); 
       }
