@@ -45,7 +45,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
             argv[(*argc)++] = start;
             start = NULL; // Сбрасываем указатель на начало аргумента
           }
-          else if (inp[i + 1] == '\"'){
+          else if (inp[i + 1] == '\"' || inp[i + 1] == '\''){
             memmove(&inp[i], &inp[i + 2], strlen(&inp[i + 1]) + 1);
             continue;
           }
