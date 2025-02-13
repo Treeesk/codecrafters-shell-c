@@ -52,6 +52,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
           inp[i] == '\0';
           *outf = &inp[i + 3];
           *app = 1;
+          *err_f = 1;
           while (**outf == ' ')
             (*outf)++;
           break;
