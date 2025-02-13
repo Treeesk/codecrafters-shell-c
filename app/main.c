@@ -19,12 +19,12 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
           continue;
         }
         else if (inp[i] == '\\' && inp[i + 1] == ' '){
-          memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
+          memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1);
           continue;
         }
         else if (!in_quotes && inp[i] == '\\' && (inp[i + 1] == '\'' || inp[i + 1] == '\"')){
-          memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1); // Удаляем обратный слэш
-          i += 2;
+          memmove(&inp[i], &inp[i + 1], strlen(&inp[i + 1]) + 1);
+          i++; 
           continue;
         }
 
