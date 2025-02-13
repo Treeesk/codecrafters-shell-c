@@ -32,6 +32,15 @@ void parse_input(char *inp, char **argv, int *argc, char **outf) {
             break;
         }
 
+        else if (inp[i] == '2' && inp[i + 1] == '>' && !in_quotes){
+          inp[i] = '\0';
+            *outf = &inp[i + 2];
+            while (**outf == ' ') {
+                (*outf)++;
+            }
+            break;
+        }
+
         // Обработка кавычек
         else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) {
             in_quotes = 1;
