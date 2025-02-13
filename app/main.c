@@ -75,13 +75,13 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
             while (inp[i + 1] == ' ')
                 i++;
         }
-        else if (inp[i] == 'l' && inp[i + 1] == 's'){
-          start = &inp[i];
-          while (inp[i++] != '-');
-          inp[++i] = '\0';
-          argv[(*argc)++] = start;
-          start = NULL;
-        } 
+        // else if (inp[i] == 'l' && inp[i + 1] == 's'){
+        //   start = &inp[i];
+        //   while (inp[i++] != '-');
+        //   inp[++i] = '\0';
+        //   argv[(*argc)++] = start;
+        //   start = NULL;
+        // } 
 
         else if (start == NULL) {
             start = &inp[i];
