@@ -47,6 +47,15 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
             }
             break;
         }
+        
+        else if (inp[i] == '2' && inp[i + 1] == '>' && inp[i + 2] == '>' && !in_quotes){
+          inp[i] == '\0';
+          *outf = &inp[i + 3];
+          *app = 1;
+          while (**outf == ' ')
+            (*outf)++;
+          break;
+        }
 
         else if (inp[i] == '2' && inp[i + 1] == '>' && !in_quotes){
           inp[i] = '\0';
