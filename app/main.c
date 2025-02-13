@@ -11,6 +11,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
     short int in_quotes = 0;
     char type_quotes = 0;
     *outf = NULL; // Инициализируем outf как NULL
+    *err_f = 0;
 
     for (int i = 0; inp[i]; i++) {
 
@@ -38,7 +39,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
           while (**outf == ' ') {
               (*outf)++;
           }
-          err_f = 1;
+          *err_f = 1;
           break;
         }
 
