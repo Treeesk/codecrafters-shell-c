@@ -232,8 +232,7 @@ int main() {
           if (autocomp(word)) {
               // Обновляем строку ввода
               strcpy(&input[i - k], word);
-              i = i - k + strlen(word); // Обновляем индекс
-              fflush(stdout);
+              i = i - k + strlen(word) + 1; // Обновляем индекс
           }
       } else {
           input[i++] = c;
