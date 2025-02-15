@@ -57,7 +57,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
   *outf = NULL; // Инициализируем outf как NULL
   *err_f = 0;
   *app = 0;
-  if (inp[18] == '2')
+  if (inp[17] == '2')
     printf("%s", inp);
 
   for (int i = 0; inp[i]; i++) {
