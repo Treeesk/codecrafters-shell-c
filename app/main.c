@@ -232,7 +232,8 @@ int main() {
           if (autocomp(word)) {
               // Обновляем строку ввода
               strcpy(&input[i - k], word);
-              i = i - k + strlen(word) + 1; // Обновляем индекс
+              i = i - k + strlen(word); // Обновляем индекс
+              printf("\r$ %s ", input); // Добавляем пробел после автодополнения
           }
       } else {
           input[i++] = c;
