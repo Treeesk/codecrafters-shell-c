@@ -57,8 +57,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
   *outf = NULL; // Инициализируем outf как NULL
   *err_f = 0;
   *app = 0;
-  if (inp[17] == '2')
-    printf("%s", inp);
+
 
   for (int i = 0; inp[i]; i++) {
 
@@ -310,6 +309,8 @@ int main() {
         printf("cd: %s: No such file or directory\n", &input[3]);
     }
     else{
+      if (inp[18] == '2')
+      printf("%s", inp);
       char *argv[10];
       int argc = 0;
       char *output_file = NULL;
