@@ -242,7 +242,6 @@ int main() {
   while (1){
     while (1) {
       char c = getchar(); // Считываем символ
-
       if (c == '\t') { // Обработка Tab (автодополнение)
           if (autocomp(input)) {
               input_len = strlen(input);
@@ -267,7 +266,7 @@ int main() {
           }
       }
   }
-   // input[strlen(input) - 1] = '\0';
+  restore_terminal_mode(&original_settings);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
@@ -323,6 +322,5 @@ int main() {
     }
   }
 
-  restore_terminal_mode(&original_settings);  
   return 0;
 }
