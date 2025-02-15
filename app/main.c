@@ -235,10 +235,9 @@ int main() {
   // Переводим терминал в неканонический режим
   set_terminal_raw_mode(&original_settings);
   while (1){
-    char c;
-    int i = 0;
     setbuf(stdout, NULL);
     printf("$ ");
+    int input_len;
     // Wait for user input
     //   fgets(input, 100, stdin);
     char c = getchar(); // Считываем символ
