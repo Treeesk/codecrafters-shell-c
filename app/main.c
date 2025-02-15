@@ -215,7 +215,7 @@ int main() {
   char input[100];
   while (1){
     char c;
-    int i = 0
+    int i = 0;
     setbuf(stdout, NULL);
     printf("$ ");
     // Wait for user input
