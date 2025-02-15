@@ -309,8 +309,8 @@ int main() {
         printf("cd: %s: No such file or directory\n", &input[3]);
     }
     else{
-      if (inp[18] == '2')
-      printf("%s", inp);
+      if (input[18] == '2')
+      printf("%s", input);
       char *argv[10];
       int argc = 0;
       char *output_file = NULL;
