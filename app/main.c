@@ -204,8 +204,7 @@ char *check_path(char *f){
 int autocomp(char* w){
   for (int i = 0; i < 2; i++){
     if (strncmp(w, data_autocompleting[i], 3) == 0){
-      w[3] = data_autocompleting[i][3];
-      w[4] = '\0';
+      strcpy(w, data_autocompleting[i]);
       return 1;
     }
   }
@@ -220,21 +219,26 @@ int main() {
     printf("$ ");
     // Wait for user input
  //   fgets(input, 100, stdin);
-    for (int i = 0; (c = getchar()) != '\n'; i++){
-      if (c == '\t'){
-        char word[5];
-        int k = 0;
-        for (int j = i; j != i - 3 && j >= 0 && input[j] != ' '; j--){
-          word[k++] = input[j];
-        }
-        word[k] = '\0';
-        strrev(word);
-        if (!autocomp(word))
-          continue;
+    while ((c = getchar()) != '\n') {
+      if (c == '\t') {
+          char word[5] = {0};
+          int k = 0;
+          for (int j = i - 1; j >= 0 && input[j] != ' '; j--) {
+              word[k++] = input[j];
+          }
+          word[k] = '\0';
+          strrev(word);
+          if (autocomp(word)) {
+              // Обновляем строку ввода
+              strcpy(&input[i - k], word);
+              i = i - k + strlen(word); // Обновляем индекс
+          }
+      } else {
+          input[i++] = c;
       }
-      input[i] = c;
     }
-    input[strlen(input) - 1] = '\0';
+    input[i] = '\0'; // Завершаем строку ввода
+   // input[strlen(input) - 1] = '\0';
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
