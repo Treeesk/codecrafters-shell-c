@@ -93,6 +93,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
       }
       
       else if (inp[i] == '2' && inp[i + 1] == '>' && inp[i + 2] == '>' && !in_quotes){
+        printf("%s", input);
         inp[i] == '\0';
         *outf = &inp[i + 3];
         *app = 1;
@@ -311,7 +312,6 @@ int main() {
       char *output_file = NULL;
       short int err_f = 0;
       short int appen = 0;
-      printf("%s", input);
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
       if (pth != NULL)
