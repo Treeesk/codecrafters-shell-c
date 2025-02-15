@@ -6,6 +6,32 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 
+
+const char* data_autocompleting[] = {
+  "echo",
+  "exit",
+};
+
+void strrev(char* str)
+{
+    // if the string is empty
+    if (!str) {
+        return;
+    }
+    // pointer to start and end at the string
+    int i = 0;
+    int j = strlen(str) - 1;
+
+    // reversing string
+    while (i < j) {
+        char c = str[i];
+        str[i] = str[j];
+        str[j] = c;
+        i++;
+        j--;
+    }
+}
+
 void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_f, short int* app) {
     char *start = inp;
     short int in_quotes = 0;
@@ -175,13 +201,39 @@ char *check_path(char *f){
   return NULL;
 }
 
+int autocomp(char* w){
+  for (int i = 0; i < 2; i++){
+    if (strncmp(w, data_autocompleting[i], 3) == 0){
+      w[3] = data_autocompleting[i][3];
+      w[4] = '\0';
+      return 1;
+    }
+  }
+  return 0;
+}
+
 int main() {
   char input[100];
   while (1){
+    char c;
     setbuf(stdout, NULL);
     printf("$ ");
     // Wait for user input
-    fgets(input, 100, stdin);
+ //   fgets(input, 100, stdin);
+    for (int i = 0; (c = getchar()) != '\n'; i++){
+      if (c == '\t'){
+        char word[5];
+        int k = 0;
+        for (int j = i; j != i - 3 && j >= 0 && input[j] != ' '; j--){
+          word[k++] = input[j];
+        }
+        word[k] = '\0';
+        strrev(word);
+        if (!autocomp(word))
+          continue;
+      }
+      input[i] = c;
+    }
     input[strlen(input) - 1] = '\0';
     if (strcmp(input, "exit 0") == 0)
       exit(0);
