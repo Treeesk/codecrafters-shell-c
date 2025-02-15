@@ -236,11 +236,13 @@ int main() {
   char input[100] = {0}; // Буфер для ввода
   int input_len = 0;     // Длина ввода
   struct termios original_settings;
+  int a = 0;
 
   set_terminal_raw_mode(&original_settings);
   // Переводим терминал в неканонический режим
 
   while (1){
+    a++;
     printf("$ "); // Выводим приглашение
     fflush(stdout);
     while (1) {
@@ -309,9 +311,9 @@ int main() {
         printf("cd: %s: No such file or directory\n", &input[3]);
     }
     else{
-      if (input[18] == '2')
-      printf("%s", input);
       char *argv[10];
+      if (a == 2)
+        printf("%s", input);
       int argc = 0;
       char *output_file = NULL;
       short int err_f = 0;
