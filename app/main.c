@@ -215,10 +215,11 @@ int main() {
   char input[100];
   while (1){
     char c;
+    int i = 0
     setbuf(stdout, NULL);
     printf("$ ");
     // Wait for user input
- //   fgets(input, 100, stdin);
+    //   fgets(input, 100, stdin);
     while ((c = getchar()) != '\n') {
       if (c == '\t') {
           char word[5] = {0};
