@@ -204,7 +204,6 @@ int autocomp(char* w) {
 }
 
 int main() {
-    char input[100] = {0}; // Буфер для ввода
     char input_copy[100] = {0}; // Копия строки ввода
     int input_len = 0;     // Длина ввода
     struct termios original_settings;
@@ -214,6 +213,7 @@ int main() {
     // Переводим терминал в неканонический режим
 
     while (1) {
+      char input[100] = {0}; // Буфер для ввода
         a++;
         printf("$ "); // Выводим приглашение
         fflush(stdout);
