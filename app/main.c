@@ -212,36 +212,69 @@ int autocomp(char* w){
 }
 
 int main() {
-  char input[100];
-  while (1){
-    char c;
-    int i = 0;
-    setbuf(stdout, NULL);
-    printf("$ ");
-    // Wait for user input
-    //   fgets(input, 100, stdin);
-    while ((c = getchar()) != '\n') {
-      if (c == '\t') {
-          char word[5] = {0};
-          int k = 0;
-          for (int j = i - 1; j >= 0 && input[j] != ' '; j--) {
-              word[k++] = input[j];
-          }
-          word[k] = '\0';
-          strrev(word);
-          if (autocomp(word)) {
-              // Обновляем строку ввода
-              strcpy(&input[i - k], word);
-              i = i - k + strlen(word); // Обновляем индекс
-              printf("\r$ %s ", input); // Добавляем пробел после автодополнения
-              fflush(stdout);
-          }
-      } else {
-          input[i++] = c;
-      }
-    }
-    input[i] = '\0'; // Завершаем строку ввода
+  // char input[100];
+  // while (1){
+  //   char c;
+  //   int i = 0;
+  //   setbuf(stdout, NULL);
+  //   printf("$ ");
+  //   // Wait for user input
+  //   //   fgets(input, 100, stdin);
+  //   while ((c = getchar()) != '\n') {
+  //     if (c == '\t') {
+  //         char word[5] = {0};
+  //         int k = 0;
+  //         for (int j = i - 1; j >= 0 && input[j] != ' '; j--) {
+  //             word[k++] = input[j];
+  //         }
+  //         word[k] = '\0';
+  //         strrev(word);
+  //         if (autocomp(word)) {
+  //             // Обновляем строку ввода
+  //             strcpy(&input[i - k], word);
+  //             i = i - k + strlen(word); // Обновляем индекс
+  //             printf("\r$ %s ", input); // Добавляем пробел после автодополнения
+  //             fflush(stdout);
+  //         }
+  //     } else {
+  //         input[i++] = c;
+  //     }
+  //   }
+  //   input[i] = '\0'; // Завершаем строку ввода
    // input[strlen(input) - 1] = '\0';
+   initscr();            // Инициализация ncurses
+    cbreak();             // Отключаем буферизацию строк
+    noecho();             // Отключаем автоматический вывод нажатых клавиш
+    keypad(stdscr, TRUE); // Включаем обработку функциональных клавиш
+
+    char input[100] = {0};
+    int input_len = 0;
+
+    while (1) {
+        printw("$ %s", input); // Выводим строку ввода
+        refresh();
+
+        int c = getch(); // Считываем символ
+        if (c == '\t') { // Tab
+            if (autocomp(input)) {
+                input_len = strlen(input);
+                move(0, 0); // Перемещаем курсор в начало строки
+                clrtoeol(); // Очищаем строку
+                printw("$ %s ", input); // Перерисовываем строку ввода
+            }
+        } else if (c == '\n') { // Enter
+            break;
+        } else if (c == 127 || c == '\b') { // Backspace
+            if (input_len > 0) {
+                input[--input_len] = '\0';
+            }
+        } else if (c >= 32 && c <= 126) { // Печатные символы
+            if (input_len < sizeof(input) - 1) {
+                input[input_len++] = c;
+                input[input_len] = '\0';
+            }
+        }
+    }
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
