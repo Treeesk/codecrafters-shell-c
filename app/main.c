@@ -233,7 +233,6 @@ int autocomp(char* w){
 }
 
 int main() {
-  char input[100] = {0}; // Буфер для ввода
   int input_len = 0;     // Длина ввода
   struct termios original_settings;
   int a = 0;
@@ -242,6 +241,7 @@ int main() {
   // Переводим терминал в неканонический режим
 
   while (1){
+    char input[100] = {0}; // Буфер для ввода
     a++;
     printf("$ "); // Выводим приглашение
     fflush(stdout);
@@ -312,8 +312,8 @@ int main() {
     }
     else{
       char *argv[10];
-      if (a == 2)
-        printf("\n%s\n", input);
+      // if (a == 2)
+      //   printf("\n%s\n", input);
       int argc = 0;
       char *output_file = NULL;
       short int err_f = 0;
