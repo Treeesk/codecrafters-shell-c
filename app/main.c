@@ -61,7 +61,28 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
   for (int i = 0; inp[i]; i++) {
 
       // Обработка перенаправления вывода
-      if ((inp[i] == '1' && inp[i + 1] == '>' && inp[i + 2] == '>') || (inp[i] == '>' && inp[i + 1] == '>' && inp[i - 1] == ' ') && !in_quotes){
+
+      if (inp[i] == '2' && inp[i + 1] == '>' && inp[i + 2] == '>' && !in_quotes){
+        inp[i] == '\0';
+        *outf = &inp[i + 3];
+        *app = 1;
+        *err_f = 1;
+        while (**outf == ' ')
+          (*outf)++;
+        break;
+      }
+
+      else if (inp[i] == '2' && inp[i + 1] == '>' && !in_quotes){
+        inp[i] = '\0';
+        *outf = &inp[i + 2];
+        while (**outf == ' ') {
+            (*outf)++;
+        }
+        *err_f = 1;
+        break;
+      }
+
+      else if ((inp[i] == '1' && inp[i + 1] == '>' && inp[i + 2] == '>') || (inp[i] == '>' && inp[i + 1] == '>') && !in_quotes){
         inp[i] == '\0';
         if (inp[i] == '1') {
           *outf = &inp[i + 3];
@@ -91,26 +112,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
           }
           break;
       }
-      
-      else if (inp[i] == '2' && inp[i + 1] == '>' && inp[i + 2] == '>' && !in_quotes){
-        inp[i] == '\0';
-        *outf = &inp[i + 3];
-        *app = 1;
-        *err_f = 1;
-        while (**outf == ' ')
-          (*outf)++;
-        break;
-      }
-
-      else if (inp[i] == '2' && inp[i + 1] == '>' && !in_quotes){
-        inp[i] = '\0';
-        *outf = &inp[i + 2];
-        while (**outf == ' ') {
-            (*outf)++;
-        }
-        *err_f = 1;
-        break;
-      }
+    
 
       // Обработка кавычек
       else if ((inp[i] == '\'' || inp[i] == '\"') && !in_quotes) {
