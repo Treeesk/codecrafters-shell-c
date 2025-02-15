@@ -64,7 +64,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
       // Обработка перенаправления вывода
 
       if (inp[i] == '2' && inp[i + 1] == '>' && inp[i + 2] == '>' && !in_quotes){
-        printf("%s", inp);
         inp[i] == '\0';
         *outf = &inp[i + 3];
         *app = 1;
@@ -243,6 +242,7 @@ int main() {
 
   while (1){
     char input[100] = {0}; // Буфер для ввода
+    a++;
     printf("$ "); // Выводим приглашение
     fflush(stdout);
     while (1) {
@@ -312,6 +312,8 @@ int main() {
     }
     else{
       char *argv[10];
+      if (a == 2)
+        printf("\n%s\n", input);
       int argc = 0;
       char *output_file = NULL;
       short int err_f = 0;
