@@ -313,7 +313,7 @@ int main() {
     else{
       char *argv[10];
       if (a == 2)
-        printf("%s", input);
+        printf("\n%s\n", input);
       int argc = 0;
       char *output_file = NULL;
       short int err_f = 0;
