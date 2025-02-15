@@ -233,7 +233,6 @@ int main() {
               // Обновляем строку ввода
               strcpy(&input[i - k], word);
               i = i - k + strlen(word); // Обновляем индекс
-              printf("\r$ %s", input); // Перерисовываем строку ввода
               fflush(stdout);
           }
       } else {
