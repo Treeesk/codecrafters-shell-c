@@ -235,11 +235,11 @@ int main() {
   struct termios original_settings;
 
   // Переводим терминал в неканонический режим
+  set_terminal_raw_mode(&original_settings);
 
   printf("$ "); // Выводим приглашение
   fflush(stdout);
   while (1){
-    set_terminal_raw_mode(&original_settings);
     while (1) {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
@@ -266,7 +266,7 @@ int main() {
           }
       }
   }
-  restore_terminal_mode(&original_settings);
+  
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
@@ -321,6 +321,6 @@ int main() {
       }
     }
   }
-
+  restore_terminal_mode(&original_settings);
   return 0;
 }
