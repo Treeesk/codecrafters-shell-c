@@ -237,9 +237,9 @@ int main() {
   // Переводим терминал в неканонический режим
   set_terminal_raw_mode(&original_settings);
 
-  printf("$ "); // Выводим приглашение
-  fflush(stdout);
   while (1){
+    printf("$ "); // Выводим приглашение
+    fflush(stdout);
     while (1) {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
