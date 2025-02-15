@@ -5,7 +5,36 @@
 #include <sys/types.h> 
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <termios.h>
 
+static struct termios stored_settings;
+
+void set_keypress(void)
+{
+	struct termios new_settings;
+
+	tcgetattr(0,&stored_settings);
+
+	new_settings = stored_settings;
+
+	/* 
+		Отключение канонического режима и вывода на экран 
+		и установка буфера ввода размером в 1 байт 
+	*/
+	new_settings.c_lflag &= (~ICANON);
+	new_settings.c_lflag &= (~ECHO);
+	new_settings.c_cc[VTIME] = 0;
+	new_settings.c_cc[VMIN] = 1;
+
+	tcsetattr(0,TCSANOW,&new_settings);
+	return;
+}
+
+void reset_keypress(void)
+{
+	tcsetattr(0,TCSANOW,&stored_settings);
+	return;
+}
 
 const char* data_autocompleting[] = {
   "echo",
@@ -213,6 +242,7 @@ int autocomp(char* w){
 
 int main() {
   char input[100];
+  set_keypress();
   while (1){
     char c;
     int i = 0;
@@ -296,5 +326,6 @@ int main() {
       }
     }
   }
+  reset_keypress();
   return 0;
 }
