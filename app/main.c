@@ -5,6 +5,7 @@
 #include <sys/types.h> 
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <ncurses.h>
 
 
 const char* data_autocompleting[] = {
