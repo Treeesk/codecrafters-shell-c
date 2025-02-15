@@ -234,10 +234,10 @@ int main() {
   int input_len = 0;     // Длина ввода
   struct termios original_settings;
 
+  set_terminal_raw_mode(&original_settings);
   // Переводим терминал в неканонический режим
 
   while (1){
-    set_terminal_raw_mode(&original_settings);
     printf("$ "); // Выводим приглашение
     fflush(stdout);
     while (1) {
@@ -266,7 +266,6 @@ int main() {
           }
       }
   }
-  restore_terminal_mode(&original_settings);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
@@ -314,12 +313,16 @@ int main() {
       short int appen = 0;
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      if (pth != NULL)
+      if (pth != NULL){
+        restore_terminal_mode(&original_settings);
         fork_func(pth, argv, output_file, err_f, appen); 
+        set_terminal_raw_mode(&original_settings);
+      }
       else {
         printf("%s: command not found\n", argv[0]); 
       }
     }
   }
+  restore_terminal_mode(&original_settings);
   return 0;
 }
