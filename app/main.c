@@ -7,34 +7,23 @@
 #include <fcntl.h>
 #include <termios.h>
 
-static struct termios stored_settings;
 
-void set_keypress(void)
-{
-	struct termios new_settings;
-
-	tcgetattr(0,&stored_settings);
-
-	new_settings = stored_settings;
-
-	/* 
-		Отключение канонического режима и вывода на экран 
-		и установка буфера ввода размером в 1 байт 
-	*/
-	new_settings.c_lflag &= (~ICANON);
-	new_settings.c_lflag &= (~ECHO);
-	new_settings.c_cc[VTIME] = 0;
-	new_settings.c_cc[VMIN] = 1;
-
-	tcsetattr(0,TCSANOW,&new_settings);
-	return;
+// Настройка терминала в неканонический режим
+void set_terminal_raw_mode(struct termios *original_settings) {
+  struct termios new_settings;
+  tcgetattr(STDIN_FILENO, original_settings); // Сохраняем текущие настройки
+  new_settings = *original_settings;
+  new_settings.c_lflag &= ~(ICANON | ECHO); // Отключаем канонический режим и эхо
+  new_settings.c_cc[VMIN] = 1;  // Минимальное количество символов для чтения
+  new_settings.c_cc[VTIME] = 0; // Таймаут чтения (0 — без таймаута)
+  tcsetattr(STDIN_FILENO, TCSANOW, &new_settings); // Применяем новые настройки
 }
 
-void reset_keypress(void)
-{
-	tcsetattr(0,TCSANOW,&stored_settings);
-	return;
+// Восстановление исходных настроек терминала
+void restore_terminal_mode(struct termios *original_settings) {
+  tcsetattr(STDIN_FILENO, TCSANOW, original_settings);
 }
+
 
 const char* data_autocompleting[] = {
   "echo",
@@ -242,7 +231,9 @@ int autocomp(char* w){
 
 int main() {
   char input[100];
-  set_keypress();
+  struct termios original_settings;
+  // Переводим терминал в неканонический режим
+  set_terminal_raw_mode(&original_settings);
   while (1){
     char c;
     int i = 0;
@@ -250,27 +241,30 @@ int main() {
     printf("$ ");
     // Wait for user input
     //   fgets(input, 100, stdin);
-    while ((c = getchar()) != '\n') {
-      if (c == '\t') {
-          char word[5] = {0};
-          int k = 0;
-          for (int j = i - 1; j >= 0 && input[j] != ' '; j--) {
-              word[k++] = input[j];
-          }
-          word[k] = '\0';
-          strrev(word);
-          if (autocomp(word)) {
-              // Обновляем строку ввода
-              strcpy(&input[i - k], word);
-              i = i - k + strlen(word); // Обновляем индекс
-              printf("\r$ %s ", input); // Добавляем пробел после автодополнения
-              fflush(stdout);
-          }
-      } else {
-          input[i++] = c;
+    char c = getchar(); // Считываем символ
+    if (c == '\t') { // Обработка Tab (автодополнение)
+      if (autocomp(input)) {
+          input_len = strlen(input);
+          printf("\r$ %s ", input); // Перерисовываем строку ввода
+          fflush(stdout);
+        }
+    } else if (c == 127 || c == '\b') { // Обработка Backspace
+      if (input_len > 0) {
+          input[--input_len] = '\0';
+          printf("\r$ %s \b", input); // Перерисовываем строку ввода
+          fflush(stdout);
+        }
+    } else if (c == '\n') { // Обработка Enter
+      printf("\n"); // Переход на новую строку
+      break;
+    } else if (c >= 32 && c <= 126) { // Печатные символы
+      if (input_len < sizeof(input) - 1) {
+        input[input_len++] = c;
+        input[input_len] = '\0';
+        printf("%c", c); // Выводим символ
+        fflush(stdout);
       }
     }
-    input[i] = '\0'; // Завершаем строку ввода
    // input[strlen(input) - 1] = '\0';
     if (strcmp(input, "exit 0") == 0)
       exit(0);
@@ -326,6 +320,7 @@ int main() {
       }
     }
   }
-  reset_keypress();
+
+  restore_terminal_mode(&original_settings);  
   return 0;
 }
