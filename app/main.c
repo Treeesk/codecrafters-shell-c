@@ -230,40 +230,43 @@ int autocomp(char* w){
 }
 
 int main() {
-  char input[100];
+  char input[100] = {0}; // Буфер для ввода
+  int input_len = 0;     // Длина ввода
   struct termios original_settings;
+
   // Переводим терминал в неканонический режим
   set_terminal_raw_mode(&original_settings);
+
+  printf("$ "); // Выводим приглашение
+  fflush(stdout);
   while (1){
-    setbuf(stdout, NULL);
-    printf("$ ");
-    int input_len;
-    // Wait for user input
-    //   fgets(input, 100, stdin);
-    char c = getchar(); // Считываем символ
-    if (c == '\t') { // Обработка Tab (автодополнение)
-      if (autocomp(input)) {
-          input_len = strlen(input);
-          printf("\r$ %s ", input); // Перерисовываем строку ввода
-          fflush(stdout);
-        }
-    } else if (c == 127 || c == '\b') { // Обработка Backspace
-      if (input_len > 0) {
-          input[--input_len] = '\0';
-          printf("\r$ %s \b", input); // Перерисовываем строку ввода
-          fflush(stdout);
-        }
-    } else if (c == '\n') { // Обработка Enter
-      printf("\n"); // Переход на новую строку
-      break;
-    } else if (c >= 32 && c <= 126) { // Печатные символы
-      if (input_len < sizeof(input) - 1) {
-        input[input_len++] = c;
-        input[input_len] = '\0';
-        printf("%c", c); // Выводим символ
-        fflush(stdout);
+    while (1) {
+      char c = getchar(); // Считываем символ
+
+      if (c == '\t') { // Обработка Tab (автодополнение)
+          if (autocomp(input)) {
+              input_len = strlen(input);
+              printf("\r$ %s ", input); // Перерисовываем строку ввода
+              fflush(stdout);
+          }
+      } else if (c == 127 || c == '\b') { // Обработка Backspace
+          if (input_len > 0) {
+              input[--input_len] = '\0';
+              printf("\r$ %s \b", input); // Перерисовываем строку ввода
+              fflush(stdout);
+          }
+      } else if (c == '\n') { // Обработка Enter
+          printf("\n"); // Переход на новую строку
+          break;
+      } else if (c >= 32 && c <= 126) { // Печатные символы
+          if (input_len < sizeof(input) - 1) {
+              input[input_len++] = c;
+              input[input_len] = '\0';
+              printf("%c", c); // Выводим символ
+              fflush(stdout);
+          }
       }
-    }
+  }
    // input[strlen(input) - 1] = '\0';
     if (strcmp(input, "exit 0") == 0)
       exit(0);
