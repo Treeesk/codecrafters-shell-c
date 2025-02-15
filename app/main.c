@@ -271,6 +271,8 @@ int main() {
           }
       }
   }
+  if (a == 2) 
+    printf("\n%s\n", input);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
