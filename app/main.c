@@ -320,18 +320,15 @@ int main() {
       short int appen = 0;
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      if (a == 2)
-        printf("%s", pth);
+      // if (a == 2)
+      //   printf("%s", pth);
       if (pth != NULL){
-        // restore_terminal_mode(&original_settings);
         fork_func(pth, argv, output_file, err_f, appen); 
-        // set_terminal_raw_mode(&original_settings);
       }
       else {
         printf("%s: command not found\n", argv[0]); 
       }
     }
   }
-  restore_terminal_mode(&original_settings);
   return 0;
 }
