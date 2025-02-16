@@ -314,8 +314,8 @@ int main() {
     }
     else{
       char *argv[10];
-      if (a == 2)
-        printf("\n%s\n", input);
+      // if (a == 2)
+      //   printf("\n%s\n", input);
       int argc = 0;
       char *output_file = NULL;
       short int err_f = 0;
