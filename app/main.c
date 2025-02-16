@@ -208,7 +208,9 @@ char *check_path(char *f){
 
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
-  char full_path[1024];
+  static char full_path[1024];
+  // Очищаем массив перед использованием
+  memset(full_path, 0, sizeof(full_path));
 
   while (dir != NULL){
     snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
