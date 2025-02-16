@@ -314,15 +314,14 @@ int main() {
     }
     else{
       char *argv[10];
-      // if (a == 2)
-      //   printf("\n%s\n", input);
       int argc = 0;
       char *output_file = NULL;
       short int err_f = 0;
       short int appen = 0;
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      printf("%s!\n", argv[0]);
+      if (a == 2)
+        printf("23222");
       if (pth != NULL){
         restore_terminal_mode(&original_settings);
         fork_func(pth, argv, output_file, err_f, appen); 
