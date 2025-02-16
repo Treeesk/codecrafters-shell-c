@@ -208,7 +208,7 @@ char *check_path(char *f){
 
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
-  static char full_path[1024];
+  char full_path[1024];
 
   while (dir != NULL){
     snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
