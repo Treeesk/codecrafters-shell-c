@@ -176,7 +176,7 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
   pid_t pid = fork();
   if (pid == 0) {
     if (outf){
-      int flags = O_WRONLY | O_CREAT | (app? O_APPEND : O_TRUNC);
+      int flags = O_CREAT | (app? O_APPEND : O_TRUNC);
       int fd = open(outf, flags, 0666);
       if (fd == -1){
         perror("open");
@@ -201,28 +201,22 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
   }
 }
 
-char *check_path(char *f) {
+char *check_path(char *f){
   char *path_check = getenv("PATH");
   if (path_check == NULL)
-      return NULL;
+    return NULL;
 
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
-  char *full_path = NULL;
+  static char full_path[1024];
 
-  while (dir != NULL) {
-      full_path = malloc(strlen(dir) + strlen(f) + 2); // +2 для '/' и '\0'
-      if (full_path == NULL) {
-          free(path_copy);
-          return NULL;
-      }
-      snprintf(full_path, strlen(dir) + strlen(f) + 2, "%s/%s", dir, f);
-      if (access(full_path, F_OK) == 0) {
-          free(path_copy);
-          return full_path;
-      }
-      free(full_path);
-      dir = strtok(NULL, ":");
+  while (dir != NULL){
+    snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
+    if (access(full_path, F_OK) == 0){
+      free(path_copy);
+      return full_path;
+    }
+    dir = strtok(NULL, ":");
   }
   free(path_copy);
   return NULL;
@@ -242,8 +236,6 @@ int main() {
   int input_len = 0;     // Длина ввода
   struct termios original_settings;
   int a = 0;
-
-  
 
   while (1){
     set_terminal_raw_mode(&original_settings);
