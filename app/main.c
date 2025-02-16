@@ -190,7 +190,7 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
       }
       close(fd);
     }
-    printf("\n%s\n", *argv[0]);
+    printf("%s\n", *argv[0]);
     execv(full_path, argv);
     perror("execv"); // если ошибка в Execv
     exit(1);
