@@ -277,6 +277,8 @@ int main() {
       }
   }
   restore_terminal_mode(&original_settings);
+  if (a == 2)
+    printf("%s", input);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
@@ -322,8 +324,8 @@ int main() {
       char *output_file = NULL;
       short int err_f = 0;
       short int appen = 0;
-      if (a == 2)
-        printf("%s", input);
+      // if (a == 2)
+      //   printf("%s", input);
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
       // if (a == 2)
       //   printf("%s\n", argv[1]);
