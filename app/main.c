@@ -193,7 +193,7 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
     }
     execv(full_path, argv);
     perror("execv"); // если ошибка в Execv
-    printf("%s\n", full_path);
+    printf("%s\n", outf);
     exit(1);
   } else if (pid < 0)
     perror("fork");
