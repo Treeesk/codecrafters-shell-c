@@ -218,7 +218,7 @@ char *check_path(char *f) {
       snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
       if (access(full_path, F_OK) == 0) {
           free(path_copy);
-          printf("%s", full_path);
+          printf("%s\n", full_path);
           return full_path;
       }
       dir = strtok(NULL, ":");
@@ -276,8 +276,8 @@ int main() {
       }
   }
   restore_terminal_mode(&original_settings);
-  if (a == 2)
-        printf("%s", input);
+  // if (a == 2)
+  //       printf("%s", input);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
