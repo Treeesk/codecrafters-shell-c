@@ -250,20 +250,18 @@ int main() {
     a++;
     printf("$ "); // Выводим приглашение
     fflush(stdout);
-    if ( a == 2)
-      printf("!!!!");
     while (1) {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
           if (autocomp(input)) {
               input_len = strlen(input);
-              printf("\r$ %s ", input); // Перерисовываем строку ввода
+              printf("\r$ %s", input); // Перерисовываем строку ввода
               fflush(stdout);
           }
       } else if (c == 127 || c == '\b') { // Обработка Backspace
           if (input_len > 0) {
               input[--input_len] = '\0';
-              printf("\r$ %s \b", input); // Перерисовываем строку ввода
+              printf("\r$ %s\b", input); // Перерисовываем строку ввода
               fflush(stdout);
           }
       } else if (c == '\n') { // Обработка Enter
