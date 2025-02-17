@@ -95,6 +95,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
         *app = 1;
         while (**outf == ' ')
           (*outf)++;
+        printf("%s", outf);
         break;
       }
 
@@ -192,7 +193,7 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
       close(fd);
     }
     execv(full_path, argv);
-    printf("%s\n", outf);
+    // printf("%s\n", outf);
     perror("execv"); // если ошибка в Execv
     exit(1);
   } else if (pid < 0)
