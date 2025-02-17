@@ -193,7 +193,6 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
       close(fd);
     }
     execv(full_path, argv);
-    // printf("%s\n", outf);
     perror("execv"); // если ошибка в Execv
     exit(1);
   } else if (pid < 0)
@@ -277,8 +276,6 @@ int main() {
       }
   }
   restore_terminal_mode(&original_settings);
-  // if (a == 2)
-  //       printf("%s", input);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
@@ -324,6 +321,7 @@ int main() {
       char *output_file = NULL;
       short int err_f = 0;
       short int appen = 0;
+      printf("%s\n", input);
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
       if (pth != NULL){
