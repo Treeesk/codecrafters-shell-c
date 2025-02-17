@@ -173,43 +173,32 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
   argv[*argc] = NULL;
 }
 
-void fork_func(char *full_path, char **argv, char *outf, short int err_f, short int app) {
+void fork_func(char *full_path, char **argv, char *outf, short int err_f, short int app){
   pid_t pid = fork();
   if (pid == 0) {
-      if (outf) {
-          // Проверяем, существует ли директория
-          char *dir = strdup(outf);
-          char *last_slash = strrchr(dir, '/');
-          if (last_slash != NULL) {
-              *last_slash = '\0'; // Отделяем путь к директории
-              if (access(dir, F_OK) != 0) {
-                  // Если директория не существует, создаём её
-                  mkdir(dir, 0777);
-              }
-              free(dir);
-          }
-
-          int flags = O_WRONLY | O_CREAT | (app ? O_APPEND : O_TRUNC);
-          int fd = open(outf, flags, 0666);
-          if (fd == -1) {
-              perror("open");
-              exit(1);
-          }
-          if (err_f) {
-              dup2(fd, STDERR_FILENO);
-          } else {
-              dup2(fd, STDOUT_FILENO);
-          }
-          close(fd);
+    if (outf){
+      int flags = O_WRONLY | O_CREAT | (app? O_APPEND : O_TRUNC);
+      int fd = open(outf, flags, 0666);
+      if (fd == -1){
+        perror("open");
+        exit(1);
       }
-      execv(full_path, argv);
-      perror("execv"); // если ошибка в execv
-      exit(1);
-  } else if (pid < 0) {
-      perror("fork");
-  } else {
-      int status;
-      waitpid(pid, &status, 0);
+      if (err_f){
+        dup2(fd, STDERR_FILENO);
+      }
+      else {
+        dup2(fd, STDOUT_FILENO);
+      }
+      close(fd);
+    }
+    execv(full_path, argv);
+    perror("execv"); // если ошибка в Execv
+    exit(1);
+  } else if (pid < 0)
+    perror("fork");
+  else {
+    int status;
+    waitpid(pid, &status, 0);
   }
 }
 
