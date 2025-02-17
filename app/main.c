@@ -58,9 +58,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
   *err_f = 0;
   *app = 0;
   static int y = 1;
-  if (y == 2)
-    printf("%s", inp);
-
+  
   for (int i = 0; inp[i]; i++) {
 
       // Обработка перенаправления вывода
@@ -87,7 +85,6 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
 
       else if ((inp[i] == '1' && inp[i + 1] == '>' && inp[i + 2] == '>') || (inp[i] == '>' && inp[i + 1] == '>') && !in_quotes){
         inp[i] = '\0';
-        y++;
         if (inp[i] == '1') {
           *outf = &inp[i + 3];
         }
@@ -280,8 +277,8 @@ int main() {
           }
       }
   }
-  if (a == 2)
-    printf("%s", input);
+  // if (a == 2)
+  //   printf("%s", input);
   restore_terminal_mode(&original_settings);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
