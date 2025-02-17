@@ -326,8 +326,8 @@ int main() {
       if (a == 2)
         printf("%s", argv[0]);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      // if (a == 2)
-      //   printf("%s\n", pth);
+      if (a == 2)
+        printf("%s\n", pth);
       if (pth != NULL){
         if (access(pth, X_OK) == 0)
           fork_func(pth, argv, output_file, err_f, appen); 
