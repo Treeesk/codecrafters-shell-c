@@ -255,13 +255,13 @@ int main() {
       if (c == '\t') { // Обработка Tab (автодополнение)
           if (autocomp(input)) {
               input_len = strlen(input);
-              printf("\r$ %s", input); // Перерисовываем строку ввода
+              printf("\r$ %s ", input); // Перерисовываем строку ввода
               fflush(stdout);
           }
       } else if (c == 127 || c == '\b') { // Обработка Backspace
           if (input_len > 0) {
               input[--input_len] = '\0';
-              printf("\r$ %s\b", input); // Перерисовываем строку ввода
+              printf("\r$ %s \b", input); // Перерисовываем строку ввода
               fflush(stdout);
           }
       } else if (c == '\n') { // Обработка Enter
@@ -276,6 +276,8 @@ int main() {
           }
       }
   }
+  if (a == 2)
+    printf("%s", input);
   restore_terminal_mode(&original_settings);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
