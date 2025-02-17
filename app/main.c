@@ -202,22 +202,25 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
   }
 }
 
-char *check_path(char *f){
+char *check_path(char *f) {
   char *path_check = getenv("PATH");
   if (path_check == NULL)
-    return NULL;
+      return NULL;
 
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
   static char full_path[1024];
 
-  while (dir != NULL){
-    snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
-    if (access(full_path, F_OK) == 0){
-      free(path_copy);
-      return full_path;
-    }
-    dir = strtok(NULL, ":");
+  // Очищаем массив перед использованием
+  memset(full_path, 0, sizeof(full_path));
+
+  while (dir != NULL) {
+      snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
+      if (access(full_path, F_OK) == 0) {
+          free(path_copy);
+          return full_path;
+      }
+      dir = strtok(NULL, ":");
   }
   free(path_copy);
   return NULL;
