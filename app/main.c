@@ -276,9 +276,9 @@ int main() {
           }
       }
   }
-  restore_terminal_mode(&original_settings);
   if (a == 2)
     printf("%s", input);
+  restore_terminal_mode(&original_settings);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
