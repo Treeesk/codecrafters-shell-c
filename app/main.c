@@ -180,7 +180,6 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
   if (pid == 0) {
     if (outf){
       int flags = O_WRONLY | O_CREAT | (app? O_APPEND : O_TRUNC);
-      printf("\n%s\n", outf);
       int fd = open(outf, flags, 0666);
       if (fd == -1){
         perror("open");
@@ -195,7 +194,7 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
       close(fd);
     }
     execv(full_path, argv);
-    perror("execv"); // если ошибка в Execv
+    perror("execv!!!!!!"); // если ошибка в Execv
     exit(1);
   } else if (pid < 0)
     perror("fork");
