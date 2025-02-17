@@ -65,7 +65,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
 
       // Обработка перенаправления вывода
 
-      if (inp[i] == '2' && inp[i + 1] == '>' && inp[i + 2] == '>' && !in_quotes)
+      if (inp[i] == '2' && inp[i + 1] == '>' && inp[i + 2] == '>' && !in_quotes){
         inp[i] = '\0';
         *outf = &inp[i + 3];
         *app = 1;
