@@ -179,6 +179,7 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
       int flags = O_WRONLY | O_CREAT | (app? O_APPEND : O_TRUNC);
       int fd = open(outf, flags, 0666);
       if (fd == -1){
+        printf("%s", outf);
         perror("open");
         exit(1);
       }
@@ -191,7 +192,7 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
       close(fd);
     }
     execv(full_path, argv);
-    // perror("execv"); // если ошибка в Execv
+    perror("execv"); // если ошибка в Execv
     exit(1);
   } else if (pid < 0)
     perror("fork");
@@ -244,7 +245,6 @@ int main() {
     set_terminal_raw_mode(&original_settings);
   // Переводим терминал в неканонический режим
     char input[100] = {0}; // Буфер для ввода
-    a++;
     printf("$ "); // Выводим приглашение
     fflush(stdout);
     input_len = 0;
