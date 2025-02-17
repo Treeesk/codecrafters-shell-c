@@ -58,7 +58,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
   *err_f = 0;
   *app = 0;
   static int y = 1;
-  
+
   for (int i = 0; inp[i]; i++) {
 
       // Обработка перенаправления вывода
@@ -247,10 +247,7 @@ int main() {
     a++;
     printf("$ "); // Выводим приглашение
     fflush(stdout);
-    memset(input, 0, sizeof(input));
     input_len = 0;
-    // if (a == 2)
-    //   printf("%s", input[0]);
     while (1) {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
@@ -277,8 +274,6 @@ int main() {
           }
       }
   }
-  // if (a == 2)
-  //   printf("%s", input);
   restore_terminal_mode(&original_settings);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
@@ -325,14 +320,8 @@ int main() {
       char *output_file = NULL;
       short int err_f = 0;
       short int appen = 0;
-      // if (a == 2)
-      //   printf("%s", input);
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
-      // if (a == 2)
-      //   printf("%s\n", argv[1]);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      // if (a == 2)
-      //   printf("%s\n", pth);
       if (pth != NULL){
         if (access(pth, X_OK) == 0)
           fork_func(pth, argv, output_file, err_f, appen); 
