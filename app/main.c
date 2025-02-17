@@ -251,7 +251,7 @@ int main() {
     printf("$ "); // Выводим приглашение
     fflush(stdout);
     if (a == 2)
-      printf("%s", input);
+      printf("%s", input[0]);
     while (1) {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
