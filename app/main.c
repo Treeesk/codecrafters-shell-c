@@ -250,6 +250,8 @@ int main() {
     a++;
     printf("$ "); // Выводим приглашение
     fflush(stdout);
+    if (a == 2)
+      printf("%s", input);
     while (1) {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
