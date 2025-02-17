@@ -204,35 +204,27 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
 
 char *check_path(char *f) {
   char *path_check = getenv("PATH");
-  if (path_check == NULL) {
+  if (path_check == NULL)
       return NULL;
-  }
 
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
   static char full_path[1024];
 
-  while (dir != NULL) {
-      // Убираем лишний слэш, если он уже есть в конце директории
-      if (dir[strlen(dir) - 1] == '/') {
-          snprintf(full_path, sizeof(full_path), "%s%s", dir, f);
-      } else {
-          snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
-      }
+  // Очищаем массив перед использованием
+  memset(full_path, 0, sizeof(full_path));
 
-      // Проверка, существует ли файл по этому пути
+  while (dir != NULL) {
+      snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
       if (access(full_path, F_OK) == 0) {
           free(path_copy);
           return full_path;
       }
-
       dir = strtok(NULL, ":");
   }
-
   free(path_copy);
-  return NULL; // Если команда не найдена
+  return NULL;
 }
-
 
 int autocomp(char* w){
   for (int i = 0; i < 2; i++){
@@ -330,8 +322,8 @@ int main() {
       short int appen = 0;
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      if (a == 2)
-        printf("%s", pth);
+      // if (a == 2)
+      //   printf("%s", pth);
       if (pth != NULL){
         if (access(pth, X_OK) == 0)
           fork_func(pth, argv, output_file, err_f, appen); 
