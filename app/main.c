@@ -57,13 +57,15 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
   *outf = NULL; // Инициализируем outf как NULL
   *err_f = 0;
   *app = 0;
+  static int y = 1;
+  if (y == 2)
+    printf("%s", inp);
 
   for (int i = 0; inp[i]; i++) {
 
       // Обработка перенаправления вывода
 
-      if (inp[i] == '2' && inp[i + 1] == '>' && inp[i + 2] == '>' && !in_quotes){
-        printf("%s", inp);
+      if (inp[i] == '2' && inp[i + 1] == '>' && inp[i + 2] == '>' && !in_quotes)
         inp[i] = '\0';
         *outf = &inp[i + 3];
         *app = 1;
@@ -85,6 +87,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
 
       else if ((inp[i] == '1' && inp[i + 1] == '>' && inp[i + 2] == '>') || (inp[i] == '>' && inp[i + 1] == '>') && !in_quotes){
         inp[i] = '\0';
+        y++;
         if (inp[i] == '1') {
           *outf = &inp[i + 3];
         }
