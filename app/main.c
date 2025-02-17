@@ -325,7 +325,10 @@ int main() {
       // if (a == 2)
       //   printf("%s", pth);
       if (pth != NULL){
-        fork_func(pth, argv, output_file, err_f, appen); 
+        if (access(pth, X_OK) == 0)
+          fork_func(pth, argv, output_file, err_f, appen); 
+        else
+          printf("%s Permission denied\n", pth);
       }
       else {
         printf("%s: command not found\n", argv[0]); 
