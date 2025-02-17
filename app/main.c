@@ -177,17 +177,6 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
   pid_t pid = fork();
   if (pid == 0) {
     if (outf){
-      // Проверяем, существует ли директория
-      char *dir = strdup(outf);
-      char *last_slash = strrchr(dir, '/');
-      if (last_slash != NULL) {
-          *last_slash = '\0'; // Отделяем путь к директории
-          if (access(dir, F_OK) != 0) {
-              // Если директория не существует, создаём её
-              mkdir(dir, 0777);
-          }
-          free(dir);
-      }
       int flags = O_WRONLY | O_CREAT | (app? O_APPEND : O_TRUNC);
       int fd = open(outf, flags, 0666);
       if (fd == -1){
@@ -326,7 +315,7 @@ int main() {
         printf("cd: %s: No such file or directory\n", &input[3]);
     }
     else{
-      char *argv[10];
+      char *argv[10] = { 0 };
       int argc = 0;
       char *output_file = NULL;
       short int err_f = 0;
