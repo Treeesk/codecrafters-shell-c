@@ -83,7 +83,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
       }
 
       else if ((inp[i] == '1' && inp[i + 1] == '>' && inp[i + 2] == '>') || (inp[i] == '>' && inp[i + 1] == '>') && !in_quotes){
-        printf("\n%s\n", inp);
+        printf("\n%s\n", &inp[0]);
         inp[i] = '\0';
         if (inp[i] == '1') {
           *outf = &inp[i + 3];
