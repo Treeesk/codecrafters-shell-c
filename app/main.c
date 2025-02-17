@@ -324,7 +324,7 @@ int main() {
       short int appen = 0;
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      if (a == 2)
+      if (a == 1)
         printf("%s\n", pth);
       if (pth != NULL){
         if (access(pth, X_OK) == 0)
