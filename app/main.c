@@ -277,7 +277,7 @@ int main() {
       }
   }
   if (a == 2)
-    printf("%s", input);
+    printf("!!!");
   restore_terminal_mode(&original_settings);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
