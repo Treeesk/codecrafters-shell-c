@@ -323,11 +323,11 @@ int main() {
       short int err_f = 0;
       short int appen = 0;
       if (a == 2)
-        printf("%s", input);
+        printf("\n%s\n", input);
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
-      if (a == 2)
-        printf("%s\n", pth);
+      // if (a == 2)
+      //   printf("%s\n", pth);
       if (pth != NULL){
         if (access(pth, X_OK) == 0)
           fork_func(pth, argv, output_file, err_f, appen); 
