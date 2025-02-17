@@ -191,6 +191,7 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
       }
       close(fd);
     }
+    printf("%s\n", full_path);
     execv(full_path, argv);
     perror("execv"); // если ошибка в Execv
     exit(1);
@@ -218,7 +219,6 @@ char *check_path(char *f) {
       snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
       if (access(full_path, F_OK) == 0) {
           free(path_copy);
-          printf("%s\n", full_path);
           return full_path;
       }
       dir = strtok(NULL, ":");
