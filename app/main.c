@@ -275,6 +275,8 @@ int main() {
       }
   }
   restore_terminal_mode(&original_settings);
+  if (a == 2)
+        printf("%s", argv[0]);
     if (strcmp(input, "exit 0") == 0)
       exit(0);
     else if (strncmp(input, "type ", 5) == 0){
@@ -321,8 +323,6 @@ int main() {
       short int err_f = 0;
       short int appen = 0;
       parse_input(input, argv, &argc, &output_file, &err_f, &appen);
-      if (a == 2)
-        printf("%s", argv[0]);
       char *pth = check_path(argv[0]); // возвращаю полный путь до команды например cat, а затем применяю эту команду к аргументам argv
       if (pth != NULL){
         if (access(pth, X_OK) == 0)
