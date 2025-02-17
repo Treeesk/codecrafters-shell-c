@@ -94,7 +94,7 @@ void parse_input(char *inp, char **argv, int *argc, char **outf, short int* err_
         *app = 1;
         while (**outf == ' ')
           (*outf)++;
-        printf("%s", outf);
+        printf("%s", *outf);
         break;
       }
 
