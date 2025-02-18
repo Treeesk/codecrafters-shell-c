@@ -26,9 +26,9 @@ void restore_terminal_mode(struct termios *original_settings) {
 
 
 const char* data_autocompleting[] = {
-  "echo ",
+  "echo",
   "exit",
-  "type ",
+  "type",
   NULL
 };
 
@@ -256,6 +256,8 @@ int main() {
           if (autocomp(input)) {
               input_len = strlen(input);
               printf("\r$ %s ", input); // Перерисовываем строку ввода
+              input[input_len++] = ' ';
+              input[input_len] = '\0';
               fflush(stdout);
           }
       } else if (c == 127 || c == '\b') { // Обработка Backspace
