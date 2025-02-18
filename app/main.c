@@ -28,6 +28,8 @@ void restore_terminal_mode(struct termios *original_settings) {
 const char* data_autocompleting[] = {
   "echo",
   "exit",
+  "type",
+  NULL
 };
 
 void strrev(char* str)
@@ -227,7 +229,7 @@ char *check_path(char *f) {
 }
 
 int autocomp(char* w){
-  for (int i = 0; i < 2; i++){
+  for (int i = 0; data_autocompleting[i]; i++){
     if (strncmp(w, data_autocompleting[i], 3) == 0){
       strcpy(w, data_autocompleting[i]);
       return 1;
