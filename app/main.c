@@ -26,9 +26,9 @@ void restore_terminal_mode(struct termios *original_settings) {
 
 
 const char* data_autocompleting[] = {
-  "echo",
+  "echo ",
   "exit",
-  "type",
+  "type ",
   NULL
 };
 
