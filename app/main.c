@@ -206,7 +206,6 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
 }
 
 char *check_path(char *f) {
-  printf("!!!");
   char *path_check = getenv("PATH");
   if (path_check == NULL)
       return NULL;
@@ -232,6 +231,7 @@ char *check_path(char *f) {
 }
 
 int autocomp(char* w){
+  printf("!!!");
   for (int i = 0; data_autocompleting[i]; i++){
     if (strncmp(w, data_autocompleting[i], strlen(w)) == 0){
       if (strcmp(data_autocompleting[i], "custom") == 0){
