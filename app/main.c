@@ -231,7 +231,6 @@ char *check_path(char *f) {
 }
 
 int autocomp(char* w){
-  printf("!!!");
   for (int i = 0; data_autocompleting[i]; i++){
     if (strncmp(w, data_autocompleting[i], strlen(w)) == 0){
       if (strcmp(data_autocompleting[i], "custom") == 0){
@@ -262,6 +261,7 @@ int main() {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
           if (autocomp(input)) {
+              printf("%s", input);
               input_len = strlen(input);
               printf("\r$ %s ", input); // Перерисовываем строку ввода
               input[input_len++] = ' ';
