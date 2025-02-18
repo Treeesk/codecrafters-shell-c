@@ -230,20 +230,47 @@ char *check_path(char *f) {
   return NULL;
 }
 
-int autocomp(char* w){
-  for (int i = 0; data_autocompleting[i]; i++){
-    if (strncmp(w, data_autocompleting[i], strlen(w)) == 0){
-      if (strcmp(data_autocompleting[i], "custom_executable") == 0){
-        printf("!!!!!!!!!!");
-        strcpy(w, check_path(data_autocompleting[i]));
+int autocomp(char* w) {
+  // Проверяем заранее заданные команды
+  for (int i = 0; data_autocompleting[i]; i++) {
+      if (strncmp(w, data_autocompleting[i], strlen(w)) == 0) {
+          strcpy(w, data_autocompleting[i]);
+          return 1;
       }
-      else
-        strcpy(w, data_autocompleting[i]);
-      return 1;
-    }
   }
+
+  // Проверяем исполняемые файлы в PATH
+  char *path_check = getenv("PATH");
+  if (path_check == NULL)
+      return 0;
+
+  char *path_copy = strdup(path_check);
+  char *dir = strtok(path_copy, ":");
+  static char full_path[1024];
+
+  while (dir != NULL) {
+      DIR *dp = opendir(dir);
+      if (dp != NULL) {
+          struct dirent *entry;
+          while ((entry = readdir(dp)) != NULL) {
+              if (strncmp(w, entry->d_name, strlen(w)) == 0) {
+                  snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
+                  if (access(full_path, X_OK) == 0) {
+                      strcpy(w, entry->d_name);
+                      closedir(dp);
+                      free(path_copy);
+                      return 1;
+                  }
+              }
+          }
+          closedir(dp);
+      }
+      dir = strtok(NULL, ":");
+  }
+
+  free(path_copy);
   write(STDOUT_FILENO, "\a", 1);
-  return 0; 
+  return 0;
 }
 
 int main() {
