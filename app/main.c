@@ -29,6 +29,7 @@ const char* data_autocompleting[] = {
   "echo",
   "exit",
   "type",
+  "custom",
   NULL
 };
 
@@ -230,7 +231,7 @@ char *check_path(char *f) {
 
 int autocomp(char* w){
   for (int i = 0; data_autocompleting[i]; i++){
-    if (strncmp(w, data_autocompleting[i], 3) == 0){
+    if (strncmp(w, data_autocompleting[i], strlen(w)) == 0){
       strcpy(w, data_autocompleting[i]);
       return 1;
     }
