@@ -206,6 +206,7 @@ void fork_func(char *full_path, char **argv, char *outf, short int err_f, short 
 }
 
 char *check_path(char *f) {
+  printf("!!!");
   char *path_check = getenv("PATH");
   if (path_check == NULL)
       return NULL;
