@@ -235,6 +235,7 @@ int autocomp(char* w){
       return 1;
     }
   }
+  printf("\a");
   return 0;
 }
 
