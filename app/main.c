@@ -233,7 +233,8 @@ char *check_path(char *f) {
 int autocomp(char* w){
   for (int i = 0; data_autocompleting[i]; i++){
     if (strncmp(w, data_autocompleting[i], strlen(w)) == 0){
-      if (strcmp(data_autocompleting[i], "custom") == 0){
+      if (strcmp(data_autocompleting[i], "custom_executable") == 0){
+        printf("!!!!!!!!!!");
         strcpy(w, check_path(data_autocompleting[i]));
       }
       else
