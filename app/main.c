@@ -6,6 +6,7 @@
 #include <sys/wait.h>
 #include <fcntl.h>
 #include <termios.h>
+#include <dirent.h>
 
 
 // Настройка терминала в неканонический режим
