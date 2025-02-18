@@ -29,7 +29,7 @@ const char* data_autocompleting[] = {
   "echo",
   "exit",
   "type",
-  "custom",
+  "custom_executable",
   NULL
 };
 
@@ -233,10 +233,10 @@ char *check_path(char *f) {
 int autocomp(char* w){
   for (int i = 0; data_autocompleting[i]; i++){
     if (strncmp(w, data_autocompleting[i], strlen(w)) == 0){
-      if (strcmp(data_autocompleting[i], "custom") == 0){
-        strcpy(w, check_path(data_autocompleting[i]));
-      }
-      else
+      // if (strcmp(data_autocompleting[i], "custom") == 0){
+      //   strcpy(w, check_path(data_autocompleting[i]));
+      // }
+      // else
         strcpy(w, data_autocompleting[i]);
       return 1;
     }
@@ -261,7 +261,6 @@ int main() {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
           if (autocomp(input)) {
-              printf("%s", input);
               input_len = strlen(input);
               printf("\r$ %s ", input); // Перерисовываем строку ввода
               input[input_len++] = ' ';
