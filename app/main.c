@@ -221,6 +221,7 @@ char *check_path(char *f) {
       snprintf(full_path, sizeof(full_path), "%s/%s", dir, f);
       if (access(full_path, F_OK) == 0) {
           free(path_copy);
+          printf("%s", full_path);
           return full_path;
       }
       dir = strtok(NULL, ":");
