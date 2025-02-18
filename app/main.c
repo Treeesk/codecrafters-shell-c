@@ -234,8 +234,7 @@ int autocomp(char* w){
       strcpy(w, data_autocompleting[i]);
       return 1;
     }
-  }
-  printf("\a");
+  write(STDOUT_FILENO, "\a", 1);
   return 0;
 }
 
