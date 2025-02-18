@@ -29,7 +29,6 @@ const char* data_autocompleting[] = {
   "echo",
   "exit",
   "type",
-  "custom_executable",
   NULL
 };
 
