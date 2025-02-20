@@ -236,7 +236,7 @@ int comp(void* a, void* b){
 }
 
 int autocomp(char* w) {
-  static char matches[10][100]; // массив под дополнения 
+  static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
 
   // Проверяем заранее заданные команды
@@ -260,7 +260,7 @@ int autocomp(char* w) {
       if (dp != NULL) {
           struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
           while ((entry = readdir(dp)) != NULL) {
-              if (strncmp(w, entry->d_name, strlen(w) - 1) == 0) {
+              if (strncmp(w, entry->d_name, strlen(w)) == 0) {
                   snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
                   if (access(full_path, F_OK)) {
                     // for (int i = 0; i < match_cnt; i++){
