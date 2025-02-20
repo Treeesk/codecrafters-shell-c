@@ -284,13 +284,13 @@ int autocomp(char* w) {
   }
   else if (match_cnt == 1){
     strcpy(w, matches[0]);
-    return 0;
+    return 1;
   }
   else {
     if (tab_press_cnt == 0){ // первое нажатие Tab
       write(STDOUT_FILENO, "\a", 1);
       tab_press_cnt = 1;
-      return 1;
+      return 0;
     }
     else {
       printf("\n");
@@ -301,7 +301,7 @@ int autocomp(char* w) {
       printf("\n$ %s", w);
       fflush(stdout);
       tab_press_cnt = 0;
-      return 1;
+      return 0;
     }
   }
 }
