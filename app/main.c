@@ -265,7 +265,6 @@ int autocomp(char* w) {
                     snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
                     if (access(full_path, X_OK) == 0) {
                         strcpy(matches[match_cnt++], entry->d_name);
-                        free(path_copy);
                     }
                 }
             }
@@ -273,7 +272,7 @@ int autocomp(char* w) {
         }
         dir = strtok(NULL, ":");
     }
-    
+    free(path_copy);
   }
 
   if (match_cnt == 0){
