@@ -247,9 +247,9 @@ int autocomp(char* w) {
   static char full_path[1024];
 
   while (dir != NULL) {
-      DIR *dp = opendir(dir);
+      DIR *dp = opendir(dir); // открытие всей директории.Поток директории 
       if (dp != NULL) {
-          struct dirent *entry;
+          struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
           while ((entry = readdir(dp)) != NULL) {
               if (strncmp(w, entry->d_name, strlen(w)) == 0) {
                   snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
