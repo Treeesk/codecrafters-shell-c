@@ -330,7 +330,7 @@ int main() {
               //   ungetc(c, STDIN_FILENO);
               input_len = strlen(input);
               printf("\r$ %s ", input); // Перерисовываем строку ввода
-              input[input_len++] = ' ';
+              // input[input_len++] = ' ';
               input[input_len] = '\0';
               fflush(stdout);
           }
