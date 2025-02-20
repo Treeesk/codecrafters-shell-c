@@ -228,6 +228,7 @@ char *check_path(char *f) {
   return NULL;
 }
 
+
 int tab_press_cnt = 0; // счетчик tab-нажатий
 
 int comp(void* a, void* b){
@@ -280,7 +281,7 @@ int autocomp(char* w) {
   }
   else if (match_cnt == 1){
     strcpy(w, matches[0]);
-    return 1;
+    return 0;
   }
   else {
     if (tab_press_cnt == 0){ // первое нажатие Tab
