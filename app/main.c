@@ -296,6 +296,7 @@ int autocomp(char* w) {
     else {
       printf("\n");
       qsort(matches, match_cnt, sizeof(matches[0]), comp);
+      printf("%s", matches[0]);
       for (int i = 0; i < match_cnt; i++){
         printf("%s  ", matches[i]);
       }
