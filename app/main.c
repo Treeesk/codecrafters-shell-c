@@ -244,14 +244,13 @@ int autocomp(char* w) {
   for (int i = 0; data_autocompleting[i]; i++) {
       if (strncmp(w, data_autocompleting[i], strlen(w)) == 0) {
           strcpy(w, data_autocompleting[i]);
-          return 0;
       }
   }
 
   // Проверяем исполняемые файлы в PATH
   char *path_check = getenv("PATH");
   if (path_check == NULL)
-      return 1;
+      return 0;
 
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
@@ -282,17 +281,17 @@ int autocomp(char* w) {
 
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
-    return 0;
+    return 1;
   }
   else if (match_cnt == 1){
     strcpy(w, matches[0]);
-    return 0;
+    return 1;
   }
   else {
     if (tab_press_cnt == 0){ // первое нажатие Tab
       write(STDOUT_FILENO, "\a", 1);
       tab_press_cnt = 1;
-      return 0;
+      return 1;
     }
     else {
       printf("\n");
@@ -303,7 +302,7 @@ int autocomp(char* w) {
       printf("\n$ %s", w);
       fflush(stdout);
       tab_press_cnt = 0;
-      return 0;
+      return 1;
     }
   }
 }
