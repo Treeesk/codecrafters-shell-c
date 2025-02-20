@@ -262,7 +262,7 @@ int autocomp(char* w) {
           while ((entry = readdir(dp)) != NULL) {
               if (strncmp(w, entry->d_name, strlen(w)) == 0) {
                   snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
-                  if (access(full_path, F_OK)) {
+                  if (access(full_path, X_OK)) {
                     for (int i = 0; i < match_cnt; i++){
                       if (strcmp(matches[i], entry->d_name) == 0){
                         break;
@@ -321,13 +321,13 @@ int main() {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
           if (autocomp(input)) {
-              c = getchar();
-              if (c == '\t'){
-                autocomp(input);
-                continue;
-              }
-              else 
-                ungetc(c, STDIN_FILENO);
+              // c = getchar();
+              // if (c == '\t'){
+              //   autocomp(input);
+              //   continue;
+              // }
+              // else 
+              //   ungetc(c, STDIN_FILENO);
               input_len = strlen(input);
               printf("\r$ %s ", input); // Перерисовываем строку ввода
               input[input_len++] = ' ';
