@@ -236,7 +236,6 @@ int comp(void* a, void* b){
 }
 
 int autocomp(char* w) {
-  printf("!!!!!00");
   static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
 
@@ -321,6 +320,7 @@ int main() {
     input_len = 0;
     while (1) {
       char c = getchar(); // Считываем символ
+      printf("342324234324");
       if (c == '\t') { // Обработка Tab (автодополнение)
           if (autocomp(input)) {
               input_len = strlen(input);
