@@ -236,7 +236,7 @@ int comp(void* a, void* b){
 }
 
 int autocomp(char* w) {
-  static char matches[100][10]; // массив под дополнения 
+  static char matches[100][2]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
 
   // Проверяем заранее заданные команды
@@ -257,7 +257,7 @@ int autocomp(char* w) {
 
   if (tab_press_cnt == 0){
     while (dir != NULL) {
-        DIR *dp = opendir(dir); // открытие всей директории.Поток директории 
+        DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
         if (dp != NULL) {
             struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
             while ((entry = readdir(dp)) != NULL) {
