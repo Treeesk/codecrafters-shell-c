@@ -294,6 +294,7 @@ int autocomp(char* w) {
       return 0;
     }
     else {
+      printf("34242432424324");
       printf("\n");
       qsort(matches, match_cnt, sizeof(matches[0]), comp);
       for (int i = 0; i < match_cnt; i++){
