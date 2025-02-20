@@ -236,7 +236,7 @@ int comp(void* a, void* b){
 }
 
 int autocomp(char* w) {
-  static char matches[100][2]; // массив под дополнения 
+  static char matches[2][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
 
   // Проверяем заранее заданные команды
