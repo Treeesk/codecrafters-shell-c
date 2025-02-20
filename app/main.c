@@ -228,12 +228,16 @@ char *check_path(char *f) {
   return NULL;
 }
 
+int tab_press_cnt = 0; // счетчик tab-нажатий
+
 int autocomp(char* w) {
+  static char matches[100][10]; // массив под дополнения 
+  static int match_cnt = 0; // счетчик для массива с дополнениями
+
   // Проверяем заранее заданные команды
   for (int i = 0; data_autocompleting[i]; i++) {
       if (strncmp(w, data_autocompleting[i], strlen(w)) == 0) {
-          strcpy(w, data_autocompleting[i]);
-          return 1;
+          strcpy(matches[match_cnt++], data_autocompleting[i]);
       }
   }
 
@@ -254,10 +258,7 @@ int autocomp(char* w) {
               if (strncmp(w, entry->d_name, strlen(w)) == 0) {
                   snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
                   if (access(full_path, X_OK) == 0) {
-                      strcpy(w, entry->d_name);
-                      closedir(dp);
-                      free(path_copy);
-                      return 1;
+                      strcpy(matches[match_cnt++], entry->d_name);
                   }
               }
           }
@@ -265,10 +266,33 @@ int autocomp(char* w) {
       }
       dir = strtok(NULL, ":");
   }
-
   free(path_copy);
-  write(STDOUT_FILENO, "\a", 1);
-  return 0;
+
+  if (match_cnt == 0){
+    write(STDOUT_FILENO, "\a", 1);
+    return 0;
+  }
+  else if (match_cnt == 1){
+    strcpy(w, matches[0]);
+    return 1;
+  }
+  else {
+    if (tab_press_cnt == 0){ // первое нажатие Tab
+      write(STDOUT_FILENO, "\a", 1);
+      tab_press_cnt = 1;
+      return 0;
+    }
+    else {
+      printf("\n");
+      for (int i = 0; i < match_cnt; i++){
+        printf("%s  ", matches[i]);
+      }
+      printf("\n$ %s", w);
+      fflush(stdout);
+      tab_press_cnt = 0;
+      return 0;
+    }
+  }
 }
 
 int main() {
