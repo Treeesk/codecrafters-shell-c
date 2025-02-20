@@ -290,7 +290,7 @@ int autocomp(char* w) {
     if (tab_press_cnt == 0){ // первое нажатие Tab
       write(STDOUT_FILENO, "\a", 1);
       tab_press_cnt = 1;
-      return 0;
+      return 1;
     }
     else {
       printf("\n");
@@ -330,7 +330,7 @@ int main() {
               //   ungetc(c, STDIN_FILENO);
               input_len = strlen(input);
               printf("\r$ %s ", input); // Перерисовываем строку ввода
-              // input[input_len++] = ' ';
+              input[input_len++] = ' ';
               input[input_len] = '\0';
               fflush(stdout);
           }
