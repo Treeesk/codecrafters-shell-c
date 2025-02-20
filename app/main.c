@@ -250,23 +250,25 @@ int autocomp(char* w) {
   char *dir = strtok(path_copy, ":");
   static char full_path[1024];
 
-  while (dir != NULL) {
-      DIR *dp = opendir(dir); // открытие всей директории.Поток директории 
-      if (dp != NULL) {
-          struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
-          while ((entry = readdir(dp)) != NULL) {
-              if (strncmp(w, entry->d_name, strlen(w)) == 0) {
-                  snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
-                  if (access(full_path, X_OK) == 0) {
-                      strcpy(matches[match_cnt++], entry->d_name);
-                  }
-              }
-          }
-          closedir(dp);
-      }
-      dir = strtok(NULL, ":");
+  if (tab_press_cnt == 0){
+    while (dir != NULL) {
+        DIR *dp = opendir(dir); // открытие всей директории.Поток директории 
+        if (dp != NULL) {
+            struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
+            while ((entry = readdir(dp)) != NULL) {
+                if (strncmp(w, entry->d_name, strlen(w)) == 0) {
+                    snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
+                    if (access(full_path, X_OK) == 0) {
+                        strcpy(matches[match_cnt++], entry->d_name);
+                    }
+                }
+            }
+            closedir(dp);
+        }
+        dir = strtok(NULL, ":");
+    }
+    free(path_copy);
   }
-  free(path_copy);
 
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
