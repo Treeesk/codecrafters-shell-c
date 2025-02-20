@@ -321,6 +321,13 @@ int main() {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
           if (autocomp(input)) {
+              c = getchar();
+              if (c == '\t'){
+                autocomp(input);
+                continue;
+              }
+              else 
+                ungetc(c, STDIN_FILENO);
               input_len = strlen(input);
               printf("\r$ %s ", input); // Перерисовываем строку ввода
               input[input_len++] = ' ';
