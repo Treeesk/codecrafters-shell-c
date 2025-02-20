@@ -250,7 +250,7 @@ int autocomp(char* w) {
   // Проверяем исполняемые файлы в PATH
   char *path_check = getenv("PATH");
   if (path_check == NULL)
-      return 0;
+      return 1;
 
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
