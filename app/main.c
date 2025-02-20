@@ -242,7 +242,8 @@ int autocomp(char* w) {
   // Проверяем заранее заданные команды
   for (int i = 0; data_autocompleting[i]; i++) {
       if (strncmp(w, data_autocompleting[i], strlen(w)) == 0) {
-          strcpy(matches[match_cnt++], data_autocompleting[i]);
+          strcpy(w, data_autocompleting[i]);
+          return 0;
       }
   }
 
