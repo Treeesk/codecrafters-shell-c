@@ -328,10 +328,8 @@ int main() {
               // }
               // else 
               //   ungetc(c, STDIN_FILENO);
-              c = getchar();
-              printf("%c", c);
               input_len = strlen(input);
-              printf("\r$ %s ", input); // Перерисовываем строку ввода
+              printf("\r$ %s", input); // Перерисовываем строку ввода
               // input[input_len++] = ' ';
               input[input_len] = '\0';
               fflush(stdout);
