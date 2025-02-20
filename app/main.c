@@ -230,6 +230,10 @@ char *check_path(char *f) {
 
 int tab_press_cnt = 0; // счетчик tab-нажатий
 
+int comp(void* a, void* b){
+  return strcmp((char*)a, (char*)b);
+}
+
 int autocomp(char* w) {
   static char matches[100][10]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
@@ -286,6 +290,7 @@ int autocomp(char* w) {
     }
     else {
       printf("\n");
+      qsort(matches, match_cnt, sizeof(matches[0]), comp);
       for (int i = 0; i < match_cnt; i++){
         printf("%s  ", matches[i]);
       }
@@ -300,7 +305,6 @@ int autocomp(char* w) {
 int main() {
   int input_len = 0;     // Длина ввода
   struct termios original_settings;
-  int a = 0;
 
   while (1){
     set_terminal_raw_mode(&original_settings);
