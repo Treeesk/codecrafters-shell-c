@@ -262,8 +262,7 @@ int autocomp(char* w) {
           while ((entry = readdir(dp)) != NULL) {
               if (strncmp(w, entry->d_name, strlen(w)) == 0) {
                   snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
-                  if (access(full_path, F_OK)) {
-                    printf("%s", full_path);
+                  if (access(full_path, X_OK)) {
                     for (int i = 0; i < match_cnt; i++){
                       if (strcmp(matches[i], entry->d_name) == 0){
                         break;
