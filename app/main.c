@@ -314,13 +314,12 @@ int main() {
   while (1){
     set_terminal_raw_mode(&original_settings);
   // Переводим терминал в неканонический режим
-    char input[100] = {0}; // Буфер для ввода
+    char input[200] = {0}; // Буфер для ввода
     printf("$ "); // Выводим приглашение
     fflush(stdout);
     input_len = 0;
     while (1) {
       char c = getchar(); // Считываем символ
-      printf("342324234324");
       if (c == '\t') { // Обработка Tab (автодополнение)
           if (autocomp(input)) {
               input_len = strlen(input);
