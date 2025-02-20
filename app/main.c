@@ -236,6 +236,7 @@ int comp(void* a, void* b){
 }
 
 int autocomp(char* w) {
+  printf("ABAAAAAAAAAAAAAAAAAAAAAAAAAA");
   static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
 
@@ -294,7 +295,6 @@ int autocomp(char* w) {
       return 0;
     }
     else {
-      printf("34242432424324");
       printf("\n");
       qsort(matches, match_cnt, sizeof(matches[0]), comp);
       for (int i = 0; i < match_cnt; i++){
