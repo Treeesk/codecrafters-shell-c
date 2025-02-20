@@ -236,7 +236,7 @@ int comp(void* a, void* b){
 }
 
 int autocomp(char* w) {
-  static char matches[5][100]; // массив под дополнения 
+  static char matches[10][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
 
   // Проверяем заранее заданные команды
@@ -262,7 +262,7 @@ int autocomp(char* w) {
           while ((entry = readdir(dp)) != NULL) {
               if (strncmp(w, entry->d_name, strlen(w)) == 0) {
                   snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
-                  if (access(full_path, F_OK) == 0) {
+                  if (access(full_path, F_OK) == 0 && tab_press_cnt == 0) {
                       strcpy(matches[match_cnt++], entry->d_name);
                   }
               }
