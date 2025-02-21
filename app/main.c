@@ -296,7 +296,8 @@ int autocomp(char* w) {
     dir = strtok(NULL, ":");
   }
   free(path_copy);
-
+  printf("%d", match_cnt);
+  fflush(STDOUT_FILENO);
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
     return 1;
