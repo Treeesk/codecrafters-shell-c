@@ -327,7 +327,7 @@ int autocomp(char* w) {
       qsort(matches, match_cnt, sizeof(matches[0]), comp);
       char* prefix = longest_common_prefix(matches, match_cnt, &k);
       if (prefix) {
-        if (k + 2 == match_cnt)
+        if (k == match_cnt)
           printf("\r$ %s ", prefix);
         else
           printf("\r$ %s", prefix);
