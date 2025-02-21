@@ -238,7 +238,7 @@ int comp(const void* a, const void* b){
 int autocomp(char* w) {
   static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
-  printf("bfgbgfbgfb");
+  write(STDOUT_FILENO, "ggf", 3);
   // Проверяем заранее заданные команды
   for (int i = 0; data_autocompleting[i]; i++) {
       if (strncmp(w, data_autocompleting[i], strlen(w)) == 0) {
