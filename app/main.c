@@ -297,8 +297,6 @@ int autocomp(char* w) {
   }
   free(path_copy);
   write(STDOUT_FILENO, "324", 3);
-  printf("3434");
-  fflush(STDOUT_FILENO);
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
     return 1;
@@ -308,13 +306,13 @@ int autocomp(char* w) {
     return 1;
   }
   else {
-    if (tab_press_cnt == 0){ // первое нажатие Tab
-      write(STDOUT_FILENO, "\a", 1);
-      tab_press_cnt = 1;
-      printf("\r$ %s", w); 
-      return 0;
-    }
-    else {
+    // if (tab_press_cnt == 0){ // первое нажатие Tab
+    //   write(STDOUT_FILENO, "\a", 1);
+    //   tab_press_cnt = 1;
+    //   printf("\r$ %s", w); 
+    //   return 0;
+    // }
+    // else {
       // printf("\n");
       // qsort(matches, match_cnt, sizeof(matches[0]), comp);
       // for (int i = 0; i < match_cnt; i++){
@@ -325,8 +323,6 @@ int autocomp(char* w) {
       // tab_press_cnt = 0;
       // return 0;
       // Находим наибольший общий префикс
-      printf("!!!!!!!!!!!");
-      fflush(STDOUT_FILENO);
       char* prefix = longest_common_prefix(matches, match_cnt);
       if (prefix) {
           strcpy(w, prefix); // Заменяем строку ввода на наибольший общий префикс
