@@ -325,13 +325,14 @@ int main() {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
         printf("fdgbdfbdf");
-          if (autocomp(input)) {
-              input_len = strlen(input);
-              printf("\r$ %s ", input); // Перерисовываем строку ввода
-              input[input_len++] = ' ';
-              input[input_len] = '\0';
-              fflush(stdout);
-          }
+        if (autocomp(input)) {
+          printf("SDDDDDDDDDDDDDDDDDDDDDDDDDD");
+            input_len = strlen(input);
+            printf("\r$ %s ", input); // Перерисовываем строку ввода
+            input[input_len++] = ' ';
+            input[input_len] = '\0';
+            fflush(stdout);
+        }
       } else if (c == 127 || c == '\b') { // Обработка Backspace
           if (input_len > 0) {
               input[--input_len] = '\0';
