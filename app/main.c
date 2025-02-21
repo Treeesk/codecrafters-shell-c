@@ -262,7 +262,7 @@ int autocomp(char* w) {
         while ((entry = readdir(dp)) != NULL) {
               if (strncmp(w, entry->d_name, strlen(w)) == 0) {
                 snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
-                if (access(full_path, F_OK)) {
+                if (access(full_path, X_OK)) {
                   int duplic = 0;
                   for (int i = 0; i < match_cnt; i++){
                     if (strcmp(matches[i], entry->d_name) == 0){
@@ -280,7 +280,7 @@ int autocomp(char* w) {
     dir = strtok(NULL, ":");
   }
   free(path_copy);
-  printf("%d", match_cnt);
+  printf("%dFBFGBFGBGFBGFBGFBFG", match_cnt);
 
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
