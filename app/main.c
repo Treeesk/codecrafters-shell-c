@@ -255,6 +255,7 @@ int autocomp(char* w) {
   char *dir = strtok(path_copy, ":");
   static char full_path[1024];
 
+  printf("bfgbgfbgfb");
   while (dir != NULL) {
     DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
     if (dp != NULL) {
@@ -280,7 +281,6 @@ int autocomp(char* w) {
     dir = strtok(NULL, ":");
   }
   free(path_copy);
-  printf("%d!!!", match_cnt);
 
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
