@@ -307,6 +307,7 @@ int autocomp(char* w) {
     dir = strtok(NULL, ":");
   }
   free(path_copy);
+  qsort(matches, match_cnt, sizeof(matches[0]), comp);
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
     return 1;
@@ -315,7 +316,6 @@ int autocomp(char* w) {
     strcpy(w, matches[0]);
     return 1;
   }
-  qsort(matches, match_cnt, sizeof(matches[0]), comp);
   else if (check_lens(matches, match_cnt)){
       // Находим наибольший общий префикс
       char* prefix = longest_common_prefix(matches, match_cnt, &k);
