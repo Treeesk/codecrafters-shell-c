@@ -250,7 +250,7 @@ char* longest_common_prefix(char matches[100][100], int count) {
       }
       prefix[j] = '\0'; // Обрезаем префикс до первого несовпадающего символа
   }
-  k++
+  k++;
   return prefix;
 }
 
