@@ -254,7 +254,7 @@ char* longest_common_prefix(char matches[100][100], int count) {
 
 int autocomp(char* w) {
   static char matches[100][100]; // массив под дополнения 
-  int match_cnt = 0; // счетчик для массива с дополнениями
+  static int match_cnt = 0; // счетчик для массива с дополнениями
   // Проверяем заранее заданные команды
   for (int i = 0; data_autocompleting[i]; i++) {
       if (strncmp(w, data_autocompleting[i], strlen(w)) == 0) {
