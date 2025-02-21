@@ -331,7 +331,7 @@ int autocomp(char* w) {
       return 0;
     }
   }
-}
+//}
 
 int main() {
   int input_len = 0;     // Длина ввода
