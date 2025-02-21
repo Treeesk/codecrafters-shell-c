@@ -281,8 +281,8 @@ int autocomp(char* w) {
   }
   free(path_copy);
 
-  printf("bfgbfbfgbgfbgfbg");
   if (match_cnt == 0){
+    printf("bfbfbgfbgb");
     write(STDOUT_FILENO, "\a", 1);
     return 1;
   }
