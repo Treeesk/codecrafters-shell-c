@@ -233,7 +233,7 @@ int tab_press_cnt = 0; // счетчик tab-нажатий
 
 int comp(const void* a, const void* b){
   //return strcmp((char*)a, (char*)b);
-  return (strlen((char*)a) - strlen((char*) b));
+  return (int)(strlen(*(char**)a) - strlen(*(char**) b));
 }
 
 // Функция для нахождения наибольшего общего префикса
