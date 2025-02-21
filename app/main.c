@@ -280,13 +280,13 @@ int autocomp(char* w) {
     dir = strtok(NULL, ":");
   }
   free(path_copy);
+  printf("%d", match_cnt);
 
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
     return 1;
   }
   else if (match_cnt == 1){
-    printf("bgfbfgbbfgbgf");
     strcpy(w, matches[0]);
     return 1;
   }
