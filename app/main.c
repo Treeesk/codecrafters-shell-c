@@ -276,6 +276,7 @@ int autocomp(char* w) {
             }
         }
         closedir(dp);
+        printf("1");
     }
     dir = strtok(NULL, ":");
   }
