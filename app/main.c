@@ -236,6 +236,7 @@ int comp(void* a, void* b){
 }
 
 int autocomp(char* w) {
+  printf("gbgfbgfbfbfg");
   static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
 
@@ -287,7 +288,6 @@ int autocomp(char* w) {
     return 1;
   }
   else {
-    printf("fsdfsdfsfsdfdsfdsf");
     if (tab_press_cnt == 0){ // первое нажатие Tab
       write(STDOUT_FILENO, "\a", 1);
       tab_press_cnt = 1;
