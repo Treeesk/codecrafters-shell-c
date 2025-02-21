@@ -341,6 +341,7 @@ int autocomp(char* w) {
   
       }
   }
+}
 
 
 int main() {
