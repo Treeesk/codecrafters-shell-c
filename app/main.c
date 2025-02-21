@@ -238,7 +238,7 @@ int comp(const void* a, const void* b){
 // Функция для нахождения наибольшего общего префикса
 char* longest_common_prefix(char** matches, int count) {
   if (count == 0) return NULL;
-
+  write(STDOUT_FILENO, "1", 1);
   static char prefix[100];
   strcpy(prefix, matches[0]);
 
