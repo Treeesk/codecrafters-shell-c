@@ -275,10 +275,8 @@ int autocomp(char* w) {
                 }
             }
         }
-        
-        printf("1");
+        closedir(dp);
     }
-    // closedir(dp);
     dir = strtok(NULL, ":");
   }
   free(path_copy);
