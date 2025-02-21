@@ -327,7 +327,7 @@ int autocomp(char* w) {
         printf("\r$ %s", prefix);
         fflush(stdout);
         strcpy(w, prefix); // Заменяем строку ввода на наибольший общий префикс
-        return 0;
+        return 1;
       }
       return 0;
     }
