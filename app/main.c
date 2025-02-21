@@ -256,9 +256,9 @@ int autocomp(char* w) {
   static char full_path[1024];
 
   while (dir != NULL) {
-    printf("%s", w);
       DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
       if (dp != NULL) {
+        printf("234234324324");
           struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
           while ((entry = readdir(dp)) != NULL) {
               if (strncmp(w, entry->d_name, strlen(w)) == 0) {
