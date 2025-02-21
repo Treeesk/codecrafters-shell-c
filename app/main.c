@@ -241,8 +241,6 @@ char* longest_common_prefix(char matches[100][100], int count) {
   if (count == 0) 
     return NULL;
   static char prefix[100];
-  printf("d525");
-  fflush(stdout);
   strcpy(prefix, matches[0]);
   for (int i = 1; i < count; i++) {
       int j = 0;
@@ -297,6 +295,8 @@ int autocomp(char* w) {
     dir = strtok(NULL, ":");
   }
   free(path_copy);
+  printf("%d", match_cnt);
+  fflush(stdout);
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
     return 1;
