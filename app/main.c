@@ -287,6 +287,7 @@ int autocomp(char* w) {
     return 1;
   }
   else {
+    printf("fsdfsdfsfsdfdsfdsf");
     if (tab_press_cnt == 0){ // первое нажатие Tab
       write(STDOUT_FILENO, "\a", 1);
       tab_press_cnt = 1;
