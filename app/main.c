@@ -236,7 +236,6 @@ int comp(void* a, void* b){
 }
 
 int autocomp(char* w) {
-  printf("gbgfbgfbfbfg");
   static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
 
@@ -264,12 +263,15 @@ int autocomp(char* w) {
               if (strncmp(w, entry->d_name, strlen(w)) == 0) {
                   snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
                   if (access(full_path, X_OK)) {
+                    int duplic = 0;
                     for (int i = 0; i < match_cnt; i++){
                       if (strcmp(matches[i], entry->d_name) == 0){
+                        duplic = 1;
                         break;
                       }
                     }
-                    strcpy(matches[match_cnt++], entry->d_name);
+                    if (!duplic)
+                      strcpy(matches[match_cnt++], entry->d_name);
                   }
               }
           }
