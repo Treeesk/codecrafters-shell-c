@@ -324,7 +324,7 @@ int main() {
     while (1) {
       char c = getchar(); // Считываем символ
       if (c == '\t') { // Обработка Tab (автодополнение)
-        printf("fdgbdfbdf");
+        printf("sddddddddddddddddddddddddd");
         if (autocomp(input)) {
           printf("SDDDDDDDDDDDDDDDDDDDDDDDDDD");
             input_len = strlen(input);
