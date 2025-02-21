@@ -256,29 +256,29 @@ int autocomp(char* w) {
   static char full_path[1024];
 
   while (dir != NULL) {
-      DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
-      if (dp != NULL) {
-        printf("234234324324");
-          struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
-          while ((entry = readdir(dp)) != NULL) {
+    DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
+    if (dp != NULL) {
+        struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
+        while ((entry = readdir(dp)) != NULL) {
               if (strncmp(w, entry->d_name, strlen(w)) == 0) {
-                  snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
-                  if (access(full_path, X_OK)) {
-                    int duplic = 0;
-                    for (int i = 0; i < match_cnt; i++){
-                      if (strcmp(matches[i], entry->d_name) == 0){
-                        duplic = 1;
-                        break;
-                      }
+                snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
+                printf("%s", full_path);
+                if (access(full_path, X_OK)) {
+                  int duplic = 0;
+                  for (int i = 0; i < match_cnt; i++){
+                    if (strcmp(matches[i], entry->d_name) == 0){
+                      duplic = 1;
+                      break;
                     }
-                    if (!duplic)
-                      strcpy(matches[match_cnt++], entry->d_name);
                   }
-              }
-          }
-          closedir(dp);
-      }
-      dir = strtok(NULL, ":");
+                  if (!duplic)
+                    strcpy(matches[match_cnt++], entry->d_name);
+                }
+            }
+        }
+        closedir(dp);
+    }
+    dir = strtok(NULL, ":");
   }
   free(path_copy);
 
