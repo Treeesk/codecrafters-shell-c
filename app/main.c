@@ -282,7 +282,7 @@ int autocomp(char* w) {
   free(path_copy);
 
   if (match_cnt == 0){
-    printf("bfbfbgfbgb");
+    printf("\n%s\n", w);
     write(STDOUT_FILENO, "\a", 1);
     return 1;
   }
