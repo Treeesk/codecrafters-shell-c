@@ -278,9 +278,9 @@ int autocomp(char* w) {
         
         printf("1");
     }
+    closedir(dp);
     dir = strtok(NULL, ":");
   }
-  closedir(dp);
   free(path_copy);
   printf("%d", match_cnt);
 
