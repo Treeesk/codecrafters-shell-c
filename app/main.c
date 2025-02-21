@@ -242,6 +242,7 @@ char* longest_common_prefix(char** matches, int count) {
   strcpy(prefix, matches[0]);
   printf("%s!", matches[0]);
   fflush(STDOUT_FILENO);
+  write(STDOUT_FILENO, "111", 3);
   for (int i = 1; i < count; i++) {
       int j = 0;
       while (prefix[j] && matches[i][j] && prefix[j] == matches[i][j]) {
