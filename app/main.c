@@ -286,6 +286,7 @@ int autocomp(char* w) {
     return 1;
   }
   else if (match_cnt == 1){
+    printf("bgfbfgbbfgbgf");
     strcpy(w, matches[0]);
     return 1;
   }
