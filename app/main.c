@@ -237,11 +237,11 @@ int comp(const void* a, const void* b){
 }
 
 // Функция для нахождения наибольшего общего префикса
-char* longest_common_prefix(char matches[100][100], int count) {
+char* longest_common_prefix(char matches[100][100], int count, int* k) {
   if (count == 0) 
     return NULL;
   static char prefix[100];
-  static int k = 0;
+  // static int k = 0;
   strcpy(prefix, matches[k]);
   for (int i = k + 1; i < count; i++) {
       int j = 0;
@@ -255,6 +255,7 @@ char* longest_common_prefix(char matches[100][100], int count) {
 }
 
 int autocomp(char* w) {
+  static int k = 0;
   static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
   // Проверяем заранее заданные команды
@@ -324,9 +325,12 @@ int autocomp(char* w) {
       // return 0;
       // Находим наибольший общий префикс
       qsort(matches, match_cnt, sizeof(matches[0]), comp);
-      char* prefix = longest_common_prefix(matches, match_cnt);
+      char* prefix = longest_common_prefix(matches, match_cnt, &k);
       if (prefix) {
-        printf("\r$ %s", prefix);
+        if (k + 1 == match_cnt)
+          printf("\r$ %s ", prefix);
+        else
+          printf("\r$ %s", prefix);
         fflush(stdout);
         strcpy(w, prefix); // Заменяем строку ввода на наибольший общий префикс
       }
