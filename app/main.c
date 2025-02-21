@@ -264,7 +264,7 @@ int comp_words(const void* a, const void* b){
 
 int autocomp(char* w) {
   static int k = 0;
-  static tab_press_cnt = 0;
+  static int tab_press_cnt = 0;
   static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
   // Проверяем заранее заданные команды
@@ -307,7 +307,6 @@ int autocomp(char* w) {
     dir = strtok(NULL, ":");
   }
   free(path_copy);
-  qsort(matches, match_cnt, sizeof(matches[0]), comp);
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
     return 1;
@@ -316,7 +315,8 @@ int autocomp(char* w) {
     strcpy(w, matches[0]);
     return 1;
   }
-  else if (check_lens(matches, match_cnt)){
+  qsort(matches, match_cnt, sizeof(matches[0]), comp);
+  if (check_lens(matches, match_cnt)){
       // Находим наибольший общий префикс
       char* prefix = longest_common_prefix(matches, match_cnt, &k);
       if (prefix) {
