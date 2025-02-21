@@ -241,9 +241,9 @@ char* longest_common_prefix(char matches[100][100], int count) {
   if (count == 0) 
     return NULL;
   static char prefix[100];
-  static int k = 1;
-  strcpy(prefix, matches[0]);
-  for (int i = k; i < count; i++) {
+  static int k = 0;
+  strcpy(prefix, matches[k]);
+  for (int i = 1; i < count; i++) {
       int j = 0;
       while (prefix[j] && matches[i][j] && prefix[j] == matches[i][j]) {
           j++;
