@@ -231,7 +231,7 @@ char *check_path(char *f) {
 
 int tab_press_cnt = 0; // счетчик tab-нажатий
 
-int comp(void* a, void* b){
+int comp(const void* a, const void* b){
   return strcmp((char*)a, (char*)b);
 }
 
