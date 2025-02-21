@@ -241,6 +241,8 @@ char* longest_common_prefix(char matches[100][100], int count) {
   if (count == 0) 
     return NULL;
   static char prefix[100];
+  printf("d525");
+  fflush(stdout);
   strcpy(prefix, matches[0]);
   for (int i = 1; i < count; i++) {
       int j = 0;
@@ -322,10 +324,7 @@ int autocomp(char* w) {
       // return 0;
       // Находим наибольший общий префикс
       qsort(matches, match_cnt, sizeof(matches[0]), comp);
-      printf("111");
-      fflush(stdout);
       char* prefix = longest_common_prefix(matches, match_cnt);
-      
       if (prefix) {
           strcpy(w, prefix); // Заменяем строку ввода на наибольший общий префикс
           return 1;
