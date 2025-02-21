@@ -230,7 +230,7 @@ char *check_path(char *f) {
 
 int check_lens(char matches[100][100], int match){
   for (int i = 0; i < match - 1; i++){
-    if (strlen(match[i]) != strlen(match[i + 1]))
+    if (strlen(matches[i]) != strlen(matches[i + 1]))
       return 1;
   }
   return 0;
