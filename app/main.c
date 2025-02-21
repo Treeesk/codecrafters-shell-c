@@ -256,6 +256,7 @@ int autocomp(char* w) {
   static char full_path[1024];
 
   while (dir != NULL) {
+    printf("!341434342");
       DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
       if (dp != NULL) {
           struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
@@ -264,7 +265,6 @@ int autocomp(char* w) {
                   snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
                   if (access(full_path, X_OK)) {
                     int duplic = 0;
-                    printf("%s", full_path);
                     for (int i = 0; i < match_cnt; i++){
                       if (strcmp(matches[i], entry->d_name) == 0){
                         duplic = 1;
