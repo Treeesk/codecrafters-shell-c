@@ -264,6 +264,7 @@ int comp_words(const void* a, const void* b){
 
 int autocomp(char* w) {
   static int k = 0;
+  static tab_press_cnt = 0;
   static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
   // Проверяем заранее заданные команды
