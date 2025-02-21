@@ -228,7 +228,13 @@ char *check_path(char *f) {
   return NULL;
 }
 
-
+int check_lens(char matches[100][100], int match){
+  for (int i = 0; i < match - 1; i++){
+    if (strlen(match[i]) != strlen(match[i + 1]))
+      return 1;
+  }
+  return 0;
+}
 
 int comp(const void* a, const void* b){
   //return strcmp((char*)a, (char*)b);
@@ -240,7 +246,6 @@ char* longest_common_prefix(char matches[100][100], int count, int* k) {
   if (count == 0) 
     return NULL;
   static char prefix[100];
-  // static int k = 0;
   strcpy(prefix, matches[*k]);
   for (int i = *k + 1; i < count; i++) {
       int j = 0;
@@ -251,6 +256,10 @@ char* longest_common_prefix(char matches[100][100], int count, int* k) {
   }
   (*k)++;
   return prefix;
+}
+
+int comp_words(const void* a, const void* b){
+  return strcmp((char*)a, (char*)b);
 }
 
 int autocomp(char* w) {
@@ -305,25 +314,9 @@ int autocomp(char* w) {
     strcpy(w, matches[0]);
     return 1;
   }
-  else {
-    // if (tab_press_cnt == 0){ // первое нажатие Tab
-    //   write(STDOUT_FILENO, "\a", 1);
-    //   tab_press_cnt = 1;
-    //   printf("\r$ %s", w); 
-    //   return 0;
-    // }
-    // else {
-      // printf("\n");
-      // qsort(matches, match_cnt, sizeof(matches[0]), comp);
-      // for (int i = 0; i < match_cnt; i++){
-      //   printf("%s  ", matches[i]);
-      // }
-      // printf("\n$ %s", w);
-      // fflush(stdout);
-      // tab_press_cnt = 0;
-      // return 0;
+  qsort(matches, match_cnt, sizeof(matches[0]), comp);
+  else if (check_lens(matches, match_cnt)){
       // Находим наибольший общий префикс
-      qsort(matches, match_cnt, sizeof(matches[0]), comp);
       char* prefix = longest_common_prefix(matches, match_cnt, &k);
       if (prefix) {
         if (k == match_cnt)
@@ -335,8 +328,26 @@ int autocomp(char* w) {
       }
       return 0;
     }
+  else {
+    if (tab_press_cnt == 0){ // первое нажатие Tab
+      write(STDOUT_FILENO, "\a", 1);
+      tab_press_cnt = 1;
+      printf("\r$ %s", w); 
+      return 0;
+    }
+    else {
+      printf("\n");
+      qsort(matches, match_cnt, sizeof(matches[0]), comp_words);
+      for (int i = 0; i < match_cnt; i++){
+        printf("%s  ", matches[i]);
+      }
+      printf("\n$ %s", w);
+      fflush(stdout);
+      tab_press_cnt = 0;
+      return 0;
+    }
   }
-//}
+}
 
 int main() {
   int input_len = 0;     // Длина ввода
