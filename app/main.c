@@ -232,7 +232,8 @@ char *check_path(char *f) {
 int tab_press_cnt = 0; // счетчик tab-нажатий
 
 int comp(const void* a, const void* b){
-  return strcmp((char*)a, (char*)b);
+  //return strcmp((char*)a, (char*)b);
+  return (strlen((char*)a) - strlen((char*) b));
 }
 
 // Функция для нахождения наибольшего общего префикса
@@ -322,7 +323,8 @@ int autocomp(char* w) {
       // tab_press_cnt = 0;
       // return 0;
       // Находим наибольший общий префикс
-      char* prefix = longest_common_prefix(&matches, match_cnt);
+      qsort(matches, match_cnt, sizeof(matches[0]), comp);
+      char* prefix = longest_common_prefix(matches, match_cnt);
       if (prefix) {
           strcpy(w, prefix); // Заменяем строку ввода на наибольший общий префикс
           return 1;
