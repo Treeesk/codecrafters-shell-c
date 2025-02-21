@@ -324,6 +324,8 @@ int autocomp(char* w) {
       // return 0;
       // Находим наибольший общий префикс
       qsort(matches, match_cnt, sizeof(matches[0]), comp);
+      printf("%s", matches[0]);
+      fflush(stdout);
       char* prefix = longest_common_prefix(matches, match_cnt);
       if (prefix) {
           strcpy(w, prefix); // Заменяем строку ввода на наибольший общий префикс
