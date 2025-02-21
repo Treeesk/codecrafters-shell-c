@@ -323,7 +323,7 @@ int autocomp(char* w) {
       // tab_press_cnt = 0;
       // return 0;
       // Находим наибольший общий префикс
-      printf("%s", matches[0]);
+      printf("!!!!!!!!!!!", );
       fflush(STDOUT_FILENO);
       char* prefix = longest_common_prefix(matches, match_cnt);
       if (prefix) {
