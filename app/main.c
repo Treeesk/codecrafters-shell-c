@@ -323,8 +323,8 @@ int autocomp(char* w) {
       // Находим наибольший общий префикс
       qsort(matches, match_cnt, sizeof(matches[0]), comp);
       char* prefix = longest_common_prefix(matches, match_cnt);
+      write(STDOUT_FILENO, "www", 3);
       if (prefix) {
-        write(STDOUT_FILENO, "111", 3);
           strcpy(w, prefix); // Заменяем строку ввода на наибольший общий префикс
           return 1;
       }
