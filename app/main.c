@@ -275,11 +275,12 @@ int autocomp(char* w) {
                 }
             }
         }
-        closedir(dp);
-        printf("1");
+        
+        printf("1")
     }
     dir = strtok(NULL, ":");
   }
+  closedir(dp);
   free(path_copy);
   printf("%d", match_cnt);
 
