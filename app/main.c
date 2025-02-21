@@ -295,8 +295,6 @@ int autocomp(char* w) {
     dir = strtok(NULL, ":");
   }
   free(path_copy);
-  printf("%d!!!", match_cnt);
-  fflush(stdout);
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
     return 1;
@@ -350,7 +348,7 @@ int main() {
       if (c == '\t') { // Обработка Tab (автодополнение)
         if (autocomp(input)) {
             input_len = strlen(input);
-            printf("\r$ %s ", input); // Перерисовываем строку ввода
+            printf("\r$ %s", input); // Перерисовываем строку ввода
             input[input_len++] = ' ';
             input[input_len] = '\0';
             fflush(stdout);
