@@ -257,8 +257,6 @@ int autocomp(char* w) {
   while (dir != NULL) {
     DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
     if (dp != NULL) {
-      printf("dsfsdfds");
-      fflush(stdout);
         struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
         while ((entry = readdir(dp)) != NULL) {
               if (strncmp(w, entry->d_name, strlen(w)) == 0) {
@@ -281,6 +279,8 @@ int autocomp(char* w) {
     dir = strtok(NULL, ":");
   }
   free(path_copy);
+  printf("%d", match_cnt);
+  fflush(stdout);
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
     return 1;
