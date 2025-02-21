@@ -324,6 +324,7 @@ int autocomp(char* w) {
       qsort(matches, match_cnt, sizeof(matches[0]), comp);
       char* prefix = longest_common_prefix(matches, match_cnt);
       if (prefix) {
+        printf("45252525234523");
           strcpy(w, prefix); // Заменяем строку ввода на наибольший общий префикс
           return 1;
       }
@@ -348,7 +349,7 @@ int main() {
       if (c == '\t') { // Обработка Tab (автодополнение)
         if (autocomp(input)) {
             input_len = strlen(input);
-            printf("\r$ %s", input); // Перерисовываем строку ввода
+            printf("\r$ %s ", input); // Перерисовываем строку ввода
             input[input_len++] = ' ';
             input[input_len] = '\0';
             fflush(stdout);
