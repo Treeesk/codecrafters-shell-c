@@ -243,14 +243,14 @@ char* longest_common_prefix(char matches[100][100], int count, int* k) {
   static char prefix[100];
   // static int k = 0;
   strcpy(prefix, matches[k]);
-  for (int i = k + 1; i < count; i++) {
+  for (int i = *k + 1; i < count; i++) {
       int j = 0;
       while (prefix[j] && matches[i][j] && prefix[j] == matches[i][j]) {
           j++;
       }
       prefix[j] = '\0'; // Обрезаем префикс до первого несовпадающего символа
   }
-  k++;
+  (*k)++;
   return prefix;
 }
 
