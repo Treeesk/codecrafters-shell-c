@@ -228,9 +228,6 @@ char *check_path(char *f) {
   return NULL;
 }
 
-
-int tab_press_cnt = 0; // счетчик tab-нажатий
-
 int comp(const void* a, const void* b){
   //return strcmp((char*)a, (char*)b);
   return (int)(strlen((char*)a) - strlen((char*) b));
@@ -255,89 +252,96 @@ char* longest_common_prefix(char matches[100][100], int count, int* k) {
 }
 
 int autocomp(char* w) {
+  static int tab_press_cnt = 0; // счетчик tab-нажатий
   static int k = 0;
   static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
   // Проверяем заранее заданные команды
-  for (int i = 0; data_autocompleting[i]; i++) {
-      if (strncmp(w, data_autocompleting[i], strlen(w)) == 0) {
-          strcpy(matches[match_cnt++], data_autocompleting[i]);
-      }
-  }
-
-  // Проверяем исполняемые файлы в PATH
-  char *path_check = getenv("PATH");
-  if (path_check == NULL)
-      return 0;
-
-  char *path_copy = strdup(path_check);
-  char *dir = strtok(path_copy, ":");
-  static char full_path[1024];
-  while (dir != NULL) {
-    DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
-    if (dp != NULL) {
-        struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
-        while ((entry = readdir(dp)) != NULL) {
-              if (strncmp(w, entry->d_name, strlen(w)) == 0) {
-                snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
-                if (access(full_path, X_OK) == 0) {
-                  int duplic = 0;
-                  for (int i = 0; i < match_cnt; i++){
-                    if (strcmp(matches[i], entry->d_name) == 0){
-                      duplic = 1;
-                      break;
-                    }
-                  }
-                  if (!duplic)
-                    strcpy(matches[match_cnt++], entry->d_name);
-                }
-            }
+  if (tab_press_cnt == 0){
+    for (int i = 0; data_autocompleting[i]; i++) {
+        if (strncmp(w, data_autocompleting[i], strlen(w)) == 0) {
+            strcpy(matches[match_cnt++], data_autocompleting[i]);
         }
-        closedir(dp);
     }
-    dir = strtok(NULL, ":");
-  }
-  free(path_copy);
-  if (match_cnt == 0){
-    write(STDOUT_FILENO, "\a", 1);
-    return 1;
-  }
-  else if (match_cnt == 1){
-    strcpy(w, matches[0]);
-    return 1;
-  }
-  else {
-    // if (tab_press_cnt == 0){ // первое нажатие Tab
-    //   write(STDOUT_FILENO, "\a", 1);
-    //   tab_press_cnt = 1;
-    //   printf("\r$ %s", w); 
-    //   return 0;
-    // }
-    // else {
-      // printf("\n");
-      // qsort(matches, match_cnt, sizeof(matches[0]), comp);
-      // for (int i = 0; i < match_cnt; i++){
-      //   printf("%s  ", matches[i]);
-      // }
-      // printf("\n$ %s", w);
-      // fflush(stdout);
-      // tab_press_cnt = 0;
-      // return 0;
-      // Находим наибольший общий префикс
-      qsort(matches, match_cnt, sizeof(matches[0]), comp);
-      char* prefix = longest_common_prefix(matches, match_cnt, &k);
-      if (prefix) {
-        if (k == match_cnt)
-          printf("\r$ %s ", prefix);
-        else
-          printf("\r$ %s", prefix);
-        fflush(stdout);
-        strcpy(w, prefix); // Заменяем строку ввода на наибольший общий префикс
+
+    // Проверяем исполняемые файлы в PATH
+    char *path_check = getenv("PATH");
+    if (path_check == NULL)
+        return 0;
+
+    char *path_copy = strdup(path_check);
+    char *dir = strtok(path_copy, ":");
+    static char full_path[1024];
+    while (dir != NULL) {
+      DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
+      if (dp != NULL) {
+          struct dirent *entry; // структура для рассмотрения поддиректории или отдельного файла
+          while ((entry = readdir(dp)) != NULL) {
+                if (strncmp(w, entry->d_name, strlen(w)) == 0) {
+                  snprintf(full_path, sizeof(full_path), "%s/%s", dir, entry->d_name);
+                  if (access(full_path, X_OK) == 0) {
+                    int duplic = 0;
+                    for (int i = 0; i < match_cnt; i++){
+                      if (strcmp(matches[i], entry->d_name) == 0){
+                        duplic = 1;
+                        break;
+                      }
+                    }
+                    if (!duplic)
+                      strcpy(matches[match_cnt++], entry->d_name);
+                  }
+              }
+          }
+          closedir(dp);
       }
-      return 0;
+      dir = strtok(NULL, ":");
     }
+    free(path_copy);
+    if (match_cnt == 0){
+      write(STDOUT_FILENO, "\a", 1);
+      return 1;
+    }
+    else if (match_cnt == 1){
+      strcpy(w, matches[0]);
+      return 1;
+    }
+    else {
+        // Находим наибольший общий префикс
+        qsort(matches, match_cnt, sizeof(matches[0]), comp);
+        char* prefix = longest_common_prefix(matches, match_cnt, &k);
+        if (prefix) {
+          if (k == match_cnt)
+            printf("\r$ %s ", prefix);
+          else
+            printf("\r$ %s", prefix);
+          fflush(stdout);
+          strcpy(w, prefix); // Заменяем строку ввода на наибольший общий префикс
+        }
+        tab_press_cnt++;
+        return 0;
+      }
+    }
+  else {
+    if (tab_press_cnt == 0){ // первое нажатие Tab
+        write(STDOUT_FILENO, "\a", 1);
+        tab_press_cnt = 1;
+        printf("\r$ %s", w); 
+        return 0;
+      }
+    else {
+        printf("\n");
+        qsort(matches, match_cnt, sizeof(matches[0]), comp);
+        for (int i = 0; i < match_cnt; i++){
+          printf("%s  ", matches[i]);
+        }
+        printf("\n$ %s", w);
+        fflush(stdout);
+        tab_press_cnt = 0;
+        return 0;
+  
+      }
   }
-//}
+
 
 int main() {
   int input_len = 0;     // Длина ввода
