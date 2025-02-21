@@ -297,7 +297,7 @@ int autocomp(char* w) {
   }
   free(path_copy);
   write(STDOUT_FILENO, "324", 3);
-  printf("%d", match_cnt);
+  printf("3434");
   fflush(STDOUT_FILENO);
   if (match_cnt == 0){
     write(STDOUT_FILENO, "\a", 1);
