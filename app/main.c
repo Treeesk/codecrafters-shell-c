@@ -238,7 +238,7 @@ int comp(const void* a, const void* b){
 int autocomp(char* w) {
   static char matches[100][100]; // массив под дополнения 
   static int match_cnt = 0; // счетчик для массива с дополнениями
-
+  printf("bfgbgfbgfb");
   // Проверяем заранее заданные команды
   for (int i = 0; data_autocompleting[i]; i++) {
       if (strncmp(w, data_autocompleting[i], strlen(w)) == 0) {
@@ -255,7 +255,6 @@ int autocomp(char* w) {
   char *dir = strtok(path_copy, ":");
   static char full_path[1024];
 
-  printf("bfgbgfbgfb");
   while (dir != NULL) {
     DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
     if (dp != NULL) {
