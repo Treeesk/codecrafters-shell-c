@@ -293,7 +293,7 @@ int autocomp(char* w) {
     if (tab_press_cnt == 0){ // первое нажатие Tab
       write(STDOUT_FILENO, "\a", 1);
       tab_press_cnt = 1;
-      printf("/r$ %s", w); 
+      printf("\r$ %s", w); 
       return 0;
     }
     else {
