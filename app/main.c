@@ -270,7 +270,7 @@ int autocomp(char* w) {
   char *path_copy = strdup(path_check);
   char *dir = strtok(path_copy, ":");
   static char full_path[1024];
-
+  write(STDOUT_FILENO, "242", 3);
   while (dir != NULL) {
     DIR *dp = opendir(dir); // открытие всей директории(поток директории) 
     if (dp != NULL) {
